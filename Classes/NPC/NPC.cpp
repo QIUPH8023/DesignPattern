@@ -101,3 +101,44 @@ std::string NPC::getHead()
             break;
     }
 }
+
+void NPC::setNPCLove(int amount) 
+{
+    npclove += amount;
+}
+
+std::string NPC::getNPCName() 
+{
+    switch (npctype)
+    {
+        case ALEX:
+            return "Alex";
+            break;
+        case ABIGAIL:
+            return "Abigail";
+            break;
+        case CAROLINE:
+            return "Caroline";
+            break;
+        case LEWIS:
+            return "Lewis";
+            break;
+    }
+
+}
+
+std::string NPC::getNPCLikability() 
+{
+    if (npclove < 20) 
+    {
+        return "stranger";
+    }
+    else if(npclove < 60) 
+    {
+        return "friend";
+    }
+    else 
+    {
+        return "close friend";
+    }
+}

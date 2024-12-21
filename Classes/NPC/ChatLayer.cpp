@@ -83,10 +83,16 @@ bool ChatLayer::init(NPC* npc)
     auto content = Label::create(contents, "", 30);
     content->setAnchorPoint(Vec2(0, 1));
     content->setAlignment(TextHAlignment::LEFT, TextVAlignment::TOP);
-    content->setPosition(Vec2(profileHead->getContentSize().width + 10, background->getContentSize().height + quitButton->getBoundingBox().size.height / 2 - 30));
+    content->setPosition(Vec2(profileHead->getContentSize().width + 10, background->getContentSize().height + quitButton->getBoundingBox().size.height / 2 - 60));
     content->setColor(ccc3(0,0,0));
     this->addChild(content, 1, "content");
     
+    // 创建人物姓名 好感度显示
+    auto name = Label::create(currentNPC->getNPCName() + " (likablity :" + currentNPC->getNPCLikability() + ")", "", 30);
+    name->setAnchorPoint(Vec2(0, 0));
+    name->setPosition(content->getPosition());
+    this->addChild(name, 1, "name");
+
     // 设置layer属性
     setColor(ccc3(0, 0, 0));
     setOpacity(128);
@@ -124,6 +130,7 @@ void ChatLayer::closeChat()
 void ChatLayer::chatButtonCallBack(Ref* pSender)
 {
     updateDialog();
+    currentNPC->setNPCLove(1);
 }
 void ChatLayer::eventButtonCallBack(Ref* pSender)
 {

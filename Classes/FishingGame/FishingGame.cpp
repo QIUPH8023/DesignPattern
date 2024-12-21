@@ -138,6 +138,11 @@ bool FishingGame::FishingGameStart()
             if (Update(delta))
             {
                 unschedule("fishing_update_key");
+                fishingEnd();
+                if (_fishCaught) 
+                {
+                    Inventory::getInstance()->addItem(std::shared_ptr<Item>(ITEM_OTHER_FOOD_FISH), 1);
+                }
             }
         }, 1.0f, "fishing_update_key");
     return true;

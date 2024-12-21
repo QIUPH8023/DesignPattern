@@ -1,9 +1,12 @@
 #pragma once
-#include "Classes/Item/Item.h"
-#include "Classes/Item/Tool.h"
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "Classes/Button/HoverButton.h"
+#include "../Item/Item.h"
+#include "../Item/Other.h"
+#include "../Item/Seed.h"
+#include "../Item/Tool.h"
+#include "../Inventory/Inventory.h"
 
 class FishingGame : public cocos2d::Layer
 {
