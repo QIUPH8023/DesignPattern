@@ -160,6 +160,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Inventory\InventoryLayer.cpp" />
     <ClCompile Include="..\Classes\Inventory\Slot.cpp" />
     <ClCompile Include="..\Classes\Item\Item.cpp" />
+    <ClCompile Include="..\Classes\Item\Other.cpp" />
     <ClCompile Include="..\Classes\Item\Seed.cpp" />
     <ClCompile Include="..\Classes\Item\Tool.cpp" />
     <ClCompile Include="..\Classes\Manager\FarmLand.cpp" />
@@ -187,6 +188,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Inventory\InventoryLayer.h" />
     <ClInclude Include="..\Classes\Inventory\Slot.h" />
     <ClInclude Include="..\Classes\Item\Item.h" />
+    <ClInclude Include="..\Classes\Item\Other.h" />
     <ClInclude Include="..\Classes\Item\Seed.h" />
     <ClInclude Include="..\Classes\Item\Tool.h" />
     <ClInclude Include="..\Classes\Manager\FarmLand.h" />

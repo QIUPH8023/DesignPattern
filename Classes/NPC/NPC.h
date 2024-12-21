@@ -30,6 +30,9 @@ public:
 	// 跳转到指定的对话
 	void jumpToDialog(int index);
 
+	std::string getHead();
+
+	NPCType& getNPCType();
 private:
 
 	NPC();    // 构造函数

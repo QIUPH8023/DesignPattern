@@ -77,3 +77,27 @@ void NPC::jumpToDialog(int index)
         CCLOG("invalid session index");
     }
 }
+
+NPCType& NPC::getNPCType() 
+{
+    return npctype;
+}
+
+std::string NPC::getHead() 
+{
+    switch (npctype) 
+    {
+        case ALEX:
+            return "NPC/AlexPortrait.png";
+            break;
+        case ABIGAIL:
+            return "NPC/AbigailPortrait.png";
+            break;
+        case CAROLINE:
+            return "NPC/CarolinePortrait.png";
+            break;
+        case LEWIS:
+            return "NPC/LewisPortrait.png";
+            break;
+    }
+}

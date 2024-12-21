@@ -11,7 +11,7 @@
 
 Inventory* Inventory::instance = nullptr;
 
-Inventory::Inventory() :coin(0), currentHeldItemIndex(0) {}
+Inventory::Inventory() :coin(10), currentHeldItemIndex(0) {}
 
 Inventory* Inventory::getInstance() 
 {
@@ -99,6 +99,7 @@ void Inventory::addItem(std::shared_ptr<Item> item, int quantity)
 			{
 				slots[i].changeQuantity(slots[i].getQuantity() - item->getMaxStack());
 			}
+			break;
 		}
 	}
 

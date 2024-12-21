@@ -65,7 +65,7 @@ bool ChatLayer::init(NPC* npc)
     this->addChild(quitButtonContent, 2, "quitButtonContent");
 
     // 创建人物头像
-    auto profileHead = Sprite::create("defaulthead.png");
+    auto profileHead = Sprite::create(currentNPC->getHead());
     profileHead->setContentSize(Size(3 * quitButton->getBoundingBox().size.height, 3 * quitButton->getBoundingBox().size.height));
     profileHead->setAnchorPoint(Vec2(0, 0));
     profileHead->setPosition(Vec2(0,quitButton->getBoundingBox().size.height / 2));
@@ -148,14 +148,56 @@ void ChatLayer::eventButtonCallBack(Ref* pSender)
         auto shop = ShopLayer::create();
         shop->setNPC(currentNPC);
 
-        auto item1 = std::make_shared<Seed>(POTATO_SEED, "defaulthead.png", 64, 1);
-        shop->InsertShopItems(std::shared_ptr<Item>(item1), 10, SHOP_BUY);
-        auto item2 = std::make_shared<Tool>(HOE, "defaulthead.png", 64, 1);
-        shop->InsertShopItems(std::shared_ptr<Item>(item2), 1, TASK_PAID);
-        auto item3 = std::make_shared<Seed>(POTATO_SEED, "defaulthead.png", 64, 1);
-        shop->InsertShopItems(std::shared_ptr<Item>(item3), 5, TASK_REWARD);
+        switch (currentNPC->getNPCType()) 
+        {
+            case ALEX:
+                shop->InsertShopItems(ITEM_OTHER_CROP_RADISH, 1, SHOP_SELL);
+                shop->InsertShopItems(ITEM_OTHER_CROP_POTATO, 1, SHOP_SELL);
+                shop->InsertShopItems(ITEM_OTHER_CROP_WHEAT , 1, SHOP_SELL);
 
-        Inventory::getInstance()->addItem(std::shared_ptr<Item>(item2), 10);
+                shop->InsertShopItems(ITEM_OTHER_FOOD_APPLE, 10, SHOP_BUY);
+
+                shop->InsertShopItems(ITEM_OTHER_CROP_POTATO, 1, TASK_PAID);
+                shop->InsertShopItems(ITEM_OTHER_FOOD_FRIED_POTATO, 1, TASK_REWARD);
+
+                break;
+            case ABIGAIL:
+                shop->InsertShopItems(ITEM_OTHER_CROP_RADISH, 1, SHOP_SELL);
+                shop->InsertShopItems(ITEM_OTHER_CROP_POTATO, 1, SHOP_SELL);
+                shop->InsertShopItems(ITEM_OTHER_CROP_WHEAT, 1, SHOP_SELL);
+
+                shop->InsertShopItems(ITEM_OTHER_FOOD_APPLE, 10, SHOP_BUY);
+
+                shop->InsertShopItems(ITEM_OTHER_CROP_POTATO, 1, TASK_PAID);
+                shop->InsertShopItems(ITEM_OTHER_FOOD_FRIED_POTATO, 1, TASK_REWARD);
+
+                break;
+            case CAROLINE:
+                shop->InsertShopItems(ITEM_OTHER_CROP_RADISH, 1, SHOP_SELL);
+                shop->InsertShopItems(ITEM_OTHER_CROP_POTATO, 1, SHOP_SELL);
+                shop->InsertShopItems(ITEM_OTHER_CROP_WHEAT, 1, SHOP_SELL);
+
+                shop->InsertShopItems(ITEM_OTHER_FOOD_APPLE, 10, SHOP_BUY);
+
+                shop->InsertShopItems(ITEM_OTHER_CROP_POTATO, 1, TASK_PAID);
+                shop->InsertShopItems(ITEM_OTHER_FOOD_FRIED_POTATO, 1, TASK_REWARD);
+
+                break;
+            case LEWIS:
+                shop->InsertShopItems(ITEM_OTHER_CROP_RADISH, 1, SHOP_SELL);
+                shop->InsertShopItems(ITEM_OTHER_CROP_POTATO, 1, SHOP_SELL);
+                shop->InsertShopItems(ITEM_OTHER_CROP_WHEAT, 1, SHOP_SELL);
+
+                shop->InsertShopItems(ITEM_OTHER_FOOD_APPLE, 10, SHOP_BUY);
+
+                shop->InsertShopItems(ITEM_OTHER_CROP_POTATO, 1, TASK_PAID);
+                shop->InsertShopItems(ITEM_OTHER_FOOD_FRIED_POTATO, 1, TASK_REWARD);
+
+                break;
+
+        }
+
+        
 
         shop->UpdateShopItems();
         this->addChild(shop, 3,"shop");

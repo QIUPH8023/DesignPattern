@@ -14,6 +14,7 @@
 #include "../Manager/Manager.h"
 #include "../Inventory/Inventory.h"
 #include "../Inventory/InventoryLayer.h"
+#include "../FishingGame/FishingGame.h"
 
 USING_NS_CC;
 

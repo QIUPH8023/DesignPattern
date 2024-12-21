@@ -16,6 +16,7 @@
 #include "../Item/Item.h"
 #include "../Item/Seed.h"
 #include "../Item/Tool.h"
+#include "../Item/Other.h"
 
 class ChatLayer:public cocos2d::Layer
 {

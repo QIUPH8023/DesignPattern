@@ -128,7 +128,7 @@ void ShopLayer::UpdateShopItems()
                     
                     itemName = Label::create(enumToString(item->getType()) + " BUY $" + std::to_string(item->getprice()) + " last *" + std::to_string(_ShopItemsNum[i]), "", 30);
 
-                    itemButton->addTouchEventListener([this, i, bullet,itemButton](Ref* sender, cocos2d::ui::Widget::TouchEventType type)
+                    itemButton->addTouchEventListener([this, i, bullet,itemButton,itemName,item](Ref* sender, cocos2d::ui::Widget::TouchEventType type)
                         {
                             if (type == cocos2d::ui::Widget::TouchEventType::BEGAN){
                                 if (!Inventory::getInstance()->isSlotFull() || Inventory::getInstance()->isCoinEnough(_ShopItems[i]->getprice()) || _ShopItemsNum[i] != 0)
@@ -139,6 +139,7 @@ void ShopLayer::UpdateShopItems()
                                         Inventory::getInstance()->addItem(std::shared_ptr<Item>(_ShopItems[i]), 1);
                                         _ShopItemsNum[i]--;
                                         bullet->setString(std::to_string(Inventory::getInstance()->getCoin()));
+                                        itemName->setString(enumToString(item->getType()) + " BUY $" + std::to_string(item->getprice()) + " last *" + std::to_string(_ShopItemsNum[i]));
                                     }
                                     else
                                     {
