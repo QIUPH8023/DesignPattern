@@ -89,6 +89,7 @@ bool ChatLayer::init(NPC* npc)
     
     // 创建人物姓名 好感度显示
     auto name = Label::create(currentNPC->getNPCName() + " (likablity :" + currentNPC->getNPCLikability() + ")", "", 30);
+    name->setColor(ccc3(0, 0, 0));
     name->setAnchorPoint(Vec2(0, 0));
     name->setPosition(content->getPosition());
     this->addChild(name, 1, "name");

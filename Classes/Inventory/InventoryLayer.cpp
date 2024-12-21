@@ -146,7 +146,7 @@ void InventoryLayer::open()
 
             auto itemNum = Label::create(std::to_string(Inventory::getInstance()->getSlot(i).getQuantity()), "", 30);
             itemNum->setColor(ccc3(0, 0, 0));
-            itemNum->setPosition(itemIcon->getPosition() + Vec2(itemIcon->getBoundingBox().size.width / 2, 0));
+            itemNum->setPosition(itemIcon->getPosition() + Vec2(itemIcon->getBoundingBox().size.width / 2, 0 - itemIcon->getBoundingBox().size.height / 2));
             addChild(itemNum, 3, "itemNum");
         }
     }

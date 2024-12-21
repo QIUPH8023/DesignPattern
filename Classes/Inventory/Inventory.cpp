@@ -32,6 +32,13 @@ Inventory* Inventory::getInstance()
 void Inventory::init(int slotCount)
 {
 	slots.resize(slotCount);
+	addItem(std::shared_ptr<Item>(ITEM_TOOL_HOE), 1);
+	addItem(std::shared_ptr<Item>(ITEM_TOOL_WATERING_CAN), 1);
+	addItem(std::shared_ptr<Item>(ITEM_TOOL_PICKAXE), 1);
+	addItem(std::shared_ptr<Item>(ITEM_TOOL_AXE), 1);
+	addItem(std::shared_ptr<Item>(ITEM_TOOL_SCYTHE), 1);
+	addItem(std::shared_ptr<Item>(ITEM_TOOL_FISHING_ROD), 1);
+
 }
 
 int Inventory::findItem(std::shared_ptr<Item> item)
