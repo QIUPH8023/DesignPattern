@@ -87,21 +87,22 @@ bool FarmYardScene::init()
 	// 加载从农场中的事物
 	Manager::getInstance()->addToScene(this);
 
+#if 0
 	// 添加背包显示
 	auto inventorylayer = InventoryLayer::create();
 	addChild(inventorylayer, 1, "inventorylayer");
+#endif
 
 	// 启动每帧更新函数
 	this->scheduleUpdate();
-	this->schedule([=](float deltaTime) {
-		Manager::getInstance()->update();
-		}, 1.0f, "manager_update");
 
 	return true;
 }
 
 void FarmYardScene::update(float delta)
 {
+	Manager::getInstance()->update(this);
+
 	Player* player = Player::getInstance();
 
 	// 获取 FarmYard 地图对象
@@ -142,7 +143,7 @@ void FarmYardScene::update(float delta)
 	if (yardToHouseRect.containsPoint(newPosition)) {
 		// 在切换场景之前，先禁用更新
 		this->unscheduleUpdate();
-
+		Manager::getInstance()->removeFromScene(this);
 		this->removeChild(player);
 		player->resetInit();
 		Director::getInstance()->replaceScene(cocos2d::TransitionFade::create(SCENE_TRANSITION_DURATION, FarmHouseScene::createScene(), cocos2d::Color3B::WHITE));
@@ -150,7 +151,7 @@ void FarmYardScene::update(float delta)
 	else if (yardToTownRect.containsPoint(newPosition)) {
 		// 在切换场景之前，先禁用更新
 		this->unscheduleUpdate();
-
+		Manager::getInstance()->removeFromScene(this);
 		this->removeChild(player);
 		player->resetInit();
 		Director::getInstance()->replaceScene(cocos2d::TransitionFade::create(SCENE_TRANSITION_DURATION, TownCenterScene::createScene(), cocos2d::Color3B::WHITE));
@@ -208,10 +209,12 @@ void FarmYardScene::registerMouseClickListener()
 // 鼠标点击事件回调
 void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 {
-	Player* player = Player::getInstance();
-
 	// 获取 FarmYard 地图对象
 	auto FarmYard = (TMXTiledMap*)this->getChildByName("FarmYard");
+
+	auto Manager = Manager::getInstance();
+
+	auto targetpos = targettile->getPosition();
 
 	// 获取瓦片图层
 	auto tileLayer = FarmYard->getLayer("Meta");
@@ -224,15 +227,34 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 	auto mouseButton = event->getMouseButton();
 	if (mouseButton == EventMouse::MouseButton::BUTTON_LEFT) {
 		CCLOG("Left mouse button clicked");
-		// 执行左键点击相关操作
-
-		auto land = Manager::getInstance()->findFarmlandByPosition(targettile->getPosition().x, targettile->getPosition().y);
-		if (land != nullptr) {
-			land->watering();
+		// 获取玩家目标位置的瓦片GID
+		int tileGID = tileLayer->getTileGIDAt(convertToTileCoords(Player::getInstance()->getPosition()));
+		if (tileGID) {
+			// 获取瓦片属性
+			auto properties = FarmYard->getPropertiesForGID(tileGID).asValueMap();
+			if (!properties.empty() && properties["FishAllowed"].asBool()) {
+				if (this->getChildByName("fishgame") == nullptr) {
+					FishingGame* fishingGame = FishingGame::create();
+					this->addChild(fishingGame, 10, "fishgame");
+					fishingGame->FishingGameStart();
+				}
+			}
+			else if (!properties.empty() && properties["Plowable"].asBool()) {
+				auto land = Manager::getInstance()->findFarmlandByPosition(targetpos.x, targetpos.y);
+				if (land != nullptr) {
+					land->watering();
+				}
+				else {
+					Manager::getInstance()->addFarmland(targetpos.x, targetpos.y, this);
+				}
+			}
 		}
-		else {
-			FarmLand newland(targettile->getPosition().x, targettile->getPosition().y);
-			Manager::getInstance()->addFarmland(newland, this);
+	}
+	else if (mouseButton == EventMouse::MouseButton::BUTTON_RIGHT) {
+		CCLOG("Right mouse button clicked");
+		if (Manager->findFarmlandByPosition(targetpos.x, targetpos.y) != nullptr &&
+			Manager->findObjectByPosition(targetpos.x, targetpos.y) == nullptr) {
+			Manager::getInstance()->addObject(RADISH, targetpos.x, targetpos.y, this);
 		}
 	}
 

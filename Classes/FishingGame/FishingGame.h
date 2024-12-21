@@ -16,22 +16,28 @@ private:
 
     // 钓鱼更新，逐渐填满进度条
     bool fishingUpdate(float delta);
-    // 开始上钩小游戏
-    bool FishingGameStart();
+
 public:
     // 构造函数
     FishingGame();
+
     // 析构函数
     ~FishingGame();
+
     // 完成钓鱼后的处理
     bool FishingResult();
+
     // 钓鱼结束 释放内存
     void fishingEnd();
+
     // 上钩小游戏更新
     bool Update(float delta);
 
     // 创建场景
     static FishingGame* create();
+
+    // 开始上钩小游戏
+    bool FishingGameStart();
 
     // 初始化方法
     virtual bool init();
@@ -63,7 +69,6 @@ public:
     {
         unschedule("fishing_update_key");
     }
-
 
 
 */

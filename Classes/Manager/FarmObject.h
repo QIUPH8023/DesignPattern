@@ -12,7 +12,6 @@
 #include "cocos2d.h"
 #include "../Item/Item.h"
 #include "proj.win32/Constant.h"
-#include "vector"
 
 class FarmObject
 {
@@ -23,6 +22,9 @@ public:
 	// 析构函数
 	~FarmObject();
 
+	// 成长
+	void update();
+
 	// 是否成熟
 	bool ismature();
 
@@ -32,14 +34,13 @@ public:
 	// 设置需要移除
 	void markForRemoval();
 
-	// 成长
-	void update();
+	// 是否被添加到场景
+	bool isAddedToScene;
 
+	// 获取精灵
 	cocos2d::Sprite* getSprite() const;
 
-	// 对象的碰撞体积
-	cocos2d::Rect objectsize;
-
+	// 获得物品种类
 	ObjectType getObjectType() const;
 
 	// 设置当前状态
@@ -47,6 +48,9 @@ public:
 
 	// 获取当前阶段
 	int getCurrState() const;
+
+	// 对象的碰撞体积
+	cocos2d::Rect objectsize;
 
 private:
 	cocos2d::Sprite* sprite;  // 对应的精灵

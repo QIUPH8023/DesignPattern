@@ -67,7 +67,7 @@ bool MenuScene::init()
         if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
 
 
-            
+            Director::getInstance()->pushScene(cocos2d::TransitionFade::create(SCENE_TRANSITION_DURATION, SaveLoadScene::createScene(), cocos2d::Color3B::WHITE));
         }
         });
 

@@ -14,8 +14,7 @@ USING_NS_CC;
 InventoryLayer* InventoryLayer::create()
 {
     InventoryLayer* layer = new(std::nothrow) InventoryLayer();
-    if (layer && layer->init())
-    {
+    if (layer && layer->init()){
         layer->autorelease();
         return layer;
     }

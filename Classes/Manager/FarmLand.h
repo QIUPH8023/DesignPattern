@@ -34,6 +34,9 @@ public:
 	// 设置需要移除
 	void markForRemoval();
 
+	// 是否被添加到场景
+	bool isAddedToScene;
+
 	// 获得精灵
 	cocos2d::Sprite* getSprite() const;
 

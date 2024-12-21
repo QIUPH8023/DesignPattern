@@ -10,12 +10,13 @@
 
 USING_NS_CC;
 
-FarmLand::FarmLand(float _x, float _y) :sprite(nullptr), landstate(DRY), obj(nullptr), toRemove(false), dryTime(0)
+FarmLand::FarmLand(float _x, float _y) :sprite(nullptr), landstate(DRY), obj(nullptr), toRemove(false), dryTime(0), isAddedToScene(false)
 {
 	sprite = Sprite::create("ImageElements/FarmLand/DrySoil.png");
 	if (sprite != nullptr) {
 		sprite->setAnchorPoint(Vec2(0, 0));
 		sprite->setPosition(_x, _y);
+		sprite->setCameraMask(unsigned short(CameraFlag::USER1));
 	}
 }
 
