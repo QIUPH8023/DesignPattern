@@ -9,8 +9,8 @@
 #ifndef _CONSTANT_H_
 #define _CONSTANT_H_
 
+#include "vector"
 #include <string>
-#include <vector>
 
 constexpr int DESIGN_RESOLUTION_WIDTH = 1280;												 // 设计分辨率宽度
 constexpr int DESIGN_RESOLUTION_HEIGHT = 720;												 // 设计分辨率高度
@@ -29,6 +29,12 @@ constexpr int MENU_SCENE_BUTTONS_OFFSET_Y = -200;                               
 constexpr int MENU_SCENE_NEW_GAME_BUTTON_OFFSET_X = -400;                                    // 菜单界面开始按钮X轴偏移量
 constexpr int MENU_SCENE_LOAD_GAME_BUTTON_OFFSET_X = 0;                                      // 菜单界面载入按钮X轴偏移量
 constexpr int MENU_SCENE_EXIT_GAME_BUTTON_OFFSET_X = 400;                                    // 菜单界面结束按钮X轴偏移量
+
+constexpr int SAVELOAD_SCENE_ARCHIVE_BUTTON_1_OFFSET_Y = 200;                                // 存档界面存档1按钮Y轴偏移量
+constexpr int SAVELOAD_SCENE_ARCHIVE_BUTTON_2_OFFSET_Y = 20;                                 // 存档界面存档2按钮Y轴偏移量
+constexpr int SAVELOAD_SCENE_ARCHIVE_BUTTON_3_OFFSET_Y = -160;                               // 存档界面存档3按钮Y轴偏移量
+constexpr int SAVELOAD_SCENE_BACK_BUTTON_X = 150;                                            // 存档界面返回按钮X轴坐标
+constexpr int SAVELOAD_SCENE_BACK_BUTTON_Y = 60;                                             // 存档界面返回按钮Y轴坐标
 
 constexpr int DEFAULT_MUSIC_SIGN = -1;                                                       // 缺省音乐标识
 constexpr float DEFAULT_MUSIC_VOLUMN = 0.5f;                                                 // 缺省音量大小
@@ -116,14 +122,45 @@ enum ShopType
     PRESENT,       // 赠送
 };
 
+// 每种作物的最大成长阶段
+constexpr int OBJECT_RADISH_MAX_STATE = 4;
+constexpr int OBJECT_POTATO_MAX_STATE = 5;
+constexpr int OBJECT_WHEAT_MAX_STATE = 4;
+
+// 每种成长阶段的资源路径
+const std::string OBJECT_RADISH_STATE[OBJECT_RADISH_MAX_STATE] = {
+"ImageElements/FarmObjects/RadishState_1.png",
+"ImageElements/FarmObjects/RadishState_2.png",
+"ImageElements/FarmObjects/RadishState_3.png",
+"ImageElements/FarmObjects/RadishState_4.png",
+};
+
+const std::string OBJECT_POTATO_STATE[OBJECT_POTATO_MAX_STATE] = {
+"ImageElements/FarmObjects/PotatoState_1.png",
+"ImageElements/FarmObjects/PotatoState_2.png",
+"ImageElements/FarmObjects/PotatoState_3.png",
+"ImageElements/FarmObjects/PotatoState_4.png",
+"ImageElements/FarmObjects/PotatoState_5.png",
+};
+
+const std::string OBJECT_WHEAT_STATE[OBJECT_WHEAT_MAX_STATE] = {
+"ImageElements/FarmObjects/WheatState_1.png",
+"ImageElements/FarmObjects/WheatState_2.png",
+"ImageElements/FarmObjects/WheatState_3.png",
+"ImageElements/FarmObjects/WheatState_4.png",
+};
+
 enum ObjectType
 {
     TREE,
     WEED,
     STONE,
-    CROP,
+    RADISH,
+    POTATO,
+    WHEAT,
 };
 
+// 每种对象的碰撞体积
 constexpr int OBJECT_TREE_WIDTH = 16;
 constexpr int OBJECT_TREE_HEIGHT = 16;
 constexpr int OBJECT_WEED_WIDTH = 16;
@@ -133,15 +170,13 @@ constexpr int OBJECT_STONE_HEIGHT = 16;
 constexpr int OBJECT_CROP_WIDTH = 16;
 constexpr int OBJECT_CROP_HEIGHT = 16;
 
-
+constexpr int DRY_THRESHOLD = 200;
 
 enum LandState
 {
     DRY, 
     WET,
 };
-
-constexpr int DRY_THRESHOLD = 10;
 
 // NPC的种类
 enum NPCType

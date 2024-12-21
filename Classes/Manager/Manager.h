@@ -23,13 +23,19 @@ public:
     // 初始化
     bool init();
 
+    ~Manager();
+
+    // 添加到场景中
     void addToScene(cocos2d::Scene* scene);
 
+    // 从场景中移除
+    void removeFromScene(cocos2d::Scene* scene);
+
     // 添加对象
-    void addObject(const FarmObject& obj, cocos2d::Scene* scene);
+    void addObject(ObjectType type, float x, float y, cocos2d::Scene* scene);
 
     // 添加耕地
-    void addFarmland(const FarmLand& land, cocos2d::Scene* scene);
+    void addFarmland(float x, float y, cocos2d::Scene* scene);
 
     // 根据坐标查找耕地
     FarmLand* findFarmlandByPosition(float x, float y);
@@ -43,12 +49,12 @@ public:
     // 加载游戏数据
     void loadGameState(const std::string& filename);
 
-    // 管理更新每一个元素
-    void update();
+    // 更新方法
+    void update(cocos2d::Scene* scene);
 
 private:
-    std::vector<FarmObject> objects;     // 非耕地物体
-    std::vector<FarmLand> lands;         // 耕地物体
+    std::vector<FarmObject*> objects;     // 非耕地物体
+    std::vector<FarmLand*> lands;         // 耕地物体
 
     // 私有构造函数，禁止外部实例化
     Manager();

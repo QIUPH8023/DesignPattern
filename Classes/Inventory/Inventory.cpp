@@ -8,6 +8,10 @@
 
 #include "Inventory.h"
 #include "proj.win32/Constant.h"
+#include "proj.win32/Json.hpp"
+#include "fstream"
+
+using json = nlohmann::json;
 
 Inventory* Inventory::instance = nullptr;
 
@@ -65,21 +69,11 @@ int Inventory::getTotalItemCount() const
 
 void Inventory::changeCurrHeldItem(int change)
 {
-#if 0
-	currentHeldItemIndex += change;
-	// 更新当前所指的手持物
-	currentHeldItemIndex %= DEFAULT_BAR;
-#endif
-
 	currentHeldItemIndex = change;
 }
 
-
 void Inventory::addItem(std::shared_ptr<Item> item, int quantity)
 {
-	// 先检查背包里有没有这种物品
-	// 如果有那么修改数量
-	// 如果没有那就新增这个物品
 	for (int i = 0; i < slots.size(); i++)
 	{
 		// 若存在空位
@@ -104,21 +98,17 @@ void Inventory::addItem(std::shared_ptr<Item> item, int quantity)
 
 }
 
-#if 0
-
 bool Inventory::isItemEnough(std::shared_ptr<Item> item, int quantity)
 {
 	auto currslot = getSlot(findItem(item));
-	return currslot->isQuantityEnough(quantity)；
+	return currslot.isQuantityEnough(quantity);
 }
 
 void Inventory::changeItemQuantity(std::shared_ptr<Item> item, int quantity)
 {
 	auto currslot = getSlot(findItem(item));
-	currslot->changeQuantity(quantity);
+	currslot.changeQuantity(quantity);
 }
-
-#endif
 
 bool Inventory::swapItems(int index1, int index2)
 {
@@ -158,4 +148,58 @@ bool Inventory::isSlotFull()
 int Inventory::getCurrHeldItem() 
 {
 	return currentHeldItemIndex;
+}
+
+void Inventory::saveInventoryState(const std::string& filename)
+{
+	json jsonData;
+
+	// 保存金币
+	jsonData["coin"] = coin;
+
+	// 保存当前手持物索引
+	jsonData["currentHeldItemIndex"] = currentHeldItemIndex;
+
+	// 保存槽位数据
+	for (const auto& slot : slots) {
+		nlohmann::json slotData;
+		
+		slotData["quantity"] = slot.getQuantity();
+		jsonData["slots"].push_back(slotData);
+	}
+
+	// 写入文件
+	std::ofstream file(filename);
+	if (file.is_open()) {
+		file << jsonData.dump(4);
+		file.close();
+	}
+}
+
+void Inventory::loadInventoryState(const std::string& filename)
+{
+	std::ifstream file(filename);
+	if (!file.is_open()) {
+		cocos2d::log("Failed to open file: %s", filename.c_str());
+		return;
+	}
+
+	json jsonData;
+	file >> jsonData;
+	file.close();
+
+	// 加载金币
+	coin = jsonData["coin"].get<int>();
+
+	// 加载当前手持物索引
+	currentHeldItemIndex = jsonData["currentHeldItemIndex"].get<int>();
+
+	// 加载槽位数据
+	slots.clear(); // 清空当前槽位
+	for (const auto& slotData : jsonData["slots"]) {
+		int itemID = slotData["itemID"].get<int>();
+		int quantity = slotData["quantity"].get<int>();
+
+
+	}
 }

@@ -23,18 +23,20 @@ bool FishingGame::init()
     Size winSize = Director::getInstance()->getWinSize();
 
     // 设置背景
-    fishingBar = Sprite::create("fishing_bar.png");
+    fishingBar = Sprite::create("ImageElements/FishingLayer/fishing_bar.png");
     fishingBar->setAnchorPoint(Vec2(0.5, 0.5));
     fishingBar->setPosition(Vec2(winSize.width / 2, winSize.height / 2));
     this->addChild(fishingBar, 0, "fishingBar");
+
     // 设置钓鱼条
-    auto fishingPos = Sprite::create("close.png");
+    auto fishingPos = Sprite::create("ImageElements/FishingLayer/close.png");
     fishingPos->setColor(ccc3(0, 0, 255));
     fishingPos->setContentSize(Size(fishingPos->getContentSize().width, fishingPos->getContentSize().height - 30));
     fishingPos->setPosition(fishingBar->getPosition());
     this->addChild(fishingPos, 1, "fishingPos");
+
     // 设置鱼竿位置
-    fishingRod = Sprite::create("fishing_rod.png");
+    fishingRod = Sprite::create("ImageElements/FishingLayer/fishing_rod.png");
     fishingRod->setContentSize(Size(fishingRod->getContentSize().width, fishingPos->getContentSize().height));
     fishingRod->setPosition(Vec2(fishingBar->getPosition().x-0.3 * fishingBar->getContentSize().width, fishingBar->getPosition().y));
     this->addChild(fishingRod, 2, "fishingRod");
@@ -43,6 +45,7 @@ bool FishingGame::init()
     auto menu = Menu::create();
     menu->setPosition(Vec2(0, 0));
     this->addChild(menu, 0, "menu");
+
     // 设置钓鱼按钮
     auto fishingButton = HoverButton::create("Slot.png","Slot.png","Slot.png");
     fishingButton->setAnchorPoint(Vec2(0.5, 0));
@@ -62,8 +65,9 @@ bool FishingGame::init()
     fishingButtonContent->setPosition(fishingButton->getPosition() + Vec2(300,0));
     fishingButtonContent->setRotation(30);
     this->addChild(fishingButtonContent, 1, "fishingButtonContent");
+
     // 设置进度条
-    auto loadingBar = ui::LoadingBar::create("close.png");
+    auto loadingBar = ui::LoadingBar::create("ImageElements/FishingLayer/close.png");
     loadingBar->setDirection(ui::LoadingBar::Direction::LEFT);
     loadingBar->setPosition(fishingBar->getPosition() - Vec2(0, fishingBar->getContentSize().height) / 2  + Vec2(0,25));
     loadingBar->setScaleX(2.6);
@@ -71,6 +75,7 @@ bool FishingGame::init()
     loadingBar->setColor(ccc3(0, 255, 255));
     loadingBar->setPercent(1);
     this->addChild(loadingBar, 2, "loadingBar");
+
     // 设置剩余时间显示
     auto lasttime = Label::create("last time: " + std::to_string(fishingTime) + "s", "", 40);
     lasttime->setAnchorPoint(Vec2(0, 0.5));
@@ -122,15 +127,19 @@ bool FishingGame::fishingUpdate(float delta)
 
 bool FishingGame::FishingResult()
 {
-    if (_fishCaught) 
-    {
-        return true;
-    }
-    return false;
+    fishingEnd();
+    return _fishCaught;
 }
 
 bool FishingGame::FishingGameStart()
 {
+    schedule([this](float delta)
+        {
+            if (Update(delta))
+            {
+                unschedule("fishing_update_key");
+            }
+        }, 1.0f, "fishing_update_key");
     return true;
 }
 
@@ -143,9 +152,6 @@ bool FishingGame::Update(float delta)
     return false;
 }
 
-FishingGame::FishingGame() : fishingTime(30),_fishCaught(false)
-{
-    
-}
+FishingGame::FishingGame() : fishingTime(30), _fishCaught(false) {}
 
 FishingGame::~FishingGame() {}

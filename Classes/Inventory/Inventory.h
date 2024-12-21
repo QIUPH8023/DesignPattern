@@ -37,6 +37,9 @@ public:
 
 	int getCurrHeldItem();
 
+	// 判断槽位是否已满
+	bool isSlotFull();
+
 	// 修改当前手持物
 	void changeCurrHeldItem(int change);
 
@@ -45,9 +48,6 @@ public:
 
 	// 判断物品是否足够
 	bool isItemEnough(std::shared_ptr<Item> item, int quantity);
-
-	// 判断槽位是否已满
-	bool isSlotFull();
 
 	// 修改物品数量
 	void changeItemQuantity(std::shared_ptr<Item> item, int quantity);
@@ -64,6 +64,12 @@ public:
 	// 修改金币数量
 	void changeCoin(int amount);
 
+	// 保存背包状态到文件
+	void saveInventoryState(const std::string& filename);
+
+	// 从文件加载背包状态
+	void loadInventoryState(const std::string& filename);
+
 private:
 	Inventory();
 
@@ -73,11 +79,11 @@ private:
 	// 存储多个槽位
 	std::vector<Slot> slots;
 
+	// 当前手持物索引
+	int currentHeldItemIndex;
+
 	// 金币数量
 	int coin;
-
-	// 当前手持物索引
-	int currentHeldItemIndex; 
 
 };
 
