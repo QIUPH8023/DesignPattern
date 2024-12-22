@@ -13,6 +13,7 @@
 #include "../GameTime/GameTimeLayer.h"
 #include "../Inventory/Inventory.h"
 #include "../Inventory/InventoryLayer.h"
+#include "../Music/AudioPlayer.h"
 
 USING_NS_CC;
 

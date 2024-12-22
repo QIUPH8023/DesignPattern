@@ -32,3 +32,9 @@ void audioPlayer(const std::string& audioPath, bool isLoop)
         cocos2d::experimental::AudioEngine::setVolume(g_soundEffectSign, g_soundEffectVolumn);
     }
 }
+
+void audioPlayer_StopBackgroundMusic() 
+{
+    cocos2d::experimental::AudioEngine::stop(g_backgroundMusicSign);
+    g_backgroundMusicSign = DEFAULT_MUSIC_SIGN;
+}

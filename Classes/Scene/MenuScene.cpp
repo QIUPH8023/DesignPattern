@@ -12,7 +12,7 @@
 #include "../GameTime/GameTime.h"
 #include "SaveLoadScene.h"
 #include "proj.win32/Constant.h"
-
+#include "../Music/AudioPlayer.h"
 USING_NS_CC;
 
 // 创建场景
@@ -38,6 +38,7 @@ bool MenuScene::init()
     background->setPosition(Vec2(screenSize.width / 2, screenSize.height / 2));
     this->addChild(background);
 
+    audioPlayer(BackgroundMusic_Path, 1);
     // 创建按钮
     auto newGameButton = HoverButton::create("Buttons/MenuSceneButtons/CreateDefualtButton.png",
         "Buttons/MenuSceneButtons/CreateHoverButton.png",
@@ -57,7 +58,7 @@ bool MenuScene::init()
     // 为按钮添加事件处理器
     newGameButton->addTouchEventListener([](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
-
+            audioPlayer(ClickSoundEffect_Path);
             GameTime::getInstance()->start();
             Director::getInstance()->replaceScene(cocos2d::TransitionFade::create(SCENE_TRANSITION_DURATION, FarmYardScene::createScene(), cocos2d::Color3B::WHITE));
         }
@@ -65,6 +66,7 @@ bool MenuScene::init()
 
     loadGameButton->addTouchEventListener([](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
+            audioPlayer(ClickSoundEffect_Path);
 
 
             Director::getInstance()->pushScene(cocos2d::TransitionFade::create(SCENE_TRANSITION_DURATION, SaveLoadScene::createScene(), cocos2d::Color3B::WHITE));
@@ -73,6 +75,7 @@ bool MenuScene::init()
 
     exitGameButton->addTouchEventListener([](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
+            audioPlayer(ClickSoundEffect_Path);
 
 
             Director::getInstance()->end();

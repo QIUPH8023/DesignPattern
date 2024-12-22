@@ -11,6 +11,7 @@
 #include "../Player/Player.h"
 #include "../GameTime/GameTimeLayer.h"
 #include "proj.win32/Constant.h"
+#include "../Music/AudioPlayer.h"
 
 USING_NS_CC;
 
@@ -256,6 +257,8 @@ void TownCenterScene::onMouseClick(cocos2d::EventMouse* event)
 	}
 	// 防止事件传播
 	event->stopPropagation();
+	audioPlayer(ClickSoundEffect_Path);
+
 }
 
 Vec2 TownCenterScene::convertToTileCoords(const Vec2& pos)
