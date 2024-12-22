@@ -112,7 +112,7 @@ void ShopLayer::UpdateShopItems()
             auto item = _ShopItems[i];
             auto itemIcon = Sprite::create(item->image);
             itemIcon->setContentSize(Size(36, 36));
-            itemIcon->setPosition(Vec2(50, winSize.height - 50) + Vec2(60, 0) - i * Vec2(0, 60));
+            itemIcon->setPosition(Vec2(50, winSize.height - 80) + Vec2(60, 0) - i * Vec2(0, 60));
             this->addChild(itemIcon, 1, enumToString(item->getType()));
 
             // 添加购买按钮 金钱->物品

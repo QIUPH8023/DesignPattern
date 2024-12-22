@@ -88,7 +88,7 @@ bool ChatLayer::init(NPC* npc)
     this->addChild(content, 1, "content");
     
     // 创建人物姓名 好感度显示
-    auto name = Label::create(currentNPC->getNPCName() + " (likablity :" + currentNPC->getNPCLikability() + ")", "", 30);
+    auto name = Label::create(" " + currentNPC->getNPCName() + " (likablity :" + currentNPC->getNPCLikability() + ")", "", 30);
     name->setColor(ccc3(0, 0, 0));
     name->setAnchorPoint(Vec2(0, 0));
     name->setPosition(content->getPosition());
@@ -170,36 +170,40 @@ void ChatLayer::eventButtonCallBack(Ref* pSender)
 
                 break;
             case ABIGAIL:
-                shop->InsertShopItems(ITEM_OTHER_CROP_RADISH, 1, SHOP_SELL);
-                shop->InsertShopItems(ITEM_OTHER_CROP_POTATO, 1, SHOP_SELL);
-                shop->InsertShopItems(ITEM_OTHER_CROP_WHEAT, 1, SHOP_SELL);
+                shop->InsertShopItems(ITEM_SEED_RADISH_SEED, 10, SHOP_BUY);
+                shop->InsertShopItems(ITEM_SEED_POTATO_SEED, 10, SHOP_BUY);
+                shop->InsertShopItems(ITEM_SEED_WHEAT_SEED, 10, SHOP_BUY);
+                shop->InsertShopItems(ITEM_OTHER_PRESENT_FLOWER, 10, SHOP_BUY);
 
-                shop->InsertShopItems(ITEM_OTHER_FOOD_APPLE, 10, SHOP_BUY);
-
-                shop->InsertShopItems(ITEM_OTHER_CROP_POTATO, 1, TASK_PAID);
-                shop->InsertShopItems(ITEM_OTHER_FOOD_FRIED_POTATO, 1, TASK_REWARD);
-
+                shop->InsertShopItems(ITEM_OTHER_PRESENT_FLOWER, 1, TASK_PAID);
+                
                 break;
             case CAROLINE:
-                shop->InsertShopItems(ITEM_OTHER_CROP_RADISH, 1, SHOP_SELL);
-                shop->InsertShopItems(ITEM_OTHER_CROP_POTATO, 1, SHOP_SELL);
-                shop->InsertShopItems(ITEM_OTHER_CROP_WHEAT, 1, SHOP_SELL);
+                shop->InsertShopItems(ITEM_TOOL_HOE, 1, SHOP_BUY);
+                shop->InsertShopItems(ITEM_TOOL_WATERING_CAN, 1, SHOP_BUY);
+                shop->InsertShopItems(ITEM_TOOL_PICKAXE, 1, SHOP_BUY);
+                shop->InsertShopItems(ITEM_TOOL_AXE, 1, SHOP_BUY);
+                shop->InsertShopItems(ITEM_TOOL_SCYTHE, 1, SHOP_BUY);
+                shop->InsertShopItems(ITEM_TOOL_FISHING_ROD, 1, SHOP_BUY);
 
-                shop->InsertShopItems(ITEM_OTHER_FOOD_APPLE, 10, SHOP_BUY);
-
-                shop->InsertShopItems(ITEM_OTHER_CROP_POTATO, 1, TASK_PAID);
-                shop->InsertShopItems(ITEM_OTHER_FOOD_FRIED_POTATO, 1, TASK_REWARD);
+                shop->InsertShopItems(ITEM_OTHER_MATERIAL_STONE, 1, TASK_PAID);
+                shop->InsertShopItems(ITEM_TOOL_PICKAXE, 1, TASK_REWARD);
+                shop->InsertShopItems(ITEM_TOOL_AXE, 1, TASK_REWARD);
 
                 break;
             case LEWIS:
+                shop->InsertShopItems(ITEM_OTHER_MATERIAL_WOOD, 10, SHOP_BUY);
+                shop->InsertShopItems(ITEM_OTHER_MATERIAL_STONE, 10, SHOP_BUY);
+                shop->InsertShopItems(ITEM_OTHER_MATERIAL_GRASS, 10, SHOP_BUY);
+
                 shop->InsertShopItems(ITEM_OTHER_CROP_RADISH, 1, SHOP_SELL);
                 shop->InsertShopItems(ITEM_OTHER_CROP_POTATO, 1, SHOP_SELL);
                 shop->InsertShopItems(ITEM_OTHER_CROP_WHEAT, 1, SHOP_SELL);
 
-                shop->InsertShopItems(ITEM_OTHER_FOOD_APPLE, 10, SHOP_BUY);
+                shop->InsertShopItems(ITEM_SEED_RADISH_SEED, 1, TASK_REWARD);
+                shop->InsertShopItems(ITEM_SEED_POTATO_SEED, 1, TASK_REWARD);
+                shop->InsertShopItems(ITEM_SEED_WHEAT_SEED, 1, TASK_REWARD);
 
-                shop->InsertShopItems(ITEM_OTHER_CROP_POTATO, 1, TASK_PAID);
-                shop->InsertShopItems(ITEM_OTHER_FOOD_FRIED_POTATO, 1, TASK_REWARD);
 
                 break;
 

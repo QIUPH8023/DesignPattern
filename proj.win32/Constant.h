@@ -212,27 +212,27 @@ enum NPCType
 };
 
 const std::vector<std::string> NPC_ALEX_DIALOG = {
-    "Hey, I'm Alex. \nI'm training to be the best athlete in the valley!",
-    "You should try working out at the gym sometime,\n it's a great place to get stronger!",
-    "I don't have time for anything that doesn't\n involve my training or football, sorry!",
+    " Hey, I'm Alex. \n I'm training to be the best athlete in the valley!",
+    " You should try working out at the gym sometime,\n it's a great place to get stronger!",
+    " I don't have time for anything that doesn't\n involve my training or football, sorry!",
 };
 
 const std::vector<std::string> NPC_ABIGAIL_DIALOG = {
-    "Hey, you! You should try the chocolate cake in my room \nsometime. It's the best in town!",
-    "I love spending time in the graveyard. \nIt’s so peaceful there at night...",
-    "Have you ever tried going down into the mines?\n It’s dangerous but also thrilling!",
+    " Hey, you! You should try the chocolate cake in my room \n sometime. It's the best in town!",
+    " I love spending time in the graveyard. \n It’s so peaceful there at night...",
+    " Have you ever tried going down into the mines?\n It’s dangerous but also thrilling!",
 };
 
 const std::vector<std::string> NPC_CAROLINE_DIALOG = {
-    "I've been tending to my garden.\n Nothing makes me happier than seeing my flowers bloom.",
-    "My daughter Abigail can be a bit difficult at times,\n but she’s still my precious girl.",
-    "The valley is so peaceful in the spring.\n I love it when the flowers start blooming.",
+    " I've been tending to my garden.\n Nothing makes me happier than seeing my flowers bloom.",
+    " My daughter Abigail can be a bit difficult at times,\n but she’s still my precious girl.",
+    " The valley is so peaceful in the spring.\n I love it when the flowers start blooming.",
 };
 
 const std::vector<std::string> NPC_LEWIS_DIALOG = {
-    "Welcome to Pelican Town!\n I'm Lewis, the mayor.\n Let me know if you need anything.",
-    "It's important to help out the community,\n whether it's by donating to the local fund or assisting with town events.",
-    "The people of this town are what make it special.\n We need to take care of each other.",
+    " Welcome to Pelican Town!\n I'm Lewis, the mayor.\n Let me know if you need anything.",
+    " It's important to help out the community,\n whether it's by donating to the local fund\n or assisting with town events.",
+    " The people of this town are what make it special.\n We need to take care of each other.",
 };
 
 #endif // _CONSTANT_H_
