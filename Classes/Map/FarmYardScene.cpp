@@ -15,7 +15,7 @@
 #include "../Manager/Manager.h"
 #include "../Inventory/InventoryLayer.h"
 #include "../FishingGame/FishingGame.h"
-
+#include "../Music/AudioPlayer.h"
 USING_NS_CC;
 
 // 创建场景
@@ -412,6 +412,7 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 
 	// 防止事件传播
 	event->stopPropagation();
+	audioPlayer(ClickSoundEffect_Path);
 }
 
 // 控制事件监听器的禁用

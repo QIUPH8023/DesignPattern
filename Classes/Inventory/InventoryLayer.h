@@ -10,6 +10,7 @@
 #define _INVENTORY_LAYER_H_
 #include "cocos2d.h"
 #include "Inventory.h"
+#include "../Music/AudioPlayer.h"
 #include "Button/HoverButton.h"
 
 class InventoryLayer : public cocos2d::Layer

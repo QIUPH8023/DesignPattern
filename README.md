@@ -16,7 +16,7 @@ Stardew_Valley_Farm
 |姓名|学号|分工|
 | :----:| :----: | :----: |
 |张翔(组长)|2352985|项目任务分工 <br> 代码审查 <br> 项目框架搭建 <br> `AppDelegate` 类 <br> `Player` 类<br>`HoverButton` 类<br> `AudioPlayr`类<br>`NPC`类<br>`MenuScene`类<br>`SaveLoadScnen`类|
-|刘逸飞|2352647| |
+|刘逸飞|2353935| |
 
 
 
@@ -25,7 +25,7 @@ Stardew_Valley_Farm
 |姓名|学号|代码量|工作量|
 | :----:| :----: | :----: | :----: |
 |张翔(组长)|2352985||
-|刘逸飞|2352647| ||
+|刘逸飞|2353935| ||
 
 ## 项目组成
 
@@ -52,7 +52,45 @@ Stardew_Valley_Farm
 
 ### 加分项
 
+* 版本控制
+  
+  * [X] 合理使用 Git 控制版本，将项目开源至 Github
 
+        Github 项目托管 [仓库](https://github.com/Muoow/Stardew_Valley_Farm)
+
+  * [X]  组员分工合理，积极交流
+ 
+        按照每个组员的擅长点分配合适的项目功能，提高项目完成效率
+
+* 尽可能多地使用了 C++11 特性
+
+  * [X] 类型推导
+
+  * [X] 空指针关键字 `nullptr`
+
+  * [X] 修饰常量 `constexpr`
+ 
+  * [x] `lambda` 表达式
+ 
+  * [X] 时间库 `chrono` 和线程库 `this_thread`
+
+  * [X] 基于范围的 `for` 循环
+
+* 实现了简易的存档功能
+
+  * [X] 自主学习了适用于现代C++的Josn文件编辑器 Github[地址](https://github.com/nlohmann/json)
+
+* 代码规范性强
+
+  * [X] 组内代码风格相似
+
+        组长在正式开始项目制作之前就规范了代码的基础风格，包括换行、注释等
+
+        组长对组员的每次提交都进行的检查和规范
+
+  * [X] 代码质量高
+
+         
 
 ## 项目开发日志
 
