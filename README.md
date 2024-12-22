@@ -16,16 +16,14 @@ Stardew_Valley_Farm
 |姓名|学号|分工|
 | :----:| :----: | :----: |
 |张翔(组长)|2352985|项目任务分工 <br> 代码审查 <br> 项目框架搭建 <br> `AppDelegate` 类 <br> `Player` 类<br>`HoverButton` 类<br> `AudioPlayr`类<br>`NPC`类<br>`MenuScene`类<br>`SaveLoadScnen`类|
-|刘逸飞|2353935| |
-
-
+|刘逸飞|2353935||
 
 ## 成员贡献
 
 |姓名|学号|代码量|工作量|
 | :----:| :----: | :----: | :----: |
-|张翔(组长)|2352985||
-|刘逸飞|2353935| ||
+|张翔(组长)|2352985|4857|65%|
+|刘逸飞|2353935|2603||35%|
 
 ## 项目组成
 
@@ -76,11 +74,19 @@ Stardew_Valley_Farm
 
         使用举例如下:
 
+        ```cpp
         
+        ```
 
   * [X] 空指针关键字 `nullptr`
  
         C++11 引入了 `nullptr` 关键字，它是一个表示空指针的字面量，用于替代传统 C++ 中的 `NULL` 。在之前的 C++ 标准中， `NULL` 通常被定义为 `0` 或 `((void*)0)` ，这可能导致类型歧义和一些难以发现的错误。
+
+        使用举例如下:
+
+        ```cpp
+        
+        ```
 
   * [X] 修饰常量 `constexpr`
  
@@ -88,15 +94,21 @@ Stardew_Valley_Farm
 
         使用举例如下：
 
-```cpp
-constexpr int DESIGN_RESOLUTION_WIDTH = 1280;
-constexpr int DESIGN_RESOLUTION_HEIGHT = 720;
-```
+        ```cpp
+        constexpr int DESIGN_RESOLUTION_WIDTH = 1280;
+        constexpr int DESIGN_RESOLUTION_HEIGHT = 720;
+        ```
  
   * [x] `lambda` 表达式
  
         `lambda` 表达式是 C++11 最重要也最常用的一个特性之一。它能够就地匿名定义目标函数或函数对象，不需要额外写一个命名函数或者函数对象。以更直接的方式去写程序，好的可读性和可维护性。
- 
+
+        使用举例如下：
+
+        ```cpp
+
+        ```
+
   * [X] 时间库 `chrono` 和线程库 `this_thread`
 
         C++11 引入了 `chrono` 库，用于处理时间。这个库提供了时间点（time points）和持续时间（durations）的表示，以及时钟（clocks）。
@@ -104,7 +116,13 @@ constexpr int DESIGN_RESOLUTION_HEIGHT = 720;
         C++11 标准引入了线程库，它提供了对线程的控制和管理。在这里， `std::this_thread` 是一个命名空间，它提供了与当前线程相关的函数。特别地， `std::this_thread::sleep_for` 是一个函数，用于使当前线程休眠指定的时间。
 
         本项目中实现 `GameTime` 类的基本思路就是创建一个新线程从而保证游戏时间的独立更新。
+        
+        使用举例如下：
 
+        ```cpp
+
+        ```
+        
   * [X] 基于范围的 `for` 循环
 
         C++11 引入了基于范围的 `for` 循环（Range-based for loop），这是一种新的循环语法，使得遍历容器（如数组、向量、列表等）和范围变得更加简单和直观。这种循环方式自动迭代容器或范围中的每个元素，无需手动管理迭代器或索引。
@@ -115,19 +133,21 @@ constexpr int DESIGN_RESOLUTION_HEIGHT = 720;
 
 * 实现了简易的存档功能
 
-  * [X] 自主学习了适用于现代C++的Josn文件编辑器 Github[地址](https://github.com/nlohmann/json)
+  * [X] 自主学习了适用于现代 C++ 的Josn文件编辑器 原仓库 Github [地址](https://github.com/nlohmann/json)
+ 
+  * [X] 引用 `Json.hpp` 头文件，实现了向指定文件内读入/写入数据，进而实现了简单的存档功能
 
-* 代码规范性强
+* 代码质量高、规范性强
 
   * [X] 组内代码风格相似
 
         组长在正式开始项目制作之前就规范了代码的基础风格，包括换行、注释等
 
-        组长对组员的每次提交之前都进行的检查和规范
+        组长对组员的每次提交之前都进行了仔细检查和规范
 
-  * [X] 代码质量高
+  * [X] 常变量的集中定义
 
-         
+        本项目的 `Constant.h` 头文件集中存放了所有常变量的定义，
 
 ## 项目开发日志
 
@@ -189,9 +209,10 @@ constexpr int DESIGN_RESOLUTION_HEIGHT = 720;
 
 ### 2024/12/19
 
-- 实现 `GameTimeLayer`类
-- 实现 `Slot`类
-- 实现 `Inventory`类
+- 实现 `GameTimeLayer` 类
+- 实现 `Slot` 类
+- 实现 `Inventory` 类
+- 实现 `FishingGame` 类
 
 ### 2024/12/21
 
