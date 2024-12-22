@@ -254,6 +254,8 @@ void TownCenterScene::onMouseClick(cocos2d::EventMouse* event)
 
 		}
 	}
+	// 防止事件传播
+	event->stopPropagation();
 }
 
 Vec2 TownCenterScene::convertToTileCoords(const Vec2& pos)

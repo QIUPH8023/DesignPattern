@@ -10,6 +10,9 @@
 #define _INVENTORY_H_
 
 #include "../Item/Item.h"
+#include "../Item/Other.h"
+#include "../Item/Seed.h"
+#include "../Item/Tool.h"
 #include "Slot.h"
 #include "cocos2d.h" 
 
@@ -35,6 +38,7 @@ public:
 	// 获取背包当前已经装了多少东西
 	int getTotalItemCount() const;
 
+	// 获取当前手持物品
 	int getCurrHeldItem();
 
 	// 判断槽位是否已满

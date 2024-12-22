@@ -21,7 +21,7 @@ constexpr int MEDIUM_RESOLUTION_HEIGHT = 720;                                   
 constexpr int LARGE_RESOLUTION_WIDTH = 1920;                                                 // 大分辨率宽度
 constexpr int LARGE_RESOLUTION_HEIGHT = 1080;                                                // 大分辨率高度
 constexpr float FRAME_RATE = 60.0f;                                                          // 应用程序帧率
-const std::string APPLICATION_TITLE = "星露谷物语 Stardew Valley";                           // 应用程序标题
+const std::string APPLICATION_TITLE = "星露谷物语Stardew Valley";                            // 应用程序标题
 
 constexpr float SCENE_TRANSITION_DURATION = 0.3f;                                            // 场景转换时长
 
@@ -76,10 +76,9 @@ enum ItemType
 };
 
 // 每种物品的具体描述
-const std::string SEED_DESCRIPTION = " ";
-const std::string TOOL_DESCRIPTION = " ";
-const std::string OTHER_DESCRIPTION = " ";
-
+const std::string SEED_DESCRIPTION = "Various crop seeds.";
+const std::string TOOL_DESCRIPTION = "Farm production tools.";
+const std::string OTHER_DESCRIPTION = "Other items.";
 // 工具类型枚举
 enum ToolType 
 {
@@ -92,13 +91,12 @@ enum ToolType
 };
 
 // 每种功能的具体描述
-const std::string TOOL_HOE_DESCRIPTION = " ";
-const std::string TOOL_WATERING_CAN_DESCRIPTION = " ";
-const std::string TOOL_PICKAXE_DESCRIPTION = " ";
-const std::string TOOL_AXE_DESCRIPTION = " ";
-const std::string TOOL_SCYTHE_DESCRIPTION = " ";
-const std::string TOOL_FISHING_ROD_DESCRIPTION = " ";
-
+const std::string TOOL_HOE_DESCRIPTION = "The hoe is used to till the land.";
+const std::string TOOL_WATERING_CAN_DESCRIPTION = "The watering can is used to provide essential water to crops.";
+const std::string TOOL_PICKAXE_DESCRIPTION = "The pickaxe is used to break rocks, ores, and other hard objects.";
+const std::string TOOL_AXE_DESCRIPTION = "The axe is used to chop trees and obtain wood.";
+const std::string TOOL_SCYTHE_DESCRIPTION = "The scythe is used to harvest mature crops or clear weeds.";
+const std::string TOOL_FISHING_ROD_DESCRIPTION = "The fishing rod is used for fishing in water.";
 // 种子类型枚举
 enum SeedType 
 {
@@ -108,9 +106,35 @@ enum SeedType
 };
 
 // 每种种子的具体描述
-const std::string SEED_RADISH_DESCRIPTION = " ";
-const std::string SEED_POTATO_DESCRIPTION = " ";
-const std::string SEED_WHEAT_DESCRIPTION = " ";
+const std::string SEED_RADISH_DESCRIPTION = "Radishes are fast-growing vegetables.";
+const std::string SEED_POTATO_DESCRIPTION = "Potatoes are a high-yield root crop.";
+const std::string SEED_WHEAT_DESCRIPTION = "Wheat is mainly used to make bread.";
+enum OtherType 
+{
+    FOOD_APPLE,
+    FOOD_BREAD,
+    FOOD_FRIED_POTATO,
+    FOOD_FISH,
+    CROP_RADISH,
+    CROP_POTATO,
+    CROP_WHEAT,
+    MATERIAL_WOOD,
+    MATERIAL_STONE,
+    MATERIAL_GRASS,
+    PRESENT_FLOWER,
+};
+
+const std::string OTHER_FOOD_APPLE_DESCRIPTION = "Fresh apples, sweet and delicious.";
+const std::string OTHER_FOOD_BREAD_DESCRIPTION = "Bread made from wheat.";
+const std::string OTHER_FOOD_FRIED_POTATO_DESCRIPTION = "Potatoes fried in oil.";
+const std::string OTHER_FOOD_FISH_DESCRIPTION = "Freshly caught fish.";
+const std::string OTHER_CROP_RADISH_DESCRIPTION = "Mature radishes.";
+const std::string OTHER_CROP_POTATO_DESCRIPTION = "Mature potatoes.";
+const std::string OTHER_CROP_WHEAT_DESCRIPTION = "Mature wheat.";
+const std::string OTHER_MATERIAL_WOOD_DESCRIPTION = "Wood obtained by chopping trees, used for building or crafting.";
+const std::string OTHER_MATERIAL_STONE_DESCRIPTION = "Stone obtained from mining, used for building or crafting.";
+const std::string OTHER_MATERIAL_GRASS_DESCRIPTION = "Grass grown in the fields, used for basic resources.";
+const std::string OTHER_PRESENT_FLOWER_DESCRIPTION = "Beautiful flowers, perfect as a gift for friends.";
 
 // 商店操作类型枚举
 enum ShopType
@@ -188,27 +212,27 @@ enum NPCType
 };
 
 const std::vector<std::string> NPC_ALEX_DIALOG = {
-    " 1",
-    " 2",
-    " 3",
+    " Hey, I'm Alex. \n I'm training to be the best athlete in the valley!",
+    " You should try working out at the gym sometime,\n it's a great place to get stronger!",
+    " I don't have time for anything that doesn't\n involve my training or football, sorry!",
 };
 
 const std::vector<std::string> NPC_ABIGAIL_DIALOG = {
-    " ",
-    " ",
-    " ",
+    " Hey, you! You should try the chocolate cake in my room \n sometime. It's the best in town!",
+    " I love spending time in the graveyard. \n It’s so peaceful there at night...",
+    " Have you ever tried going down into the mines?\n It’s dangerous but also thrilling!",
 };
 
 const std::vector<std::string> NPC_CAROLINE_DIALOG = {
-    " ",
-    " ",
-    " ",
+    " I've been tending to my garden.\n Nothing makes me happier than seeing my flowers bloom.",
+    " My daughter Abigail can be a bit difficult at times,\n but she’s still my precious girl.",
+    " The valley is so peaceful in the spring.\n I love it when the flowers start blooming.",
 };
 
 const std::vector<std::string> NPC_LEWIS_DIALOG = {
-    " ",
-    " ",
-    " ",
+    " Welcome to Pelican Town!\n I'm Lewis, the mayor.\n Let me know if you need anything.",
+    " It's important to help out the community,\n whether it's by donating to the local fund\n or assisting with town events.",
+    " The people of this town are what make it special.\n We need to take care of each other.",
 };
 
 #endif // _CONSTANT_H_

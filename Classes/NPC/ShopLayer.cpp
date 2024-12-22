@@ -112,7 +112,7 @@ void ShopLayer::UpdateShopItems()
             auto item = _ShopItems[i];
             auto itemIcon = Sprite::create(item->image);
             itemIcon->setContentSize(Size(36, 36));
-            itemIcon->setPosition(Vec2(50, winSize.height - 50) + Vec2(60, 0) - i * Vec2(0, 60));
+            itemIcon->setPosition(Vec2(50, winSize.height - 80) + Vec2(60, 0) - i * Vec2(0, 60));
             this->addChild(itemIcon, 1, enumToString(item->getType()));
 
             // 添加购买按钮 金钱->物品
@@ -128,7 +128,7 @@ void ShopLayer::UpdateShopItems()
                     
                     itemName = Label::create(enumToString(item->getType()) + " BUY $" + std::to_string(item->getprice()) + " last *" + std::to_string(_ShopItemsNum[i]), "", 30);
 
-                    itemButton->addTouchEventListener([this, i, bullet,itemButton](Ref* sender, cocos2d::ui::Widget::TouchEventType type)
+                    itemButton->addTouchEventListener([this, i, bullet,itemButton,itemName,item](Ref* sender, cocos2d::ui::Widget::TouchEventType type)
                         {
                             if (type == cocos2d::ui::Widget::TouchEventType::BEGAN){
                                 if (!Inventory::getInstance()->isSlotFull() || Inventory::getInstance()->isCoinEnough(_ShopItems[i]->getprice()) || _ShopItemsNum[i] != 0)
@@ -139,6 +139,7 @@ void ShopLayer::UpdateShopItems()
                                         Inventory::getInstance()->addItem(std::shared_ptr<Item>(_ShopItems[i]), 1);
                                         _ShopItemsNum[i]--;
                                         bullet->setString(std::to_string(Inventory::getInstance()->getCoin()));
+                                        itemName->setString(enumToString(item->getType()) + " BUY $" + std::to_string(item->getprice()) + " last *" + std::to_string(_ShopItemsNum[i]));
                                     }
                                     else
                                     {

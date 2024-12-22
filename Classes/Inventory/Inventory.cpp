@@ -15,7 +15,7 @@ using json = nlohmann::json;
 
 Inventory* Inventory::instance = nullptr;
 
-Inventory::Inventory() :coin(0), currentHeldItemIndex(0) {}
+Inventory::Inventory() :coin(10), currentHeldItemIndex(0) {}
 
 Inventory* Inventory::getInstance() 
 {
@@ -32,6 +32,13 @@ Inventory* Inventory::getInstance()
 void Inventory::init(int slotCount)
 {
 	slots.resize(slotCount);
+	addItem(std::shared_ptr<Item>(ITEM_TOOL_HOE), 1);
+	addItem(std::shared_ptr<Item>(ITEM_TOOL_WATERING_CAN), 1);
+	addItem(std::shared_ptr<Item>(ITEM_TOOL_PICKAXE), 1);
+	addItem(std::shared_ptr<Item>(ITEM_TOOL_AXE), 1);
+	addItem(std::shared_ptr<Item>(ITEM_TOOL_SCYTHE), 1);
+	addItem(std::shared_ptr<Item>(ITEM_TOOL_FISHING_ROD), 1);
+
 }
 
 int Inventory::findItem(std::shared_ptr<Item> item)
@@ -93,6 +100,7 @@ void Inventory::addItem(std::shared_ptr<Item> item, int quantity)
 			{
 				slots[i].changeQuantity(slots[i].getQuantity() - item->getMaxStack());
 			}
+			break;
 		}
 	}
 

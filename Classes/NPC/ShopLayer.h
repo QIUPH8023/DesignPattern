@@ -10,6 +10,7 @@
 #include "../Button/HoverButton.h"
 #include "../Item/Seed.h"
 #include "../Item/Tool.h"
+#include "../Item/Other.h"
 
 class ShopLayer : public cocos2d::Layer 
 {

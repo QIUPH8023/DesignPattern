@@ -143,6 +143,11 @@ void InventoryLayer::open()
             itemIcon->setContentSize(Size(36, 36));
             itemIcon->setPosition(this->getChildByName("slotButton" + std::to_string(i))->getPosition());
             addChild(itemIcon, 2, "itemIcon" + std::to_string(i));
+
+            auto itemNum = Label::create(std::to_string(Inventory::getInstance()->getSlot(i).getQuantity()), "", 30);
+            itemNum->setColor(ccc3(0, 0, 0));
+            itemNum->setPosition(itemIcon->getPosition() + Vec2(itemIcon->getBoundingBox().size.width / 2, 0 - itemIcon->getBoundingBox().size.height / 2));
+            addChild(itemNum, 3, "itemNum");
         }
     }
     // 手持物品

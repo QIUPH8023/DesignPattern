@@ -65,7 +65,7 @@ bool ChatLayer::init(NPC* npc)
     this->addChild(quitButtonContent, 2, "quitButtonContent");
 
     // 创建人物头像
-    auto profileHead = Sprite::create("defaulthead.png");
+    auto profileHead = Sprite::create(currentNPC->getHead());
     profileHead->setContentSize(Size(3 * quitButton->getBoundingBox().size.height, 3 * quitButton->getBoundingBox().size.height));
     profileHead->setAnchorPoint(Vec2(0, 0));
     profileHead->setPosition(Vec2(0,quitButton->getBoundingBox().size.height / 2));
@@ -83,10 +83,17 @@ bool ChatLayer::init(NPC* npc)
     auto content = Label::create(contents, "", 30);
     content->setAnchorPoint(Vec2(0, 1));
     content->setAlignment(TextHAlignment::LEFT, TextVAlignment::TOP);
-    content->setPosition(Vec2(profileHead->getContentSize().width + 10, background->getContentSize().height + quitButton->getBoundingBox().size.height / 2 - 30));
+    content->setPosition(Vec2(profileHead->getContentSize().width + 10, background->getContentSize().height + quitButton->getBoundingBox().size.height / 2 - 60));
     content->setColor(ccc3(0,0,0));
     this->addChild(content, 1, "content");
     
+    // 创建人物姓名 好感度显示
+    auto name = Label::create(" " + currentNPC->getNPCName() + " (likablity :" + currentNPC->getNPCLikability() + ")", "", 30);
+    name->setColor(ccc3(0, 0, 0));
+    name->setAnchorPoint(Vec2(0, 0));
+    name->setPosition(content->getPosition());
+    this->addChild(name, 1, "name");
+
     // 设置layer属性
     setColor(ccc3(0, 0, 0));
     setOpacity(128);
@@ -124,6 +131,7 @@ void ChatLayer::closeChat()
 void ChatLayer::chatButtonCallBack(Ref* pSender)
 {
     updateDialog();
+    currentNPC->setNPCLove(1);
 }
 void ChatLayer::eventButtonCallBack(Ref* pSender)
 {
@@ -148,14 +156,60 @@ void ChatLayer::eventButtonCallBack(Ref* pSender)
         auto shop = ShopLayer::create();
         shop->setNPC(currentNPC);
 
-        auto item1 = std::make_shared<Seed>(POTATO_SEED, "defaulthead.png", 64, 1);
-        shop->InsertShopItems(std::shared_ptr<Item>(item1), 10, SHOP_BUY);
-        auto item2 = std::make_shared<Tool>(HOE, "defaulthead.png", 64, 1);
-        shop->InsertShopItems(std::shared_ptr<Item>(item2), 1, TASK_PAID);
-        auto item3 = std::make_shared<Seed>(POTATO_SEED, "defaulthead.png", 64, 1);
-        shop->InsertShopItems(std::shared_ptr<Item>(item3), 5, TASK_REWARD);
+        switch (currentNPC->getNPCType()) 
+        {
+            case ALEX:
+                shop->InsertShopItems(ITEM_OTHER_CROP_RADISH, 1, SHOP_SELL);
+                shop->InsertShopItems(ITEM_OTHER_CROP_POTATO, 1, SHOP_SELL);
+                shop->InsertShopItems(ITEM_OTHER_CROP_WHEAT , 1, SHOP_SELL);
 
-        Inventory::getInstance()->addItem(std::shared_ptr<Item>(item2), 10);
+                shop->InsertShopItems(ITEM_OTHER_FOOD_APPLE, 10, SHOP_BUY);
+
+                shop->InsertShopItems(ITEM_OTHER_CROP_POTATO, 1, TASK_PAID);
+                shop->InsertShopItems(ITEM_OTHER_FOOD_FRIED_POTATO, 1, TASK_REWARD);
+
+                break;
+            case ABIGAIL:
+                shop->InsertShopItems(ITEM_SEED_RADISH_SEED, 10, SHOP_BUY);
+                shop->InsertShopItems(ITEM_SEED_POTATO_SEED, 10, SHOP_BUY);
+                shop->InsertShopItems(ITEM_SEED_WHEAT_SEED, 10, SHOP_BUY);
+                shop->InsertShopItems(ITEM_OTHER_PRESENT_FLOWER, 10, SHOP_BUY);
+
+                shop->InsertShopItems(ITEM_OTHER_PRESENT_FLOWER, 1, TASK_PAID);
+                
+                break;
+            case CAROLINE:
+                shop->InsertShopItems(ITEM_TOOL_HOE, 1, SHOP_BUY);
+                shop->InsertShopItems(ITEM_TOOL_WATERING_CAN, 1, SHOP_BUY);
+                shop->InsertShopItems(ITEM_TOOL_PICKAXE, 1, SHOP_BUY);
+                shop->InsertShopItems(ITEM_TOOL_AXE, 1, SHOP_BUY);
+                shop->InsertShopItems(ITEM_TOOL_SCYTHE, 1, SHOP_BUY);
+                shop->InsertShopItems(ITEM_TOOL_FISHING_ROD, 1, SHOP_BUY);
+
+                shop->InsertShopItems(ITEM_OTHER_MATERIAL_STONE, 1, TASK_PAID);
+                shop->InsertShopItems(ITEM_TOOL_PICKAXE, 1, TASK_REWARD);
+                shop->InsertShopItems(ITEM_TOOL_AXE, 1, TASK_REWARD);
+
+                break;
+            case LEWIS:
+                shop->InsertShopItems(ITEM_OTHER_MATERIAL_WOOD, 10, SHOP_BUY);
+                shop->InsertShopItems(ITEM_OTHER_MATERIAL_STONE, 10, SHOP_BUY);
+                shop->InsertShopItems(ITEM_OTHER_MATERIAL_GRASS, 10, SHOP_BUY);
+
+                shop->InsertShopItems(ITEM_OTHER_CROP_RADISH, 1, SHOP_SELL);
+                shop->InsertShopItems(ITEM_OTHER_CROP_POTATO, 1, SHOP_SELL);
+                shop->InsertShopItems(ITEM_OTHER_CROP_WHEAT, 1, SHOP_SELL);
+
+                shop->InsertShopItems(ITEM_SEED_RADISH_SEED, 1, TASK_REWARD);
+                shop->InsertShopItems(ITEM_SEED_POTATO_SEED, 1, TASK_REWARD);
+                shop->InsertShopItems(ITEM_SEED_WHEAT_SEED, 1, TASK_REWARD);
+
+
+                break;
+
+        }
+
+        
 
         shop->UpdateShopItems();
         this->addChild(shop, 3,"shop");
