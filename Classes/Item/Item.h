@@ -29,13 +29,12 @@ public:
     virtual const std::string getDescription() = 0 ;
 
     // 获得基础属性
+    std::string getImagePath() const;
     int getMaxStack() const;
     int getprice() const;
 
-    std::string image = "0";    // 物品素材
-
 protected:
-
+    std::string image;    // 物品素材
     ItemType type;        // 物品类型
     int maxstack;         // 最大堆叠数
     int price;            // 物品价格

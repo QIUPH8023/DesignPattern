@@ -1,4 +1,7 @@
-#pragma once
+
+#ifndef _SHOP_LAYER_
+#define _SHOP_LAYER_
+
 #include "cocos2d.h"
 #include "../NPC/ChatLayer.h"
 #include "../NPC/NPC.h"
@@ -12,7 +15,7 @@
 #include "../Item/Tool.h"
 #include "../Item/Other.h"
 
-class ShopLayer : public cocos2d::Layer 
+class ShopLayer : public cocos2d::Layer
 {
 private:
 	NPC* _currentNPC;
@@ -55,23 +58,23 @@ public:
 	std::string ShopLayer::enumToString<const ItemType&>(const ItemType& _itemtype)
 	{
 		switch (_itemtype) {
-			case SEED:return "SEED";
-			case TOOL:return "TOOL";
-			case OTHER:return "OTHER";
-			default:return "something wrong in ItemType";
+		case SEED:return "SEED";
+		case TOOL:return "TOOL";
+		case OTHER:return "OTHER";
+		default:return "something wrong in ItemType";
 		}
 	}
 	template <>
 	std::string ShopLayer::enumToString<const ToolType&>(const ToolType& _itemtype)
 	{
 		switch (_itemtype) {
-			case HOE:return "SEED";
-			case WATERING_CAN:return "TOOL";
-			case PICKAXE:return "CROP";
-			case AXE:return "AXE";
-			case SCYTHE:return "SCYTHE";
-			case FISHING_ROD:return "FISHING_ROD";
-			default:return "something wrong in ToolType";
+		case HOE:return "SEED";
+		case WATERING_CAN:return "TOOL";
+		case PICKAXE:return "CROP";
+		case AXE:return "AXE";
+		case SCYTHE:return "SCYTHE";
+		case FISHING_ROD:return "FISHING_ROD";
+		default:return "something wrong in ToolType";
 		}
 	}
 	template <>
@@ -79,11 +82,13 @@ public:
 	{
 		switch (_itemtype)
 		{
-			case RADISH_SEED:return "RADISH_SEED";
-			case POTATO_SEED:return "POTATO_SEED";
-			case WHEAT_SEED:return "WHEAT_SEED";
-			default:return "something wrong in SeedType";
+		case RADISH_SEED:return "RADISH_SEED";
+		case POTATO_SEED:return "POTATO_SEED";
+		case WHEAT_SEED:return "WHEAT_SEED";
+		default:return "something wrong in SeedType";
 		}
 	}
 
 };
+
+#endif // _SHOP_LAYER_

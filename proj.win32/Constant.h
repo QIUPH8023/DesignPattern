@@ -21,7 +21,7 @@ constexpr int MEDIUM_RESOLUTION_HEIGHT = 720;                                   
 constexpr int LARGE_RESOLUTION_WIDTH = 1920;                                                 // 大分辨率宽度
 constexpr int LARGE_RESOLUTION_HEIGHT = 1080;                                                // 大分辨率高度
 constexpr float FRAME_RATE = 60.0f;                                                          // 应用程序帧率
-const std::string APPLICATION_TITLE = "星露谷物语Stardew Valley";                            // 应用程序标题
+const std::string APPLICATION_TITLE = "星露谷物语 Stardew Valley";                           // 应用程序标题
 
 constexpr float SCENE_TRANSITION_DURATION = 0.3f;                                            // 场景转换时长
 
@@ -36,6 +36,8 @@ constexpr int SAVELOAD_SCENE_ARCHIVE_BUTTON_3_OFFSET_Y = -160;                  
 constexpr int SAVELOAD_SCENE_BACK_BUTTON_X = 150;                                            // 存档界面返回按钮X轴坐标
 constexpr int SAVELOAD_SCENE_BACK_BUTTON_Y = 60;                                             // 存档界面返回按钮Y轴坐标
 
+constexpr int FISHING_LAYER_FISHING_BUTTON_OFFSET_Y = 150;                                   // 钓鱼界面钓鱼按钮Y轴偏移量
+
 constexpr int DEFAULT_MUSIC_SIGN = -1;                                                       // 缺省音乐标识
 constexpr float DEFAULT_MUSIC_VOLUMN = 0.5f;                                                 // 缺省音量大小
 
@@ -47,6 +49,8 @@ constexpr int PLAYER_DIRECTION_NUM = 4;                                         
 constexpr int PLAYER_FRAME_WIDTH = PLAYER_IMAGE_WIDTH / PLAYER_FRAME_RATE;                   // 每帧宽度（图片宽度/帧数）
 constexpr int PLAYER_FRAME_HEIGHT = PLAYER_IMAGE_HEIGHT / PLAYER_DIRECTION_NUM;              // 每帧高度（图片高度/行数）
 constexpr float PLAYER_FRAME_DELAY = 0.1f;                                                   // 每帧动画延迟
+constexpr int CURRENT_ITEM_OFFSET_X = 8;                                                     // 手中物品与人所在位置X轴偏移量
+constexpr int CURRENT_ITEM_OFFSET_Y = 16;                                                    // 手中物品与人所在位置Y轴偏移量
 
 constexpr int DEFAULT_VIEW_HEIGHT = 400;                                                     // 默认视角高度
 constexpr int MAX_VIEW_HEIGHT = 500;                                                         // 地图中最大视角高度
@@ -79,6 +83,7 @@ enum ItemType
 const std::string SEED_DESCRIPTION = "Various crop seeds.";
 const std::string TOOL_DESCRIPTION = "Farm production tools.";
 const std::string OTHER_DESCRIPTION = "Other items.";
+
 // 工具类型枚举
 enum ToolType 
 {
@@ -97,6 +102,7 @@ const std::string TOOL_PICKAXE_DESCRIPTION = "The pickaxe is used to break rocks
 const std::string TOOL_AXE_DESCRIPTION = "The axe is used to chop trees and obtain wood.";
 const std::string TOOL_SCYTHE_DESCRIPTION = "The scythe is used to harvest mature crops or clear weeds.";
 const std::string TOOL_FISHING_ROD_DESCRIPTION = "The fishing rod is used for fishing in water.";
+
 // 种子类型枚举
 enum SeedType 
 {
@@ -109,6 +115,8 @@ enum SeedType
 const std::string SEED_RADISH_DESCRIPTION = "Radishes are fast-growing vegetables.";
 const std::string SEED_POTATO_DESCRIPTION = "Potatoes are a high-yield root crop.";
 const std::string SEED_WHEAT_DESCRIPTION = "Wheat is mainly used to make bread.";
+
+// 杂物类型枚举
 enum OtherType 
 {
     FOOD_APPLE,
@@ -124,6 +132,7 @@ enum OtherType
     PRESENT_FLOWER,
 };
 
+// 每种杂物的具体描述
 const std::string OTHER_FOOD_APPLE_DESCRIPTION = "Fresh apples, sweet and delicious.";
 const std::string OTHER_FOOD_BREAD_DESCRIPTION = "Bread made from wheat.";
 const std::string OTHER_FOOD_FRIED_POTATO_DESCRIPTION = "Potatoes fried in oil.";
@@ -174,6 +183,7 @@ const std::string OBJECT_WHEAT_STATE[OBJECT_WHEAT_MAX_STATE] = {
 "ImageElements/FarmObjects/WheatState_4.png",
 };
 
+// 实例种类
 enum ObjectType
 {
     TREE,
@@ -196,6 +206,7 @@ constexpr int OBJECT_CROP_HEIGHT = 16;
 
 constexpr int DRY_THRESHOLD = 200;
 
+// 土地状态
 enum LandState
 {
     DRY, 

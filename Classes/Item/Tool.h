@@ -19,12 +19,14 @@ public:
 	// 构造函数
 	Tool(const ToolType _type, std::string _image, int _maxstack, int _price);
 
+	// 获得具体描述
 	const std::string getDescription() override;
 
+	// 获得具体类别
 	const ToolType& getSubType();
 
-	// 工具种类
-	ToolType tooltype;
+private:
+	ToolType tooltype;      // 工具种类
 
 };
 

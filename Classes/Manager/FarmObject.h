@@ -17,7 +17,7 @@ class FarmObject
 {
 public:
 	// 构造函数
-	FarmObject(ObjectType type, float x, float y);
+	FarmObject(ObjectType type, float _x, float _y);
 
 	// 析构函数
 	~FarmObject();
@@ -34,12 +34,6 @@ public:
 	// 设置需要移除
 	void markForRemoval();
 
-	// 是否被添加到场景
-	bool isAddedToScene;
-
-	// 获取精灵
-	cocos2d::Sprite* getSprite() const;
-
 	// 获得物品种类
 	ObjectType getObjectType() const;
 
@@ -49,17 +43,24 @@ public:
 	// 获取当前阶段
 	int getCurrState() const;
 
-	// 对象的碰撞体积
-	cocos2d::Rect objectsize;
+	// 获取碰撞体积
+	cocos2d::Rect getSize()const;
+
+	// 获取x坐标
+	float getX();
+
+	// 获取y坐标
+	float getY();
 
 private:
-	cocos2d::Sprite* sprite;  // 对应的精灵
-	ObjectType objecttype;    // 对象的种类
-	int currstate;            // 当前阶段
-	int maxstate;             // 最大阶段
-	float growthrate;         // 成长率
-	float growthspeed;        // 成长速度
-	bool toRemove;            // 是否需要删除
+	float x, y;                  // 对象的位置
+	ObjectType objecttype;       // 对象的种类
+	int currstate;               // 当前阶段
+	int maxstate;                // 最大阶段
+	cocos2d::Rect objectsize;    // 对象的碰撞体积
+	float growthrate;            // 成长率
+	float growthspeed;           // 成长速度
+	bool toRemove;               // 是否需要删除
 
 };
 

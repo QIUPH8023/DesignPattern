@@ -33,4 +33,5 @@ const std::shared_ptr<Other> ITEM_OTHER_MATERIAL_WOOD = std::make_shared<Other>(
 const std::shared_ptr<Other> ITEM_OTHER_MATERIAL_STONE = std::make_shared<Other>(MATERIAL_STONE, "Items/MATERIAL_STONE.png", 200, 1);
 const std::shared_ptr<Other> ITEM_OTHER_MATERIAL_GRASS = std::make_shared<Other>(MATERIAL_GRASS, "Items/MATERIAL_GRASS.png", 200, 1);
 const std::shared_ptr<Other> ITEM_OTHER_PRESENT_FLOWER = std::make_shared<Other>(PRESENT_FLOWER, "Items/PRESENT_FLOWER.png", 200, 1);
+
 #endif // _SEED_H_

@@ -20,16 +20,21 @@ public:
     // 获取单例指针
 	static Manager* getInstance();
 
-    // 初始化
-    bool init();
+     // 禁止拷贝和赋值
+    Manager(const Manager&) = delete;
+    Manager& operator=(const Manager&) = delete;
 
+    // 析构函数
     ~Manager();
+
+    // 初始化
+    void init(const std::string& filename = "Archive/ManagerDefaultArchive.json");
 
     // 添加到场景中
     void addToScene(cocos2d::Scene* scene);
 
-    // 从场景中移除
-    void removeFromScene(cocos2d::Scene* scene);
+    // 离开农场场景
+    void removeFromScene();
 
     // 添加对象
     void addObject(ObjectType type, float x, float y, cocos2d::Scene* scene);
@@ -43,6 +48,9 @@ public:
     // 根据坐标查找非耕地对象
     FarmObject* findObjectByPosition(float x, float y);
 
+    // 判断某一点是否在对象的碰撞面积内
+    bool isPointInAnyObject(float x, float y);
+
     // 保存游戏状态
     void saveGameState(const std::string& filename);
 
@@ -50,18 +58,17 @@ public:
     void loadGameState(const std::string& filename);
 
     // 更新方法
-    void update(cocos2d::Scene* scene);
+    void update();
 
 private:
-    std::vector<FarmObject*> objects;     // 非耕地物体
-    std::vector<FarmLand*> lands;         // 耕地物体
+    std::vector<FarmLand*> lands;                       // 耕地物体
+    std::vector<FarmObject*> objects;                   // 非耕地物体
+    std::vector<cocos2d::Sprite*> farmlandSprites;      // 耕地物体对应精灵
+    std::vector<cocos2d::Sprite*> farmObjectSprites;    // 非耕地物体对应精灵
+    bool inYardScene;                                   // 是否在农场场景
 
-    // 私有构造函数，禁止外部实例化
+    // 私有构造函数
     Manager();
-
-    // 禁止拷贝和赋值
-    Manager(const Manager&) = delete;
-    Manager& operator=(const Manager&) = delete;
 
     static Manager* instance;
 

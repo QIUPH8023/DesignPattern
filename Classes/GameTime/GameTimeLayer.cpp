@@ -25,7 +25,7 @@ bool GameTimeLayer::init()
 	// 设置时间显示背景
 	timeIcon = Sprite::create("chatlayerbackground2.png");
 	timeIcon->setAnchorPoint(Vec2(0, 0));
-	timeIcon->setContentSize(timeLabel->getContentSize() + Size(0,5));
+	timeIcon->setContentSize(timeLabel->getContentSize() + Size(20,10));
 	timeIcon->setPosition(timeLabel->getPosition());
 
 	this->addChild(timeIcon);

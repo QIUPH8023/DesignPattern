@@ -17,6 +17,11 @@ const ItemType& Item::getType()
 	return type;
 }
 
+std::string Item::getImagePath() const
+{
+	return image;
+}
+
 int Item::getMaxStack() const
 {
 	return maxstack;

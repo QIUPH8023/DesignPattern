@@ -9,10 +9,10 @@
 #include "FarmYardScene.h"
 #include "FarmHouseScene.h"
 #include "TownCenterScene.h"
+#include "../Item/Item.h"
 #include "../Player/Player.h"
 #include "../GameTime/GameTimeLayer.h"
 #include "../Manager/Manager.h"
-#include "../Inventory/Inventory.h"
 #include "../Inventory/InventoryLayer.h"
 #include "../FishingGame/FishingGame.h"
 
@@ -26,6 +26,8 @@ Scene* FarmYardScene::createScene()
 	scene->addChild(farmlayer, 0);
 	auto gametimeLayer = GameTimeLayer::create();
 	scene->addChild(gametimeLayer, 10);
+	auto inventorylayer = InventoryLayer::create();
+	scene->addChild(inventorylayer, 10);
 	return scene;
 }
 
@@ -85,13 +87,7 @@ bool FarmYardScene::init()
 	registerMouseClickListener();
 
 	// 加载从农场中的事物
-	Manager::getInstance()->addToScene(this);
-
-#if 0
-	// 添加背包显示
-	auto inventorylayer = InventoryLayer::create();
-	addChild(inventorylayer, 1, "inventorylayer");
-#endif
+	Manager::getInstance();
 
 	// 启动每帧更新函数
 	this->scheduleUpdate();
@@ -99,9 +95,13 @@ bool FarmYardScene::init()
 	return true;
 }
 
+// 更新函数
 void FarmYardScene::update(float delta)
 {
-	Manager::getInstance()->update(this);
+	if (this->getChildByName("fishgame") != nullptr) {
+		// 如果有钓鱼游戏界面，就不更新地图
+		return;
+	}
 
 	Player* player = Player::getInstance();
 
@@ -130,10 +130,8 @@ void FarmYardScene::update(float delta)
 		// 获取瓦片属性
 		auto properties = FarmYard->getPropertiesForGID(tileGID).asValueMap();
 		if (!properties.empty()&& properties["Collidable"].asBool()) {
-			// 判断瓦片是否具有 "Collidable" 属性且为 true
 			// 如果该瓦片不可通行，则直接返回，不更新玩家位置
 			return;
-
 		}
 	}
 
@@ -143,7 +141,8 @@ void FarmYardScene::update(float delta)
 	if (yardToHouseRect.containsPoint(newPosition)) {
 		// 在切换场景之前，先禁用更新
 		this->unscheduleUpdate();
-		Manager::getInstance()->removeFromScene(this);
+		Manager::getInstance()->saveGameState("Archive/ManagerDefaultArchive.json");
+		Manager::getInstance()->removeFromScene();
 		this->removeChild(player);
 		player->resetInit();
 		Director::getInstance()->replaceScene(cocos2d::TransitionFade::create(SCENE_TRANSITION_DURATION, FarmHouseScene::createScene(), cocos2d::Color3B::WHITE));
@@ -151,7 +150,8 @@ void FarmYardScene::update(float delta)
 	else if (yardToTownRect.containsPoint(newPosition)) {
 		// 在切换场景之前，先禁用更新
 		this->unscheduleUpdate();
-		Manager::getInstance()->removeFromScene(this);
+		Manager::getInstance()->saveGameState("Archive/ManagerDefaultArchive.json");
+		Manager::getInstance()->removeFromScene();
 		this->removeChild(player);
 		player->resetInit();
 		Director::getInstance()->replaceScene(cocos2d::TransitionFade::create(SCENE_TRANSITION_DURATION, TownCenterScene::createScene(), cocos2d::Color3B::WHITE));
@@ -167,14 +167,15 @@ void FarmYardScene::update(float delta)
 	camera->setPosition3D(currentCameraPos.lerp(targetCameraPos, 0.1f));
 }
 
+// 注册鼠标滚轮监听器
 void FarmYardScene::registerMouseScrollListener()
 {
 	// 创建鼠标事件监听器
-	auto listener = EventListenerMouse::create();
-	listener->onMouseScroll = CC_CALLBACK_1(FarmYardScene::onMouseScroll, this);
+	mouseScrollListener = EventListenerMouse::create();
+	mouseScrollListener->onMouseScroll = CC_CALLBACK_1(FarmYardScene::onMouseScroll, this);
 
 	// 获取事件分发器并添加监听器
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseScrollListener, this);
 }
 
 // 鼠标滚轮事件回调
@@ -199,11 +200,11 @@ void FarmYardScene::onMouseScroll(cocos2d::EventMouse* event)
 void FarmYardScene::registerMouseClickListener()
 {
 	// 创建鼠标点击事件监听器
-	auto listener = EventListenerMouse::create();
-	listener->onMouseDown = CC_CALLBACK_1(FarmYardScene::onMouseClick, this);
+	mouseClickListener = EventListenerMouse::create();
+	mouseClickListener->onMouseDown = CC_CALLBACK_1(FarmYardScene::onMouseClick, this);
 
 	// 获取事件分发器并添加监听器
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseClickListener, this);
 }
 
 // 鼠标点击事件回调
@@ -216,6 +217,15 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 
 	auto targetpos = targettile->getPosition();
 
+	int currentHeldItem = Inventory::getInstance()->getCurrHeldItem();
+	auto heldItem = Inventory::getInstance()->getSlot(currentHeldItem).getItem();
+	std::shared_ptr<Tool> heldTool = std::dynamic_pointer_cast<Tool>(heldItem);
+	std::shared_ptr<Seed> heldSeed = std::dynamic_pointer_cast<Seed>(heldItem);
+
+	// 如果手中没有拿任何东西
+	if (heldItem == nullptr)
+		return;
+
 	// 获取瓦片图层
 	auto tileLayer = FarmYard->getLayer("Meta");
 	if (!tileLayer) {
@@ -227,34 +237,176 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 	auto mouseButton = event->getMouseButton();
 	if (mouseButton == EventMouse::MouseButton::BUTTON_LEFT) {
 		CCLOG("Left mouse button clicked");
+
+		// 创建动画对象
+		auto currItem = Sprite::create(Inventory::getInstance()->getSlot(currentHeldItem).getItem()->getImagePath());
+		currItem->setAnchorPoint(Vec2(0, 0));
+		currItem->setPosition(targetpos);
+		currItem->setCameraMask(unsigned short(CameraFlag::USER1));
 		// 获取玩家目标位置的瓦片GID
 		int tileGID = tileLayer->getTileGIDAt(convertToTileCoords(Player::getInstance()->getPosition()));
-		if (tileGID) {
-			// 获取瓦片属性
-			auto properties = FarmYard->getPropertiesForGID(tileGID).asValueMap();
-			if (!properties.empty() && properties["FishAllowed"].asBool()) {
-				if (this->getChildByName("fishgame") == nullptr) {
-					FishingGame* fishingGame = FishingGame::create();
-					this->addChild(fishingGame, 10, "fishgame");
-					fishingGame->FishingGameStart();
+		if (heldTool) {
+			switch (heldTool->getSubType()) {
+			case HOE:
+				if (tileGID) {
+					auto properties = FarmYard->getPropertiesForGID(tileGID).asValueMap();
+					if (properties["Plowable"].asBool()) {
+						CCLOG("使用锄头进行耕地");
+						this->addChild(currItem, 3);
+						currItem->runAction(Sequence::create(   // 执行动画
+							RotateBy::create(0.2f, 45),         // 旋转动画
+							RotateBy::create(0.2f, -45),        // 还原旋转
+							DelayTime::create(0.5f),            // 延迟 0.5 秒
+							CallFunc::create([=]() {
+								this->removeChild(currItem);             // 动画完成后移除精灵
+								}),
+							nullptr));
+						// 执行操作
+						Manager::getInstance()->addFarmland(targetpos.x, targetpos.y, this);
+					}
 				}
-			}
-			else if (!properties.empty() && properties["Plowable"].asBool()) {
-				auto land = Manager::getInstance()->findFarmlandByPosition(targetpos.x, targetpos.y);
-				if (land != nullptr) {
-					land->watering();
+				break;
+			case FISHING_ROD:
+				if (tileGID) {
+					auto properties = FarmYard->getPropertiesForGID(tileGID).asValueMap();
+					if (properties["FishAllowed"].asBool()) {
+						CCLOG("使用鱼竿进行钓鱼");
+						this->addChild(currItem, 3);
+						currItem->runAction(Sequence::create(
+							MoveBy::create(0.5f, Vec2(0, 30)),
+							MoveBy::create(0.5f, Vec2(0, -30)),
+							DelayTime::create(0.5f),
+							CallFunc::create([=]() {
+								this->removeChild(currItem);
+								}),
+							nullptr));
+						// 执行操作
+						if (this->getChildByName("fishgame") == nullptr) {
+							FishingGame* fishingGame = FishingGame::create();
+							this->addChild(fishingGame, 10, "fishgame");
+							fishingGame->FishingGameStart();
+						}
+					}
 				}
-				else {
-					Manager::getInstance()->addFarmland(targetpos.x, targetpos.y, this);
+				break;
+			case WATERING_CAN:
+				if (Manager->findFarmlandByPosition(targetpos.x, targetpos.y) != nullptr) {
+					CCLOG("使用水壶进行浇水");
+					this->addChild(currItem, 3);
+					currItem->runAction(Sequence::create(
+						MoveBy::create(0.5f, Vec2(0, 20)),
+						MoveBy::create(0.5f, Vec2(0, -20)),
+						DelayTime::create(0.5f),
+						CallFunc::create([=]() {
+							this->removeChild(currItem);
+							}),
+						nullptr));
+					// 执行操作
+					Manager->findFarmlandByPosition(targetpos.x, targetpos.y)->watering();
 				}
+				break;
+			case PICKAXE:
+				if (Manager->findObjectByPosition(targetpos.x, targetpos.y)->getObjectType() == STONE) {
+					CCLOG("使用镐子进行挖矿");
+					this->addChild(currItem, 3);
+					currItem->runAction(Sequence::create(
+						ScaleBy::create(0.2f, 1.2f),
+						ScaleBy::create(0.2f, 0.833f),
+						DelayTime::create(0.5f),
+						CallFunc::create([=]() {
+							this->removeChild(currItem);
+							}),
+						nullptr));
+					// 执行操作
+
+				}
+				break;
+			case AXE:
+				if (Manager->findObjectByPosition(targetpos.x, targetpos.y)->getObjectType() == TREE) {
+					CCLOG("使用斧子进行砍树");
+					this->addChild(currItem, 3);
+					currItem->runAction(Sequence::create(
+						RotateBy::create(0.2f, 45),
+						RotateBy::create(0.2f, -45),
+						DelayTime::create(0.5f),
+						CallFunc::create([=]() {
+							this->removeChild(currItem);
+							}),
+						nullptr));
+					// 执行操作
+
+				}
+				break;
+			case SCYTHE:
+				if (Manager->findObjectByPosition(targetpos.x, targetpos.y)->getObjectType() == WEED) {
+					CCLOG("使用镰刀进行除草");
+					this->addChild(currItem, 3);
+					currItem->runAction(cocos2d::Sequence::create(
+						cocos2d::MoveBy::create(0.3f, cocos2d::Vec2(20, 0)),
+						cocos2d::MoveBy::create(0.3f, cocos2d::Vec2(-20, 0)),
+						cocos2d::DelayTime::create(0.5f),
+						cocos2d::CallFunc::create([=]() {
+							this->removeChild(currItem);
+							}),
+						nullptr));
+					// 执行操作
+
+				}
+				break;
+			default:
+				break;
 			}
 		}
-	}
-	else if (mouseButton == EventMouse::MouseButton::BUTTON_RIGHT) {
-		CCLOG("Right mouse button clicked");
-		if (Manager->findFarmlandByPosition(targetpos.x, targetpos.y) != nullptr &&
-			Manager->findObjectByPosition(targetpos.x, targetpos.y) == nullptr) {
-			Manager::getInstance()->addObject(RADISH, targetpos.x, targetpos.y, this);
+		else if (heldSeed) {
+			switch (heldSeed->getSubType()) {
+			case RADISH_SEED:
+				if (Manager->findFarmlandByPosition(targetpos.x, targetpos.y) != nullptr &&
+					Manager->findObjectByPosition(targetpos.x, targetpos.y) == nullptr) {
+					this->addChild(currItem, 3);
+					currItem->runAction(cocos2d::Sequence::create(
+						MoveTo::create(0.5f, targetpos), // 种子飞行动画
+						DelayTime::create(0.5f),         // 延迟 0.5 秒
+						CallFunc::create([=]() {
+							// 播种完成后移除精灵
+							this->removeChild(currItem);
+							Manager::getInstance()->addObject(RADISH, targetpos.x, targetpos.y, this);
+							}),
+						nullptr));
+				}
+				break;
+			case POTATO_SEED:
+				if (Manager->findFarmlandByPosition(targetpos.x, targetpos.y) != nullptr &&
+					Manager->findObjectByPosition(targetpos.x, targetpos.y) == nullptr) {
+					this->addChild(currItem, 3);
+					currItem->runAction(cocos2d::Sequence::create(
+						MoveTo::create(0.5f, targetpos), // 种子飞行动画
+						DelayTime::create(0.5f),         // 延迟 0.5 秒
+						CallFunc::create([=]() {
+							// 播种完成后移除精灵
+							this->removeChild(currItem);
+							Manager::getInstance()->addObject(POTATO, targetpos.x, targetpos.y, this);
+							}),
+						nullptr));
+				}
+				break;
+			case WHEAT_SEED:
+				if (Manager->findFarmlandByPosition(targetpos.x, targetpos.y) != nullptr &&
+					Manager->findObjectByPosition(targetpos.x, targetpos.y) == nullptr) {
+					this->addChild(currItem, 3);
+					currItem->runAction(cocos2d::Sequence::create(
+						MoveTo::create(0.5f, targetpos), // 种子飞行动画
+						DelayTime::create(0.5f), // 延迟 0.5 秒
+						CallFunc::create([=]() {
+							// 播种完成后移除精灵
+							this->removeChild(currItem);
+							Manager::getInstance()->addObject(WHEAT, targetpos.x, targetpos.y, this);
+							}),
+						nullptr));
+				}
+				break;
+			default:
+				break;
+			}
 		}
 	}
 
@@ -262,6 +414,31 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 	event->stopPropagation();
 }
 
+// 控制事件监听器的禁用
+void FarmYardScene::disableEventListeners()
+{
+	// 移除事件监听器来禁用事件
+	if (mouseScrollListener) {
+		_eventDispatcher->removeEventListener(mouseScrollListener);
+	}
+	if (mouseClickListener) {
+		_eventDispatcher->removeEventListener(mouseClickListener);
+	}
+}
+
+// 控制事件监听器的启用
+void FarmYardScene::enableEventListeners()
+{
+	// 恢复事件监听器
+	if (mouseScrollListener) {
+		_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseScrollListener, this);
+	}
+	if (mouseClickListener) {
+		_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseClickListener, this);
+	}
+}
+
+// 世界坐标和瓦片坐标的转换
 Vec2 FarmYardScene::convertToTileCoords(const Vec2& pos)
 {
 	// 将玩家的新位置转换为瓦片坐标

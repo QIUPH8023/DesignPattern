@@ -45,33 +45,3 @@ public:
     // 初始化方法
     virtual bool init();
 };
-
-/*
-* FishingGame示例
-* 添加到FarmYardScene.cpp的init中生效
-    auto fishing = FishingGame::create();
-    this->addChild(fishing, 10, "fishing");
-
-    schedule([this](float delta)
-        {
-            auto fishing = dynamic_cast<FishingGame*>(this->getChildByName("fishing"));
-            if (fishing != nullptr)
-            {
-                if (fishing->Update(delta))
-                {
-                    fishing->FishingResult();
-                    fishing->fishingEnd();
-                }
-            }
-        }, 1.0f, "fishing_update_key");
-
-
-*添加到update中终止运行
-
-    if (this->getChildByName("fishing") == nullptr)
-    {
-        unschedule("fishing_update_key");
-    }
-
-
-*/

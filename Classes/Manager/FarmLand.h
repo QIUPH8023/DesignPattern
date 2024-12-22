@@ -34,23 +34,22 @@ public:
 	// 设置需要移除
 	void markForRemoval();
 
-	// 是否被添加到场景
-	bool isAddedToScene;
-
-	// 获得精灵
-	cocos2d::Sprite* getSprite() const;
-
 	// 修改状态
 	void setLandState(LandState state);
 
 	// 获取状态
 	LandState getLandState() const;
 
+	// 获取x坐标
+	float getX();
+
+	// 获取y坐标
+	float getY();
+
 private:
-	cocos2d::Sprite* sprite;   // 对应的精灵
+	float x, y;                // 耕地的位置
 	LandState landstate;       // 耕地的状态
 	int dryTime;               // 当前干旱时间
-	FarmObject* obj;           // 该块耕地上的作物
 	bool toRemove;             // 是否要删除
 
 };

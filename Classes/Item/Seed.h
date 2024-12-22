@@ -19,13 +19,14 @@ public:
 	// 构造函数
 	Seed(const SeedType _seedtype, std::string _image, int _maxstack, int _price);
 
+	// 获得具体描述
 	const std::string getDescription() override;
 
+	// 获得具体类别
 	const SeedType& getSubType();
 
-
-	// 种子
-	SeedType seedtype;
+private:
+	SeedType seedtype;    // 种子
 
 };
 

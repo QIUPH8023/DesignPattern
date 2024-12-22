@@ -20,6 +20,9 @@ public:
     // 初始化场景
     virtual bool init();
 
+    // 创建当前手持物的精灵
+    void createItemSprite();
+
     // 鼠标滚动监听器
     void registerMouseScrollListener();
     void onMouseScroll(cocos2d::EventMouse* event);
@@ -34,6 +37,10 @@ public:
     // 实现 FarmYardScene 类的 create 方法
     CREATE_FUNC(FarmYardScene);
 
+    // 控制事件监听器的启用与禁用
+    void disableEventListeners();
+    void enableEventListeners();
+
 private:
     // 转变坐标成瓦片坐标
     cocos2d::Vec2 convertToTileCoords(const cocos2d::Vec2& pos);
@@ -42,6 +49,11 @@ private:
     cocos2d::Sprite* targettile;     // 玩家正在处理的位置
     cocos2d::Rect yardToHouseRect;   // 由农场转入房子的判断框
     cocos2d::Rect yardToTownRect;    // 由农场转入城镇的判断框
+
+    // 鼠标滚动事件监听器
+    cocos2d::EventListenerMouse* mouseScrollListener = nullptr;
+    // 鼠标点击事件监听器
+    cocos2d::EventListenerMouse* mouseClickListener = nullptr;
 
 };
 

@@ -35,11 +35,11 @@ public:
 	// 获取背包槽位
 	Slot& getSlot(int index);
 
-	// 获取背包当前已经装了多少东西
-	int getTotalItemCount() const;
-
 	// 获取当前手持物品
 	int getCurrHeldItem();
+
+	// 获取背包当前已经装了多少东西
+	int getTotalItemCount() const;
 
 	// 判断槽位是否已满
 	bool isSlotFull();
@@ -75,19 +75,13 @@ public:
 	void loadInventoryState(const std::string& filename);
 
 private:
+	static Inventory* instance;  // 单例指针
+	std::vector<Slot> slots;     // 存储多个槽位
+	int currentHeldItemIndex;    // 当前手持物索引
+	int coin;                    // 金币数量
+
+	// 私有构造函数
 	Inventory();
-
-	// 单例指针
-	static Inventory* instance;
-
-	// 存储多个槽位
-	std::vector<Slot> slots;
-
-	// 当前手持物索引
-	int currentHeldItemIndex;
-
-	// 金币数量
-	int coin;
 
 };
 

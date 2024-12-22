@@ -21,6 +21,8 @@ Scene* TownCenterScene::createScene()
 	scene->addChild(layer);
 	auto gametimeLayer = GameTimeLayer::create();
 	scene->addChild(gametimeLayer, 10);
+	auto inventorylayer = InventoryLayer::create();
+	scene->addChild(inventorylayer, 10);
 	return scene;
 }
 
@@ -101,10 +103,6 @@ bool TownCenterScene::init()
 	this->addChild(Alex, 1, "Alex");
 	this->addChild(Caroline, 1, "Caroline");
 	this->addChild(Lewis, 1, "Lewis");
-
-	// 添加背包显示
-	auto inventorylayer = InventoryLayer::create();
-	addChild(inventorylayer, 1, "inventorylayer");
 
 	// 创建并注册鼠标滚轮和鼠标点击事件监听器
 	registerMouseScrollListener();

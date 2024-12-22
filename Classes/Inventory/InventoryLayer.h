@@ -24,6 +24,7 @@ public:
 	// 关闭背包
 	void close();
 	
+	// 打开背包
 	void open();
 
 	~InventoryLayer() override;
