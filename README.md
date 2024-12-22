@@ -16,7 +16,7 @@ Stardew_Valley_Farm
 |姓名|学号|分工|
 | :----:| :----: | :----: |
 |张翔(组长)|2352985|项目任务分工 <br> 代码审查 <br> 项目框架搭建 <br> `AppDelegate` 类 <br> `Player` 类<br>`HoverButton` 类<br> `AudioPlayr`类<br>`NPC`类<br>`MenuScene`类<br>`SaveLoadScnen`类|
-|刘逸飞|2352647| |
+|刘逸飞|2353935| |
 
 
 
@@ -25,7 +25,7 @@ Stardew_Valley_Farm
 |姓名|学号|代码量|工作量|
 | :----:| :----: | :----: | :----: |
 |张翔(组长)|2352985||
-|刘逸飞|2352647| ||
+|刘逸飞|2353935| ||
 
 ## 项目组成
 
