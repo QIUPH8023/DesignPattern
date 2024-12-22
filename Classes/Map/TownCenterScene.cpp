@@ -179,8 +179,9 @@ void TownCenterScene::registerMouseScrollListener()
 
 void TownCenterScene::onMouseScroll(cocos2d::EventMouse* event)
 {
-	auto scrollDelta = event->getScrollY();  // 获取滚动增量
-	CCLOG("Mouse Scroll Delta: %f", scrollDelta);
+	// 获取滚动增量
+	auto scrollDelta = event->getScrollY();  
+
 	// 计算摄像机的位置
 	Vec3 currentCameraPos = camera->getPosition3D();
 
@@ -197,6 +198,9 @@ void TownCenterScene::onMouseScroll(cocos2d::EventMouse* event)
 // 鼠标点击监听器
 void TownCenterScene::registerMouseClickListener()
 {
+	// 播放按键声音
+	audioPlayer(CLICK_SOUND_EFFECT_PATH);
+
 	// 创建鼠标点击事件监听器
 	auto listener = EventListenerMouse::create();
 	listener->onMouseDown = CC_CALLBACK_1(TownCenterScene::onMouseClick, this);
@@ -255,8 +259,6 @@ void TownCenterScene::onMouseClick(cocos2d::EventMouse* event)
 	}
 	// 防止事件传播
 	event->stopPropagation();
-	audioPlayer(ClickSoundEffect_Path);
-
 }
 
 Vec2 TownCenterScene::convertToTileCoords(const Vec2& pos)

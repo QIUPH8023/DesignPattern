@@ -16,24 +16,19 @@
 class GameTime 
 {
 private:
-	// 静态实例指针
-	static GameTime* instance; 
-
-	// 年月日
-	int year, month, day;
-	// 星期
-	int dayofweek;
-	// 具体时间
-	int hour, minute;
-	// 时间流动速度
-	double timeSpeed;
-	// 控制是否更新时间
-	bool running;     
+	static GameTime* instance;    // 静态实例指针
+	int year, month, day;         // 年月日
+	int dayofweek;                // 星期
+	int hour, minute;             // 具体时间
+	double timeSpeed;             // 时间流动速度
+	bool running;                 // 控制是否更新时间
 
 	// 构造函数
 	GameTime(int y = 1, int m = 1, int d = 1, int h = 6, int min = 0, double speed = 1.0);
+
 	// 规范化时间和日期
 	void normalize();
+
 	// 自动更新线程
 	void updateLoop();
 
@@ -63,6 +58,7 @@ public:
 
 	// 到达下一天
 	void setnextday();
+
 };
 
 #endif // _GAME_TIME_H_

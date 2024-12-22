@@ -6,13 +6,15 @@
  * Update Date:   2024/12/3
  ****************************************************************/
 #include "MenuScene.h"
+#include "SaveLoadScene.h"
 #include "../Button/HoverButton.h"
 #include "../Map/FarmYardScene.h"
 #include "../Music/AudioPlayer.h"
 #include "../GameTime/GameTime.h"
-#include "SaveLoadScene.h"
+#include "../Manager/Manager.h"
+#include "../Inventory/Inventory.h"
 #include "proj.win32/Constant.h"
-#include "../Music/AudioPlayer.h"
+
 USING_NS_CC;
 
 // 创建场景
@@ -38,7 +40,7 @@ bool MenuScene::init()
     background->setPosition(Vec2(screenSize.width / 2, screenSize.height / 2));
     this->addChild(background);
 
-    audioPlayer(BackgroundMusic_Path, 1);
+    audioPlayer(BACK_GOUND_MUSIC_PATH, 1);
     // 创建按钮
     auto newGameButton = HoverButton::create("Buttons/MenuSceneButtons/CreateDefualtButton.png",
         "Buttons/MenuSceneButtons/CreateHoverButton.png",
@@ -58,26 +60,27 @@ bool MenuScene::init()
     // 为按钮添加事件处理器
     newGameButton->addTouchEventListener([](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
-            audioPlayer(ClickSoundEffect_Path);
+            audioPlayer(CLICK_SOUND_EFFECT_PATH);
+            // 加载新游戏
             GameTime::getInstance()->start();
+            Manager::getInstance()->loadGameState("Archive/ManagerDefaultArchive.json");
+            Inventory::getInstance()->loadInventoryState("Archive/InventoryArchive.json");
             Director::getInstance()->replaceScene(cocos2d::TransitionFade::create(SCENE_TRANSITION_DURATION, FarmYardScene::createScene(), cocos2d::Color3B::WHITE));
         }
         });
 
     loadGameButton->addTouchEventListener([](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
-            audioPlayer(ClickSoundEffect_Path);
-
-
+            audioPlayer(CLICK_SOUND_EFFECT_PATH);
+            // 进入读档界面
             Director::getInstance()->pushScene(cocos2d::TransitionFade::create(SCENE_TRANSITION_DURATION, SaveLoadScene::createScene(), cocos2d::Color3B::WHITE));
         }
         });
 
     exitGameButton->addTouchEventListener([](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
-            audioPlayer(ClickSoundEffect_Path);
-
-
+            audioPlayer(CLICK_SOUND_EFFECT_PATH);
+            // 退出游戏
             Director::getInstance()->end();
         }
         });

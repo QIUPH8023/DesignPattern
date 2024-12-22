@@ -25,6 +25,9 @@ const std::string APPLICATION_TITLE = "星露谷物语 Stardew Valley";         
 
 constexpr float SCENE_TRANSITION_DURATION = 0.3f;                                            // 场景转换时长
 
+const std::string CLICK_SOUND_EFFECT_PATH = "Music/ClickSoundEffect.mp3";                    // 点击按钮音效资源路径  
+const std::string BACK_GOUND_MUSIC_PATH = "Music/BackgroundMusic.mp3";                       // 背景音乐音效资源路径
+
 constexpr int MENU_SCENE_BUTTONS_OFFSET_Y = -200;                                            // 菜单界面按钮Y轴偏移量
 constexpr int MENU_SCENE_NEW_GAME_BUTTON_OFFSET_X = -400;                                    // 菜单界面开始按钮X轴偏移量
 constexpr int MENU_SCENE_LOAD_GAME_BUTTON_OFFSET_X = 0;                                      // 菜单界面载入按钮X轴偏移量
@@ -204,7 +207,8 @@ constexpr int OBJECT_STONE_HEIGHT = 16;
 constexpr int OBJECT_CROP_WIDTH = 16;
 constexpr int OBJECT_CROP_HEIGHT = 16;
 
-constexpr int DRY_THRESHOLD = 200;
+// 干旱最多持续时间
+constexpr int DRY_THRESHOLD = 1000;
 
 // 土地状态
 enum LandState

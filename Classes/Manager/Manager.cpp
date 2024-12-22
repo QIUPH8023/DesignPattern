@@ -7,6 +7,8 @@
  ****************************************************************/
 
 #include "Manager.h"
+#include "../Inventory/Inventory.h"
+#include "../Item/Other.h"
 #include "proj.win32/Json.hpp"
 #include "fstream"
 
@@ -96,13 +98,13 @@ void Manager::addObject(ObjectType type, float x, float y, Scene* scene)
     // 根据对象类型选择对应的纹理
     switch (newobj->getObjectType()) {
     case TREE:
-        newobjSprite = Sprite::create("ImageElements/FarmObjects/DrySoil.png");
+        newobjSprite = Sprite::create("ImageElements/FarmObjects/Tree1State_1 .png");
         break;
     case WEED:
-        newobjSprite = Sprite::create("ImageElements/FarmObjects/DrySoil.png");
+        newobjSprite = Sprite::create("ImageElements/FarmObjects/WeedState_1.png");
         break;
     case STONE:
-        newobjSprite = Sprite::create("ImageElements/FarmObjects/DrySoil.png");
+        newobjSprite = Sprite::create("ImageElements/FarmObjects/StoneState_1.png");
         break;
     case RADISH:
         newobjSprite = Sprite::create("ImageElements/FarmObjects/RadishState_1.png");
@@ -123,6 +125,35 @@ void Manager::addObject(ObjectType type, float x, float y, Scene* scene)
         scene->addChild(newobjSprite, 1);
         // 保存精灵到容器中
         farmObjectSprites.push_back(newobjSprite);
+    }
+}
+
+void Manager::harvestObject(float x, float y, cocos2d::Scene* scene)
+{
+    auto obj = findObjectByPosition(x, y);
+    auto inventory = Inventory::getInstance();
+    switch (obj->getObjectType()) {
+    case TREE:
+        inventory->addItem(ITEM_OTHER_FOOD_APPLE, 1);
+        inventory->addItem(ITEM_OTHER_MATERIAL_WOOD, 5);
+        break;
+    case WEED:
+        inventory->addItem(ITEM_OTHER_MATERIAL_GRASS, 5);
+        break;
+    case STONE:
+        inventory->addItem(ITEM_OTHER_MATERIAL_STONE, 5);
+        break;
+    case RADISH:
+        inventory->addItem(ITEM_OTHER_CROP_RADISH, 5);
+        break;
+    case POTATO:
+        inventory->addItem(ITEM_OTHER_CROP_POTATO, 5);
+        break;
+    case WHEAT:
+        inventory->addItem(ITEM_OTHER_CROP_WHEAT, 5);
+        break;
+    default:
+        break;
     }
 }
 
@@ -249,7 +280,8 @@ void Manager::saveGameState(const std::string& filename)
     outFile.close();
 }
 
-void Manager::loadGameState(const std::string& filename) {
+void Manager::loadGameState(const std::string& filename) 
+{
     std::ifstream inFile(filename);
     if (!inFile) {
         // 文件不存在，直接返回

@@ -40,8 +40,8 @@ public:
 	int getQuantity() const;
 
 private:
-	std::shared_ptr<Item> item; // 该格子存储的物品
-	int quantity;               // 物品数量   
+	std::shared_ptr<Item> item;  // 该格子存储的物品
+	int quantity;                // 物品数量   
 
 };
 

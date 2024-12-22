@@ -1,0 +1,36 @@
+{
+    "coin": 10,
+    "currentHeldItemIndex": 0,
+    "slots": [
+        {
+            "quantity": 1,
+            "subtype": 0,
+            "type": 1
+        },
+        {
+            "quantity": 1,
+            "subtype": 1,
+            "type": 1
+        },
+        {
+            "quantity": 1,
+            "subtype": 2,
+            "type": 1
+        },
+        {
+            "quantity": 1,
+            "subtype": 3,
+            "type": 1
+        },
+        {
+            "quantity": 1,
+            "subtype": 4,
+            "type": 1
+        },
+        {
+            "quantity": 1,
+            "subtype": 5,
+            "type": 1
+        }
+    ]
+}

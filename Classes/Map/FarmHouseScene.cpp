@@ -11,7 +11,6 @@
 #include "../Player/Player.h"
 #include "proj.win32/Constant.h"
 #include "../GameTime/GameTimeLayer.h"
-#include "../Inventory/Inventory.h"
 #include "../Inventory/InventoryLayer.h"
 #include "../Music/AudioPlayer.h"
 

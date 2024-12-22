@@ -8,10 +8,17 @@
 
 #include "SaveLoadScene.h"
 #include "MenuScene.h"
+#include "../GameTime/GameTime.h"
+#include "../Map/FarmYardScene.h"
 #include "../Button/HoverButton.h"
+#include "../Music/AudioPlayer.h"
+#include "../Manager/Manager.h"
+#include "../Inventory/Inventory.h"
 #include "proj.win32/Constant.h"
 
 USING_NS_CC;
+
+int archive;
 
 Scene* SaveLoadScene::createScene()
 {
@@ -53,25 +60,37 @@ bool SaveLoadScene::init()
     // 为按钮添加事件处理器
     ArchiveButton1->addTouchEventListener([](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
-
-
-
+            audioPlayer(CLICK_SOUND_EFFECT_PATH);
+            // 加载已有的游戏存档
+            archive = 1;
+            GameTime::getInstance()->start();
+            Manager::getInstance()->loadGameState("Archive/ManagerPlayerArchive_1.json");
+            Inventory::getInstance()->loadInventoryState("Archive/InventoryPlayerArchive_1.json");
+            Director::getInstance()->replaceScene(cocos2d::TransitionFade::create(SCENE_TRANSITION_DURATION, FarmYardScene::createScene(), cocos2d::Color3B::WHITE));
         }
         });
 
     ArchiveButton2->addTouchEventListener([](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
-
-
-
+            audioPlayer(CLICK_SOUND_EFFECT_PATH);
+            // 加载已有的游戏存档
+            archive = 2;
+            GameTime::getInstance()->start();
+            Manager::getInstance()->loadGameState("Archive/ManagerPlayerArchive_2.json");
+            Inventory::getInstance()->loadInventoryState("Archive/InventoryPlayerArchive_2.json");
+            Director::getInstance()->replaceScene(cocos2d::TransitionFade::create(SCENE_TRANSITION_DURATION, FarmYardScene::createScene(), cocos2d::Color3B::WHITE));
         }
         });
 
     ArchiveButton3->addTouchEventListener([](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
-
-
-
+            audioPlayer(CLICK_SOUND_EFFECT_PATH);
+            // 加载已有的游戏存档
+            archive = 3;
+            GameTime::getInstance()->start();
+            Manager::getInstance()->loadGameState("Archive/ManagerPlayerArchive_3.json");
+            Inventory::getInstance()->loadInventoryState("Archive/InventoryPlayerArchive_3.json");
+            Director::getInstance()->replaceScene(cocos2d::TransitionFade::create(SCENE_TRANSITION_DURATION, FarmYardScene::createScene(), cocos2d::Color3B::WHITE));
         }
         });
 
@@ -83,7 +102,7 @@ bool SaveLoadScene::init()
 
     BackButton->addTouchEventListener([](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
-
+            audioPlayer(CLICK_SOUND_EFFECT_PATH);
 
             Director::getInstance()->popScene();
         }

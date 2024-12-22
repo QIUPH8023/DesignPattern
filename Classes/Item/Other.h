@@ -15,7 +15,7 @@ public:
 
 	const OtherType& getSubType();
 
-
+private:
 	// 种子
 	OtherType othertype;
 

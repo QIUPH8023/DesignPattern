@@ -12,7 +12,8 @@
 #include "cocos2d.h"
 
 
-class FarmYardScene : public cocos2d::Scene {
+class FarmYardScene : public cocos2d::Scene 
+{
 public:
     // 创建场景
     static cocos2d::Scene* createScene();

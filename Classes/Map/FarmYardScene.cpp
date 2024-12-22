@@ -16,6 +16,7 @@
 #include "../Inventory/InventoryLayer.h"
 #include "../FishingGame/FishingGame.h"
 #include "../Music/AudioPlayer.h"
+
 USING_NS_CC;
 
 // 创建场景
@@ -92,6 +93,8 @@ bool FarmYardScene::init()
 	// 启动每帧更新函数
 	this->scheduleUpdate();
 
+
+
 	return true;
 }
 
@@ -102,6 +105,8 @@ void FarmYardScene::update(float delta)
 		// 如果有钓鱼游戏界面，就不更新地图
 		return;
 	}
+
+	Manager::getInstance()->update();
 
 	Player* player = Player::getInstance();
 
@@ -210,6 +215,9 @@ void FarmYardScene::registerMouseClickListener()
 // 鼠标点击事件回调
 void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 {
+	// 播放点击音效
+	audioPlayer(CLICK_SOUND_EFFECT_PATH);
+
 	// 获取 FarmYard 地图对象
 	auto FarmYard = (TMXTiledMap*)this->getChildByName("FarmYard");
 
@@ -221,10 +229,6 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 	auto heldItem = Inventory::getInstance()->getSlot(currentHeldItem).getItem();
 	std::shared_ptr<Tool> heldTool = std::dynamic_pointer_cast<Tool>(heldItem);
 	std::shared_ptr<Seed> heldSeed = std::dynamic_pointer_cast<Seed>(heldItem);
-
-	// 如果手中没有拿任何东西
-	if (heldItem == nullptr)
-		return;
 
 	// 获取瓦片图层
 	auto tileLayer = FarmYard->getLayer("Meta");
@@ -318,7 +322,7 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 							}),
 						nullptr));
 					// 执行操作
-
+					Manager->harvestObject(targetpos.x, targetpos.y, this);
 				}
 				break;
 			case AXE:
@@ -334,7 +338,7 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 							}),
 						nullptr));
 					// 执行操作
-
+					Manager->harvestObject(targetpos.x, targetpos.y, this);
 				}
 				break;
 			case SCYTHE:
@@ -350,7 +354,7 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 							}),
 						nullptr));
 					// 执行操作
-
+					Manager->harvestObject(targetpos.x, targetpos.y, this);
 				}
 				break;
 			default:
@@ -369,7 +373,7 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 						CallFunc::create([=]() {
 							// 播种完成后移除精灵
 							this->removeChild(currItem);
-							Manager::getInstance()->addObject(RADISH, targetpos.x, targetpos.y, this);
+							Manager->addObject(RADISH, targetpos.x, targetpos.y, this);
 							}),
 						nullptr));
 				}
@@ -384,7 +388,7 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 						CallFunc::create([=]() {
 							// 播种完成后移除精灵
 							this->removeChild(currItem);
-							Manager::getInstance()->addObject(POTATO, targetpos.x, targetpos.y, this);
+							Manager->addObject(POTATO, targetpos.x, targetpos.y, this);
 							}),
 						nullptr));
 				}
@@ -399,7 +403,7 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 						CallFunc::create([=]() {
 							// 播种完成后移除精灵
 							this->removeChild(currItem);
-							Manager::getInstance()->addObject(WHEAT, targetpos.x, targetpos.y, this);
+							Manager->addObject(WHEAT, targetpos.x, targetpos.y, this);
 							}),
 						nullptr));
 				}
@@ -408,11 +412,14 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 				break;
 			}
 		}
+		if (Manager->findObjectByPosition(targetpos.x, targetpos.y) != nullptr &&
+			Manager->findObjectByPosition(targetpos.x, targetpos.y)->ismature()) {
+			Manager->harvestObject(targetpos.x, targetpos.y, this);
+		}
 	}
 
 	// 防止事件传播
 	event->stopPropagation();
-	audioPlayer(ClickSoundEffect_Path);
 }
 
 // 控制事件监听器的禁用

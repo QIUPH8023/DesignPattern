@@ -39,6 +39,9 @@ public:
     // 添加对象
     void addObject(ObjectType type, float x, float y, cocos2d::Scene* scene);
 
+    // 收获对象
+    void harvestObject(float x, float y, cocos2d::Scene* scene);
+
     // 添加耕地
     void addFarmland(float x, float y, cocos2d::Scene* scene);
 

@@ -8,11 +8,8 @@
 
 #ifndef _AUDIO_PLAYER_H_
 #define _AUDIO_PLAYER_H_
-#include "audio/include/AudioEngine.h"
 
-// 定义音频文件路径
-#define ClickSoundEffect_Path "Music/ClickSoundEffect.mp3"
-#define BackgroundMusic_Path "Music/BackgroundMusic.mp3"
+#include "audio/include/AudioEngine.h"
 
  // 音频引擎设置
 extern int g_backgroundMusicSign;
