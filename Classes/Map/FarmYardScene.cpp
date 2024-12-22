@@ -15,7 +15,7 @@
 #include "../Inventory/Inventory.h"
 #include "../Inventory/InventoryLayer.h"
 #include "../FishingGame/FishingGame.h"
-
+#include "../Music/AudioPlayer.h"
 USING_NS_CC;
 
 // 创建场景
@@ -260,6 +260,7 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 
 	// 防止事件传播
 	event->stopPropagation();
+	audioPlayer(ClickSoundEffect_Path);
 }
 
 Vec2 FarmYardScene::convertToTileCoords(const Vec2& pos)

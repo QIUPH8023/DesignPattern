@@ -49,9 +49,29 @@ void InventoryLayer::close()
             }
         });
 
+    auto MusicButton = HoverButton::create(slotpos, slotpos, slotpos);
+    MusicButton->setPosition(InventoryButton->getPosition() - Vec2(0, 100));
+    MusicButton->setContentSize(Size(50, 50));
+    MusicButton->setColor(ccc3(0, 0, 128));
+    MusicButton->addTouchEventListener([this, MusicButton](Ref* sender, cocos2d::ui::Widget::TouchEventType type)
+        {
+            if (type == cocos2d::ui::Widget::TouchEventType::BEGAN)
+            {
+                if (g_backgroundMusicSign == DEFAULT_MUSIC_SIGN)
+                {
+                    audioPlayer(BackgroundMusic_Path, 1);
+                }
+                else
+                {
+                    audioPlayer_StopBackgroundMusic();
+                }
+            }
+        });
+
     this->removeAllChildren();
 
     this->addChild(InventoryButton, 1, "InventoryButton");
+    this->addChild(MusicButton, 1, "MusicButton");
 
     auto currentItemBackground = Sprite::create(slotpos);
     currentItemBackground->setPosition(Vec2(100, 100));
@@ -77,6 +97,11 @@ void InventoryLayer::open()
     if (deleteInventoryButton != nullptr)
     {
         removeChild(deleteInventoryButton);
+    }
+    auto deleteMusicButton = getChildByName("MusicButton");
+    if (deleteMusicButton != nullptr)
+    {
+        removeChild(deleteMusicButton);
     }
     auto deleteCurrentItem = getChildByName("currentItem");
     if (deleteCurrentItem != nullptr)
