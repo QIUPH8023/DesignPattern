@@ -1,3 +1,11 @@
+/****************************************************************
+ * Project Name:  Stardew_Valley_Farm
+ * File Name:     Other.h
+ * File Function: Other类的定义
+ * Author:        刘逸飞
+ * Update Date:   2024/12/22
+ ****************************************************************/
+
 #include "Other.h"
 
 Other::Other(const OtherType _othertype, std::string _image, int _maxstack, int _price)

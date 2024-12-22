@@ -1,7 +1,14 @@
-#pragma once
+/****************************************************************
+ * Project Name:  Stardew_Valley_Farm
+ * File Name:     FishingGame.h
+ * File Function: FishingGame类的定义
+ * Author:        刘逸飞
+ * Update Date:   2024/12/13
+ ****************************************************************/
+
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
-#include "Classes/Button/HoverButton.h"
+#include "../Button/HoverButton.h"
 #include "../Item/Item.h"
 #include "../Item/Other.h"
 #include "../Item/Seed.h"
@@ -44,4 +51,5 @@ public:
 
     // 初始化方法
     virtual bool init();
+
 };

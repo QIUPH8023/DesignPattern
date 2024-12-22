@@ -160,54 +160,10 @@ int Inventory::getCurrHeldItem()
 
 void Inventory::saveInventoryState(const std::string& filename)
 {
-	json jsonData;
 
-	// 保存金币
-	jsonData["coin"] = coin;
-
-	// 保存当前手持物索引
-	jsonData["currentHeldItemIndex"] = currentHeldItemIndex;
-
-	// 保存槽位数据
-	for (const auto& slot : slots) {
-		nlohmann::json slotData;
-		
-		slotData["quantity"] = slot.getQuantity();
-		jsonData["slots"].push_back(slotData);
-	}
-
-	// 写入文件
-	std::ofstream file(filename);
-	if (file.is_open()) {
-		file << jsonData.dump(4);
-		file.close();
-	}
 }
 
 void Inventory::loadInventoryState(const std::string& filename)
 {
-	std::ifstream file(filename);
-	if (!file.is_open()) {
-		cocos2d::log("Failed to open file: %s", filename.c_str());
-		return;
-	}
-
-	json jsonData;
-	file >> jsonData;
-	file.close();
-
-	// 加载金币
-	coin = jsonData["coin"].get<int>();
-
-	// 加载当前手持物索引
-	currentHeldItemIndex = jsonData["currentHeldItemIndex"].get<int>();
-
-	// 加载槽位数据
-	slots.clear(); // 清空当前槽位
-	for (const auto& slotData : jsonData["slots"]) {
-		int itemID = slotData["itemID"].get<int>();
-		int quantity = slotData["quantity"].get<int>();
-
-
-	}
+	
 }

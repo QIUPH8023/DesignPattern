@@ -5,7 +5,10 @@
  * Author:        张翔
  * Update Date:   2024/12/7
  ****************************************************************/
-#pragma once
+
+#ifndef _SLOT_
+#define _SLOT_
+
 #include <memory>
 #include "../Item/Item.h"
 
@@ -41,3 +44,5 @@ private:
 	int quantity;               // 物品数量   
 
 };
+
+#endif // _SLOT_
