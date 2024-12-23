@@ -33,25 +33,20 @@ GameTime::GameTime(int y, int m, int d, int h, int min, double speed) :year(y), 
 
 void GameTime::normalize()
 {
-	if (minute >= 60)
-	{
+	if (minute >= 60){
 		minute = 0;
 		hour++;
-		if (hour >= 24) 
-		{
+		if (hour >= 24) {
 			hour = 0;
 			day++;
 			dayofweek++;
-			if (dayofweek > 7) 
-			{
+			if (dayofweek > 7) {
 				dayofweek = 1;
 			}
-			if (day > 30) 
-			{
+			if (day > 30) {
 				day = 1;
 				month++;
-				if (month > 4) 
-				{
+				if (month > 4) {
 					month = 1;
 					year++;
 				}
@@ -59,8 +54,7 @@ void GameTime::normalize()
 		}
 	}
 	// 如果时间有错就重新更新
-	if (minute >= 60 || hour >= 24 || day > 30 || month > 4) 
-	{
+	if (minute >= 60 || hour >= 24 || day > 30 || month > 4) {
 		GameTime::normalize();
 	}
 }
@@ -106,8 +100,7 @@ std::string GameTime::toString() const
 	_time += " ";
 	_time += (day < 10) ? "0" + std::to_string(day) : std::to_string(day);
 	_time += " ";
-	switch (dayofweek)
-	{
+	switch (dayofweek){
 		case 1:
 			_time += "Mon";
 			break;
@@ -140,16 +133,13 @@ std::string GameTime::toString() const
 
 std::string GameTime::judgeTime()
 {
-	if (hour >= 6 && hour < 18) 
-	{
+	if (hour >= 6 && hour < 18) {
 		return "day";
 	}
-	else if (hour>=18) 
-	{
+	else if (hour>=18) {
 		return "night";
 	}
-	else 
-	{
+	else {
 		return "midnight";
 	}
 }

@@ -141,7 +141,7 @@ void Manager::addObject(ObjectType type, float x, float y, Scene* scene)
         }
 
         // 如果成功创建了精灵
-        if (newobjSprite) {
+        if (newobjSprite != nullptr) {
             newobjSprite->setPosition(newobj->getX(), newobj->getY());
             newobjSprite->setCameraMask(static_cast<unsigned short>(CameraFlag::USER1));
             scene->addChild(newobjSprite, 1);
