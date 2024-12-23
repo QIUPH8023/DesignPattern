@@ -75,8 +75,7 @@ constexpr int DEFAULT_CAPACITY = 30;                                            
 constexpr int DEFAULT_BAR = 10;                                                              // 默认物品栏容量
 
 // 物品种类枚举
-enum ItemType 
-{
+enum ItemType {
 	SEED,          // 种子
 	TOOL,          // 工具
  	OTHER,         // 其他 
@@ -88,8 +87,7 @@ const std::string TOOL_DESCRIPTION = "Farm production tools.";
 const std::string OTHER_DESCRIPTION = "Other items.";
 
 // 工具类型枚举
-enum ToolType 
-{
+enum ToolType {
     HOE,           // 锄头
     WATERING_CAN,  // 浇水壶
     PICKAXE,       // 镐子
@@ -107,8 +105,7 @@ const std::string TOOL_SCYTHE_DESCRIPTION = "The scythe is used to harvest matur
 const std::string TOOL_FISHING_ROD_DESCRIPTION = "The fishing rod is used for fishing in water.";
 
 // 种子类型枚举
-enum SeedType 
-{
+enum SeedType {
     RADISH_SEED,
     POTATO_SEED,
     WHEAT_SEED,
@@ -120,8 +117,7 @@ const std::string SEED_POTATO_DESCRIPTION = "Potatoes are a high-yield root crop
 const std::string SEED_WHEAT_DESCRIPTION = "Wheat is mainly used to make bread.";
 
 // 杂物类型枚举
-enum OtherType 
-{
+enum OtherType {
     FOOD_APPLE,
     FOOD_BREAD,
     FOOD_FRIED_POTATO,
@@ -149,8 +145,7 @@ const std::string OTHER_MATERIAL_GRASS_DESCRIPTION = "Grass grown in the fields,
 const std::string OTHER_PRESENT_FLOWER_DESCRIPTION = "Beautiful flowers, perfect as a gift for friends.";
 
 // 商店操作类型枚举
-enum ShopType
-{
+enum ShopType{
     SHOP_BUY,      // 购买物品
     SHOP_SELL,     // 卖出物品
     TASK_REWARD,   // 委托奖励

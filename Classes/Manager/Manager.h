@@ -30,14 +30,16 @@ public:
     // 初始化
     void init(const std::string& filename = "Archive/ManagerDefaultArchive.json");
 
-    // 添加到场景中
-    void addToScene(cocos2d::Scene* scene);
-
-    // 离开农场场景
-    void removeFromScene();
-
     // 添加对象
     void addObject(ObjectType type, float x, float y, cocos2d::Scene* scene);
+
+    // 是否切换场景
+    void setScene(bool scene);
+
+    void addToScene(cocos2d::Scene* scene);
+
+    // 退出农场场景时执行
+    void removeFromScene();
 
     // 收获对象
     void harvestObject(float x, float y, cocos2d::Scene* scene);
@@ -63,6 +65,18 @@ public:
     // 更新方法
     void update();
 
+    // 获取耕地数量
+    size_t getLandsSize();
+
+    // 获取物体数量
+    size_t getObjectsSize();
+
+    // 获得某一块耕地
+    FarmLand* getland(int index);
+
+    // 获取某一个对象
+    FarmObject* getObject(int index);
+
 private:
     std::vector<FarmLand*> lands;                       // 耕地物体
     std::vector<FarmObject*> objects;                   // 非耕地物体
@@ -73,6 +87,7 @@ private:
     // 私有构造函数
     Manager();
 
+    // 静态单例指针
     static Manager* instance;
 
 };

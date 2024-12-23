@@ -87,13 +87,8 @@ bool FarmYardScene::init()
 	registerMouseScrollListener();
 	registerMouseClickListener();
 
-	// 加载从农场中的事物
-	Manager::getInstance();
-
 	// 启动每帧更新函数
 	this->scheduleUpdate();
-
-
 
 	return true;
 }
@@ -105,8 +100,6 @@ void FarmYardScene::update(float delta)
 		// 如果有钓鱼游戏界面，就不更新地图
 		return;
 	}
-
-	Manager::getInstance()->update();
 
 	Player* player = Player::getInstance();
 
@@ -296,6 +289,8 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 			case WATERING_CAN:
 				if (Manager->findFarmlandByPosition(targetpos.x, targetpos.y) != nullptr) {
 					CCLOG("使用水壶进行浇水");
+					// 执行操作
+					Manager->findFarmlandByPosition(targetpos.x, targetpos.y)->watering();
 					this->addChild(currItem, 3);
 					currItem->runAction(Sequence::create(
 						MoveBy::create(0.5f, Vec2(0, 20)),
@@ -305,13 +300,12 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 							this->removeChild(currItem);
 							}),
 						nullptr));
-					// 执行操作
-					Manager->findFarmlandByPosition(targetpos.x, targetpos.y)->watering();
 				}
 				break;
 			case PICKAXE:
 				if (Manager->findObjectByPosition(targetpos.x, targetpos.y)->getObjectType() == STONE) {
 					CCLOG("使用镐子进行挖矿");
+					Manager->harvestObject(targetpos.x, targetpos.y, this);
 					this->addChild(currItem, 3);
 					currItem->runAction(Sequence::create(
 						ScaleBy::create(0.2f, 1.2f),
@@ -321,13 +315,12 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 							this->removeChild(currItem);
 							}),
 						nullptr));
-					// 执行操作
-					Manager->harvestObject(targetpos.x, targetpos.y, this);
 				}
 				break;
 			case AXE:
 				if (Manager->findObjectByPosition(targetpos.x, targetpos.y)->getObjectType() == TREE) {
 					CCLOG("使用斧子进行砍树");
+					Manager->harvestObject(targetpos.x, targetpos.y, this);
 					this->addChild(currItem, 3);
 					currItem->runAction(Sequence::create(
 						RotateBy::create(0.2f, 45),
@@ -337,13 +330,12 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 							this->removeChild(currItem);
 							}),
 						nullptr));
-					// 执行操作
-					Manager->harvestObject(targetpos.x, targetpos.y, this);
 				}
 				break;
 			case SCYTHE:
 				if (Manager->findObjectByPosition(targetpos.x, targetpos.y)->getObjectType() == WEED) {
 					CCLOG("使用镰刀进行除草");
+					Manager->harvestObject(targetpos.x, targetpos.y, this);
 					this->addChild(currItem, 3);
 					currItem->runAction(cocos2d::Sequence::create(
 						cocos2d::MoveBy::create(0.3f, cocos2d::Vec2(20, 0)),
@@ -353,8 +345,6 @@ void FarmYardScene::onMouseClick(cocos2d::EventMouse* event)
 							this->removeChild(currItem);
 							}),
 						nullptr));
-					// 执行操作
-					Manager->harvestObject(targetpos.x, targetpos.y, this);
 				}
 				break;
 			default:

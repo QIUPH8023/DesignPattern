@@ -34,17 +34,17 @@ FarmObject::FarmObject(ObjectType type, float _x, float _y) :x(_x), y(_y), currs
 		case RADISH:
 			objectsize.setRect(x, y, OBJECT_CROP_WIDTH, OBJECT_CROP_HEIGHT);
 			maxstate = OBJECT_RADISH_MAX_STATE;
-			growthspeed = 0.1;
+			growthspeed = 0.01;
 			break;
 		case POTATO:
 			objectsize.setRect(x, y, OBJECT_CROP_WIDTH, OBJECT_CROP_HEIGHT);
 			maxstate = OBJECT_POTATO_MAX_STATE;
-			growthspeed = 0.1;
+			growthspeed = 0.01;
 			break;
 		case WHEAT:
 			objectsize.setRect(x, y, OBJECT_CROP_WIDTH, OBJECT_CROP_HEIGHT);
 			maxstate = OBJECT_WHEAT_MAX_STATE;
-			growthspeed = 0.1;
+			growthspeed = 0.01;
 			break;
 		default:
 			break;

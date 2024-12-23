@@ -53,24 +53,29 @@ void Manager::init(const std::string& filename)
 
 }
 
-void Manager::addToScene(Scene* scene)
+void Manager::setScene(bool scene)
 {
-    inYardScene = true;
-    for (size_t i = 0; i < lands.size(); i++) {
-        auto& land = lands[i];
-        addFarmland(land->getX(), land->getY(), scene);
-    }
-    for (size_t i = 0; i < objects.size(); i++) {
-        auto& obj = objects[i];
-        addObject(obj->getObjectType(), obj->getX(), obj->getY(), scene);
-    }
+    inYardScene = scene;
 }
 
-void Manager::removeFromScene()
+size_t Manager::getLandsSize()
 {
-    inYardScene = false;
-    farmlandSprites.clear();
-    farmObjectSprites.clear();
+    return lands.size();
+}
+
+FarmLand* Manager::getland(int index)
+{
+    return lands[index];
+}
+
+size_t Manager::getObjectsSize()
+{
+    return objects.size();
+}
+
+FarmObject* Manager::getObject(int index)
+{
+    return objects[index];
 }
 
 void Manager::addFarmland(float x, float y, Scene* scene)
@@ -92,45 +97,107 @@ void Manager::addFarmland(float x, float y, Scene* scene)
 
 void Manager::addObject(ObjectType type, float x, float y, Scene* scene)
 {
-    FarmObject* newobj = new(std::nothrow) FarmObject(type, x, y);
-    objects.push_back(newobj);
-    Sprite* newobjSprite = nullptr;
-    // 根据对象类型选择对应的纹理
-    switch (newobj->getObjectType()) {
-    case TREE:
-        newobjSprite = Sprite::create("ImageElements/FarmObjects/Tree1State_1 .png");
-        break;
-    case WEED:
-        newobjSprite = Sprite::create("ImageElements/FarmObjects/WeedState_1.png");
-        break;
-    case STONE:
-        newobjSprite = Sprite::create("ImageElements/FarmObjects/StoneState_1.png");
-        break;
-    case RADISH:
-        newobjSprite = Sprite::create("ImageElements/FarmObjects/RadishState_1.png");
-        break;
-    case POTATO:
-        newobjSprite = Sprite::create("ImageElements/FarmObjects/PotatoState_1.png");
-        break;
-    case WHEAT:
-        newobjSprite = Sprite::create("ImageElements/FarmObjects/WheatState_1.png");
-        break;
-    default:
-        break;
+    try {
+        // 创建新的农场对象
+        FarmObject* newobj = new (std::nothrow) FarmObject(type, x, y);
+        if (!newobj) {
+            CCLOG("Failed to allocate memory for new FarmObject");
+            return;
+        }
+
+        objects.push_back(newobj);
+
+        Sprite* newobjSprite = nullptr;
+
+        // 根据对象类型选择对应的纹理
+        switch (newobj->getObjectType()) {
+        case TREE:
+            newobjSprite = Sprite::create("ImageElements/FarmObjects/Tree1State_1.png");
+            newobjSprite->setAnchorPoint(Vec2(0.5, 0));
+            break;
+        case WEED:
+            newobjSprite = Sprite::create("ImageElements/FarmObjects/WeedState_1.png");
+            newobjSprite->setAnchorPoint(Vec2(0, 0));
+            break;
+        case STONE:
+            newobjSprite = Sprite::create("ImageElements/FarmObjects/StoneState_1.png");
+            newobjSprite->setAnchorPoint(Vec2(0, 0));
+            break;
+        case RADISH:
+            newobjSprite = Sprite::create("ImageElements/FarmObjects/RadishState_1.png");
+            newobjSprite->setAnchorPoint(Vec2(0, 0));
+            break;
+        case POTATO:
+            newobjSprite = Sprite::create("ImageElements/FarmObjects/PotatoState_1.png");
+            newobjSprite->setAnchorPoint(Vec2(0, 0));
+            break;
+        case WHEAT:
+            newobjSprite = Sprite::create("ImageElements/FarmObjects/WheatState_1.png");
+            newobjSprite->setAnchorPoint(Vec2(0, 0));
+            break;
+        default:
+            CCLOG("Unknown object type: %d", newobj->getObjectType());
+            break;
+        }
+
+        // 如果成功创建了精灵
+        if (newobjSprite) {
+            newobjSprite->setPosition(newobj->getX(), newobj->getY());
+            newobjSprite->setCameraMask(static_cast<unsigned short>(CameraFlag::USER1));
+            scene->addChild(newobjSprite, 1);
+            farmObjectSprites.push_back(newobjSprite);
+        }
+        else {
+            CCLOG("Failed to create sprite for object type: %d", newobj->getObjectType());
+        }
     }
-    if (newobjSprite) {
-        newobjSprite->setPosition(newobj->getX(), newobj->getY());
-        newobjSprite->setAnchorPoint(Vec2(0, 0));
-        newobjSprite->setCameraMask(unsigned short(CameraFlag::USER1));
-        scene->addChild(newobjSprite, 1);
-        // 保存精灵到容器中
-        farmObjectSprites.push_back(newobjSprite);
+    catch (const std::exception& e) {
+        // 捕获并处理标准异常
+        CCLOG("Exception caught in addObject: %s", e.what());
+    }
+    catch (...) {
+        // 捕获未知异常
+        CCLOG("Unknown exception caught in addObject");
     }
 }
 
-void Manager::harvestObject(float x, float y, cocos2d::Scene* scene)
+void Manager::addToScene(Scene* scene)
+{
+    auto manager = Manager::getInstance();
+    manager->setScene(true);
+    // 添加农田到场景
+    for (size_t i = 0; i < manager->getLandsSize(); i++) {
+        auto land = manager->getland(i);
+        if (land) {
+            manager->addFarmland(land->getX(), land->getY(), scene);
+        }
+        else {
+            CCLOG("Null pointer detected in lands at index %zu", i);
+        }
+    }
+    // 添加对象到场景
+    for (size_t i = 0; i < manager->getObjectsSize(); i++) {
+        auto obj = manager->getObject(i);
+        if (obj) {
+            manager->addObject(obj->getObjectType(), obj->getX(), obj->getY(), scene);
+        }
+        else {
+            CCLOG("Null pointer detected in objects at index %zu", i);
+        }
+    }
+}
+
+void Manager::removeFromScene()
+{
+    inYardScene = false;
+    farmlandSprites.clear();
+    farmObjectSprites.clear();
+}
+
+void Manager::harvestObject(float x, float y, Scene* scene)
 {
     auto obj = findObjectByPosition(x, y);
+    obj->markForRemoval();
     auto inventory = Inventory::getInstance();
     switch (obj->getObjectType()) {
     case TREE:

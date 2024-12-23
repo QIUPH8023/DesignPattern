@@ -23,9 +23,6 @@ bool ShopLayer::init()
     if (!Layer::init()) {
         return false;
     }
-
-
-
     return true;
 }
 
@@ -82,7 +79,6 @@ bool ShopLayer::tradeItems()
 // 更新商店内物品及其显示
 void ShopLayer::UpdateShopItems()
 {
-
     Size winSize = Director::getInstance()->getWinSize();
 
     // 菜单界面 放置购买/交付委托/赠送礼物的button
@@ -114,9 +110,7 @@ void ShopLayer::UpdateShopItems()
 
             switch (_ShopItemsType[i]) {
             case SHOP_BUY:
-
-                itemName = Label::create(enumToString(item->getType()) + " BUY $" + std::to_string(item->getprice()) + " last *" + std::to_string(_ShopItemsNum[i]), "", 30);
-
+                itemName = Label::createWithTTF(enumToString(item->getType()) + " 购买 $" + std::to_string(item->getprice()) + " 剩余 *" + std::to_string(_ShopItemsNum[i]),  "Fonts/FangZhengZhaoGeYuan.ttf", 30);
                 itemButton->addTouchEventListener([this, i, bullet, itemButton, itemName, item](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
                     if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
                         if (!Inventory::getInstance()->isSlotFull() || Inventory::getInstance()->isCoinEnough(_ShopItems[i]->getprice()) || _ShopItemsNum[i] != 0) {
@@ -125,7 +119,7 @@ void ShopLayer::UpdateShopItems()
                                 Inventory::getInstance()->addItem(std::shared_ptr<Item>(_ShopItems[i]), 1);
                                 _ShopItemsNum[i]--;
                                 bullet->setString(std::to_string(Inventory::getInstance()->getCoin()));
-                                itemName->setString(enumToString(item->getType()) + " BUY $" + std::to_string(item->getprice()) + " last *" + std::to_string(_ShopItemsNum[i]));
+                                itemName->setString(enumToString(item->getType()) + " 购买 $" + std::to_string(item->getprice()) + " 剩余 *" + std::to_string(_ShopItemsNum[i]));
                             }
                             else {
                                 itemButton->setColor(ccc3(255, 0, 0));
@@ -136,8 +130,7 @@ void ShopLayer::UpdateShopItems()
 
                 break;
             case SHOP_SELL:
-                itemName = Label::create(enumToString(item->getType()) + " SELL $" + std::to_string(item->getprice()), "", 30);
-
+                itemName = Label::createWithTTF(enumToString(item->getType()) + " 出售 $" + std::to_string(item->getprice()), "Fonts/FangZhengZhaoGeYuan.ttf", 30);
                 itemButton->addTouchEventListener([this, i, bullet](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
                     if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
                         if (Inventory::getInstance()->findItem(std::shared_ptr<Item>(_ShopItems[i])) != -1) {
@@ -156,14 +149,14 @@ void ShopLayer::UpdateShopItems()
             // 添加物品类型
             itemName->setAnchorPoint(Vec2(0, 0.5));
             itemName->setPosition(itemIcon->getPosition() + Vec2(itemIcon->getContentSize().width, 0));
-            itemName->setColor(ccc3(0, 0, 0));
+            itemName->setColor(Color3B(0, 0, 0));
             this->addChild(itemName, 1);
 
             // 添加物品描述
-            auto itemDescription = Label::create(item->getDescription(), "", 30);
+            auto itemDescription = Label::createWithTTF(item->getDescription(), "Fonts/FangZhengZhaoGeYuan.ttf", 30);
             itemDescription->setAnchorPoint(Vec2(0, 0.5));
             itemDescription->setPosition(itemName->getPosition() + Vec2(0, itemName->getContentSize().height));
-            itemDescription->setColor(ccc3(0, 0, 0));
+            itemDescription->setColor(Color3B(0, 0, 0));
             this->addChild(itemDescription, 1);
         }
     }

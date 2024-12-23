@@ -39,7 +39,7 @@ bool ChatLayer::init(NPC* npc)
     auto chatButtonContent = Label::createWithTTF("闲谈", "Fonts/FangZhengZhaoGeYuan.ttf", 30);
     chatButtonContent->setPosition(chatButton->getPosition());
     chatButtonContent->setColor(Color3B(0, 0, 0));
-    this->addChild(chatButtonContent, 2, "chatButtonContent");
+    this->addChild(chatButtonContent,10, "chatButtonContent");
 
     // 创建事件按钮(点击后弹出 买卖东西，制作物品 的界面)
     auto eventButton = MenuItemImage::create("ImageElements/ChatLayer/ChatLayerBackGround.png", 
@@ -47,12 +47,12 @@ bool ChatLayer::init(NPC* npc)
         CC_CALLBACK_1(ChatLayer::eventButtonCallBack, this));
     eventButton->setScale(0.3);
     eventButton->setPosition(Vec2(DESIGN_RESOLUTION_WIDTH - eventButton->getBoundingBox().size.width / 2, 2 * eventButton->getBoundingBox().size.height));
-    menu->addChild(eventButton,1,"eventButton");
+    menu->addChild(eventButton,10,"eventButton");
     // 事件按钮的文本
     auto eventButtonContent = Label::createWithTTF("事件", "Fonts/FangZhengZhaoGeYuan.ttf", 30);
     eventButtonContent->setPosition(eventButton->getPosition());
     eventButtonContent->setColor(Color3B(0, 0, 0));
-    this->addChild(eventButtonContent, 2, "eventButtonContent");
+    this->addChild(eventButtonContent, 10, "eventButtonContent");
 
     // 创建关闭按钮(退出对话)
     auto quitButton = MenuItemImage::create("ImageElements/ChatLayer/ChatLayerBackGround.png",
@@ -60,19 +60,19 @@ bool ChatLayer::init(NPC* npc)
         CC_CALLBACK_1(ChatLayer::quitButtonCallBack, this));
     quitButton->setScale(0.3);
     quitButton->setPosition(Vec2(DESIGN_RESOLUTION_WIDTH - quitButton->getBoundingBox().size.width / 2, quitButton->getBoundingBox().size.height));
-    menu->addChild(quitButton,1,"quitButton");
+    menu->addChild(quitButton,10,"quitButton");
     // 关闭按钮的文本
     auto quitButtonContent = Label::createWithTTF("退出", "Fonts/FangZhengZhaoGeYuan.ttf", 30);
     quitButtonContent->setPosition(quitButton->getPosition());
     quitButtonContent->setColor(Color3B(0, 0, 0));
-    this->addChild(quitButtonContent, 2, "quitButtonContent");
+    this->addChild(quitButtonContent, 10, "quitButtonContent");
 
     // 创建人物头像
     auto profileHead = Sprite::create(currentNPC->getHead());
     profileHead->setContentSize(Size(3 * quitButton->getBoundingBox().size.height, 3 * quitButton->getBoundingBox().size.height));
     profileHead->setAnchorPoint(Vec2(0, 0));
     profileHead->setPosition(Vec2(0,quitButton->getBoundingBox().size.height / 2));
-    this->addChild(profileHead, 1, "profileHead");
+    this->addChild(profileHead, 10, "profileHead");
 
     // 创建对话框背景
     auto background = Sprite::create("ImageElements/ChatLayer/ChatLayerBackGround.png");
@@ -83,19 +83,19 @@ bool ChatLayer::init(NPC* npc)
 
     // 创建对话文本标签
     std::string contents = currentNPC->getDialog();
-    auto content = Label::createWithTTF("内容", "Fonts/FangZhengZhaoGeYuan.ttf", 30);
+    auto content = Label::createWithTTF("你好啊！", "Fonts/FangZhengZhaoGeYuan.ttf", 30);
     content->setAnchorPoint(Vec2(0, 1));
     content->setAlignment(TextHAlignment::LEFT, TextVAlignment::TOP);
     content->setPosition(Vec2(profileHead->getContentSize().width + 10, background->getContentSize().height + quitButton->getBoundingBox().size.height / 2 - 60));
     content->setColor(Color3B(0,0,0));
-    this->addChild(content, 1, "content");
+    this->addChild(content, 10, "content");
     
     // 创建人物姓名 好感度显示
-    auto name = Label::create(" " + currentNPC->getNPCName() + " (likablity :" + currentNPC->getNPCLikability() + ")", "", 30);
+    auto name = Label::create(" " + currentNPC->getNPCName() + " (好感度 :" + currentNPC->getNPCLikability() + ")", "", 30);
     name->setColor(Color3B(0, 0, 0));
     name->setAnchorPoint(Vec2(0, 0));
     name->setPosition(content->getPosition());
-    this->addChild(name, 1, "name");
+    this->addChild(name, 10, "name");
 
     // 设置layer属性
     setColor(Color3B(0, 0, 0));
@@ -135,6 +135,7 @@ void ChatLayer::chatButtonCallBack(Ref* pSender)
     updateDialog();
     currentNPC->setNPCLove(1);
 }
+
 void ChatLayer::eventButtonCallBack(Ref* pSender)
 {
     // 如果事件窗口未打开
@@ -149,14 +150,14 @@ void ChatLayer::eventButtonCallBack(Ref* pSender)
         storebackground->setPosition(Vec2(0, 3.5 * this->getChildByName("menu")->getChildByName("quitButton")->getBoundingBox().size.height));
         storebackground->setOpacity(128);
         this->addChild(storebackground, 0, "storebackground");
+
         // 更改事件文本
         auto content1 = dynamic_cast<Label*>(this->getChildByName("eventButtonContent"));
-        content1->setString("quitstore");
+        content1->setString("退出商店");
 
         // 打开商店
         auto shop = ShopLayer::create();
         shop->setNPC(currentNPC);
-
         switch (currentNPC->getNPCType()) {
             case ALEX:
                 shop->InsertShopItems(ITEM_OTHER_CROP_RADISH, 1, SHOP_SELL);
@@ -204,19 +205,13 @@ void ChatLayer::eventButtonCallBack(Ref* pSender)
                 shop->InsertShopItems(ITEM_SEED_POTATO_SEED, 1, TASK_REWARD);
                 shop->InsertShopItems(ITEM_SEED_WHEAT_SEED, 1, TASK_REWARD);
 
-
                 break;
-
         }
-
         shop->UpdateShopItems();
         this->addChild(shop, 3,"shop");
-
     }
-    else 
-    {
+    else  {
         isStoreOpen = false;
-
         // 关闭购买/制作界面
         this->removeChildByName("storebackground");
         auto shop = dynamic_cast<ShopLayer*>(this->getChildByName("shop"));
@@ -224,8 +219,7 @@ void ChatLayer::eventButtonCallBack(Ref* pSender)
         this->removeChildByName("shop");
         // 更改事件文本
         auto content1 = dynamic_cast<Label*>(this->getChildByName("eventButtonContent"));
-        content1->setString("EVENT");
-
+        content1->setString("事件");
     }
 }
 void ChatLayer::quitButtonCallBack(Ref* pSender)
