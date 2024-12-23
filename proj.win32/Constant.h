@@ -182,8 +182,7 @@ const std::string OBJECT_WHEAT_STATE[OBJECT_WHEAT_MAX_STATE] = {
 };
 
 // 实例种类
-enum ObjectType
-{
+enum ObjectType{
     TREE,
     WEED,
     STONE,
@@ -206,15 +205,13 @@ constexpr int OBJECT_CROP_HEIGHT = 16;
 constexpr int DRY_THRESHOLD = 1000;
 
 // 土地状态
-enum LandState
-{
+enum LandState{
     DRY, 
     WET,
 };
 
 // NPC的种类
-enum NPCType
-{
+enum NPCType{
     ALEX,
     ABIGAIL,
     CAROLINE,

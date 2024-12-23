@@ -238,7 +238,7 @@ void Inventory::loadInventoryState(const std::string& filename) {
 		file >> jsonData;
 	}
 	catch (const json::parse_error& e) {
-		CCLOG("Error parsing JSON: %s", e.what());
+		CCLOG("Error parsing JSON");
 		file.close();
 		return;
 	}
