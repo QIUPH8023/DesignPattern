@@ -38,8 +38,10 @@
         使用举例如下:
 
         ```cpp
+        
         // 如果没有找到匹配的精灵，返回 nullptr
         return nullptr;
+        
         ```
 
   * [X] 修饰常量 `constexpr`
@@ -49,8 +51,10 @@
         使用举例如下：
 
         ```cpp
+        
         constexpr int DESIGN_RESOLUTION_WIDTH = 1280;
         constexpr int DESIGN_RESOLUTION_HEIGHT = 720;
+        
         ```
  
   * [x] `lambda` 表达式
@@ -60,6 +64,7 @@
         使用举例如下：
 
         ```cpp
+        
         // 为按钮添加事件处理器
         newGameButton->addTouchEventListener([](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
@@ -71,6 +76,7 @@
             Director::getInstance()->replaceScene(cocos2d::TransitionFade::create(SCENE_TRANSITION_DURATION, FarmYardScene::createScene(), cocos2d::Color3B::WHITE));
         }
         });
+        
         ```
 
   * [X] 时间库 `chrono` 和线程库 `this_thread`
@@ -84,6 +90,7 @@
         使用举例如下：
 
         ```cpp
+        
         void GameTime::updateLoop()
         {
           	while (running) {
@@ -93,6 +100,7 @@
 		        addSeconds(1); 
 	          }
         }
+        
         ```
         
   * [X] 基于范围的 `for` 循环
@@ -106,6 +114,7 @@
         使用举例如下:
 
         ```cpp
+        
         json jsonData;
         try {
 	          file >> jsonData;
@@ -115,6 +124,7 @@
           	file.close();
           	return;
         }
+        
         ```
 
   * [X] 智能指针 `shared_ptr`和`unique_ptr`
@@ -122,10 +132,12 @@
         `shared_ptr` 和 `unique_ptr` 是 C++ 标准库中的两个智能指针类型，用于自动管理动态分配的内存，防止内存泄漏。
 
         ```cpp
+        
         // 物品类型
         const std::shared_ptr<Other> ITEM_OTHER_FOOD_APPLE = std::make_shared<Other>(FOOD_APPLE, "Items/FOOD_APPLE.png", 200, 1);
         const std::shared_ptr<Other> ITEM_OTHER_FOOD_BREAD = std::make_shared<Other>(FOOD_BREAD, "Items/FOOD_BREAD.png", 200, 1);
         const std::shared_ptr<Other> ITEM_OTHER_FOOD_FRIED_POTATO = std::make_shared<Other>(FOOD_FRIED_POTATO, "Items/FOOD_FRIED_POTATO.png", 200, 1);
+        
         ```
 
 * 实现了简易的存档功能
