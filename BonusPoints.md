@@ -24,12 +24,12 @@
 
         使用举例如下:
 
-        ```cpp
-        // 获取 FarmYard 地图对象
-        auto FarmYard = (TMXTiledMap*)this->getChildByName("FarmYard");
+	```cpp
+	// 获取 FarmYard 地图对象
+	auto FarmYard = (TMXTiledMap*)this->getChildByName("FarmYard");
 	      auto Manager = Manager::getInstance();
 	      auto targetpos = targettile->getPosition();
-        ```
+	```
 
   * [X] 空指针关键字 `nullptr`
  
