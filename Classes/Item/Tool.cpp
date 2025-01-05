@@ -1,13 +1,13 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     Tool.cpp
- * File Function: Tool类的实现
- * Author:        张翔
- * Update Date:   2024/12/14
- ****************************************************************/
-
 #include "Tool.h"
 
+/* 静态工厂方法，用于创建 `Tool` 类对象
+参数：工具类型、工具图片路径、最大堆叠数量、工具价格
+返回：一个共享指针，指向创建的 `Tool` 对象
+*/
+
+std::shared_ptr<Tool> Tool::create(ToolType type, const std::string& image, int maxStack, int price) {
+    return std::make_shared<Tool>(type, image, maxStack, price);
+}
 Tool::Tool(const ToolType _tooltype, std::string _image, int _maxstack, int _price)
 	:Item(ItemType::TOOL, _image, _maxstack, _price), tooltype(_tooltype) {
 }
