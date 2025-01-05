@@ -232,9 +232,9 @@ FarmLand* Manager::findFarmlandByPosition(float x, float y)
         // 获取精灵的位置
         auto pos = sprite->getPosition();
         // 使用 Vec2::distance 来计算两点之间的距离
-        if (Vec2(pos.x, pos.y).distance(Vec2(x, y)) < 0.01f) {  
+        if (Vec2(pos.x, pos.y).distance(Vec2(x, y)) < 0.01f) {
             // 返回对应的 FarmLand 对象
-            return lands[i];  
+            return lands[i];
         }
     }
     // 如果没有找到匹配的精灵，返回 nullptr
@@ -249,13 +249,13 @@ FarmObject* Manager::findObjectByPosition(float x, float y)
         // 获取精灵的位置
         auto pos = sprite->getPosition();
         // 使用 Vec2::distance 来计算两点之间的距离
-        if (Vec2(pos.x, pos.y).distance(Vec2(x, y)) < 0.01f) {  
+        if (Vec2(pos.x, pos.y).distance(Vec2(x, y)) < 0.01f) {
             // 返回对应的 FarmObject 对象
-            return objects[i];  
+            return objects[i];
         }
     }
     // 如果没有找到匹配的精灵，返回 nullptr
-    return nullptr;  
+    return nullptr;
 }
 
 void Manager::update()
@@ -291,12 +291,8 @@ void Manager::update()
         auto statebefore = objects[i]->getCurrState();
         objects[i]->update();
         if (statebefore != objects[i]->getCurrState() && inYardScene) {
-            if (objects[i]->getObjectType() == RADISH)
-                farmObjectSprites[i]->setTexture(OBJECT_RADISH_STATE[objects[i]->getCurrState()]);
-            else if (objects[i]->getObjectType() == POTATO)
-                farmObjectSprites[i]->setTexture(OBJECT_POTATO_STATE[objects[i]->getCurrState()]);
-            else if (objects[i]->getObjectType() == WHEAT)
-                farmObjectSprites[i]->setTexture(OBJECT_WHEAT_STATE[objects[i]->getCurrState()]);
+            // 使用策略模式获取纹理路径
+            farmObjectSprites[i]->setTexture(objects[i]->getGrowthStrategy()->getTexturePath(objects[i]->getCurrState()));
         }
     }
 }
@@ -308,7 +304,7 @@ bool Manager::isPointInAnyObject(float x, float y)
         Rect rect = obj->getSize();
         if (rect.containsPoint(cocos2d::Vec2(x, y))){
             // 如果点在某个对象的边界框内
-            return true;  
+            return true;
         }
     }
     return false;
@@ -322,9 +318,9 @@ void Manager::saveGameState(const std::string& filename)
     json landsArray;
     for (auto land : lands) {
         json landData;
-        landData["x"] = land->getX();  
+        landData["x"] = land->getX();
         landData["y"] = land->getY();
-        landData["state"] = static_cast<int>(land->getLandState()); 
+        landData["state"] = static_cast<int>(land->getLandState());
         landsArray.push_back(landData);
     }
     gameState["lands"] = landsArray;
@@ -335,7 +331,7 @@ void Manager::saveGameState(const std::string& filename)
         json objectData;
         objectData["x"] = object->getX();
         objectData["y"] = object->getY();
-        objectData["type"] = static_cast<int>(object->getObjectType()); 
+        objectData["type"] = static_cast<int>(object->getObjectType());
         objectData["state"] = static_cast<int>(object->getCurrState());
         objectsArray.push_back(objectData);
     }
@@ -347,19 +343,19 @@ void Manager::saveGameState(const std::string& filename)
     outFile.close();
 }
 
-void Manager::loadGameState(const std::string& filename) 
+void Manager::loadGameState(const std::string& filename)
 {
     std::ifstream inFile(filename);
     if (!inFile) {
         // 文件不存在，直接返回
-        return;  
+        return;
     }
 
     // 读取文件内容
     json gameState;
     try {
         // 尝试解析 JSON 文件内容
-        inFile >> gameState;  
+        inFile >> gameState;
     }
     catch (const json::parse_error& e) {
         // 捕捉 JSON 解析错误，防止程序崩溃

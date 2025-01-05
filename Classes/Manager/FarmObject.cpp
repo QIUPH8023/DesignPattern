@@ -7,69 +7,43 @@
  ****************************************************************/
 
 #include "FarmObject.h"
+#include "Strategy/CropGrowthStrategy.h"
+#include "Strategy/StaticObjectStrategy.h"
 
 USING_NS_CC;
 
-FarmObject::FarmObject(ObjectType type, float _x, float _y) :x(_x), y(_y), currstate(1), growthrate(0), toRemove(false)
+FarmObject::FarmObject(ObjectType type, float _x, float _y)
+    : x(_x), y(_y), objecttype(type), toRemove(false)
 {
-	// 设置对象的类型
-	objecttype = type;
-	// 设置碰撞面积大小
-	switch (objecttype){
-		case TREE:
-			objectsize.setRect(x, y, OBJECT_TREE_WIDTH, OBJECT_TREE_HEIGHT);
-			maxstate = 1;
-			growthspeed = 0;
-			break;
-		case WEED:
-			objectsize.setRect(x, y, OBJECT_WEED_WIDTH, OBJECT_WEED_HEIGHT);
-			maxstate = 1;
-			growthspeed = 0;
-			break;
-		case STONE:
-			objectsize.setRect(x, y, OBJECT_STONE_WIDTH, OBJECT_STONE_HEIGHT);
-			maxstate = 1;
-			growthspeed = 0;
-			break;
-		case RADISH:
-			objectsize.setRect(x, y, OBJECT_CROP_WIDTH, OBJECT_CROP_HEIGHT);
-			maxstate = OBJECT_RADISH_MAX_STATE;
-			growthspeed = 0.01;
-			break;
-		case POTATO:
-			objectsize.setRect(x, y, OBJECT_CROP_WIDTH, OBJECT_CROP_HEIGHT);
-			maxstate = OBJECT_POTATO_MAX_STATE;
-			growthspeed = 0.01;
-			break;
-		case WHEAT:
-			objectsize.setRect(x, y, OBJECT_CROP_WIDTH, OBJECT_CROP_HEIGHT);
-			maxstate = OBJECT_WHEAT_MAX_STATE;
-			growthspeed = 0.01;
-			break;
-		default:
-			break;
-	}
+    // 根据对象类型选择对应的策略
+    switch (type) {
+        case RADISH:
+            growthStrategy = new CropGrowthStrategy(0.01f, OBJECT_RADISH_MAX_STATE);
+            break;
+        case POTATO:
+            growthStrategy = new CropGrowthStrategy(0.01f, OBJECT_POTATO_MAX_STATE);
+            break;
+        case WHEAT:
+            growthStrategy = new CropGrowthStrategy(0.01f, OBJECT_WHEAT_MAX_STATE);
+            break;
+        default:
+            growthStrategy = new StaticObjectStrategy(type);
+    }
+
+    objectsize = growthStrategy->getCollisionBox(x, y);
+    growthStrategy->initialize(this);
 }
 
-FarmObject::~FarmObject(){}
-
-void FarmObject::update()
-{
-	// 如果已经成熟
-	if (ismature()) {
-		return;
-	}
-	// 根据成长速度添加成长率
-	growthrate += growthspeed;
-	if (growthrate >= 1) {
-		currstate++;
-		growthrate = 0;
-	}
+FarmObject::~FarmObject() {
+    delete growthStrategy;
 }
 
-bool FarmObject::ismature()
-{
-	return currstate == maxstate;
+void FarmObject::update() {
+    growthStrategy->grow(this);
+}
+
+bool FarmObject::ismature() {
+    return growthStrategy->isMature(this);
 }
 
 bool FarmObject::shouldRemove() const
