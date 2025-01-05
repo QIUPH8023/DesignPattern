@@ -10,6 +10,8 @@
 #include "../Scene/SaveLoadScene.h"
 #include "Manager/Manager.h"
 #include "proj.win32/Constant.h"
+#include "Inventory.h"
+#include "Slot.h"
 
 USING_NS_CC;
 
@@ -115,29 +117,28 @@ void InventoryLayer::close()
     }
 }
 
-void InventoryLayer::open()
-{
-    auto inventory = Inventory::getInstance();
+void InventoryLayer::open() {
+    auto inventory = Inventory::getInstance(); // 获取背包（容器节点）
 
+    // 清理现有的 UI 元素
     auto deleteInventoryButton = getChildByName("InventoryButton");
-    if (deleteInventoryButton != nullptr){
+    if (deleteInventoryButton != nullptr) {
         removeChild(deleteInventoryButton);
     }
     auto deleteMusicButton = getChildByName("MusicButton");
-    if (deleteMusicButton != nullptr)
-    {
+    if (deleteMusicButton != nullptr) {
         removeChild(deleteMusicButton);
     }
     auto deleteCurrentItem = getChildByName("currentItem");
-    if (deleteCurrentItem != nullptr){
+    if (deleteCurrentItem != nullptr) {
         removeChild(deleteCurrentItem);
     }
     auto deleteCurrentItemBackground = getChildByName("currentItemBackground");
-    if (deleteCurrentItem != nullptr){
+    if (deleteCurrentItemBackground != nullptr) {
         removeChild(deleteCurrentItemBackground);
     }
 
-    // 设置背景
+    // 显示背包背景
     auto background = Sprite::create("ImageElements/InventoryLayer/InventoryLayerBackGround.png");
     background->setContentSize(Size(DESIGN_RESOLUTION_WIDTH - 100, DESIGN_RESOLUTION_HEIGHT - 100));
     background->setAnchorPoint(Vec2(0, 0));
@@ -145,69 +146,86 @@ void InventoryLayer::open()
     background->setOpacity(128);
     this->addChild(background, 0, "background");
 
-    // 设置格子
-    for (int i = 0; i < DEFAULT_CAPACITY; i++){
-        auto slotButton = HoverButton::create("ImageElements/InventoryLayer/Slot.png",
-            "ImageElements/InventoryLayer/Slot.png",
-            "ImageElements/InventoryLayer/Slot.png");
-        slotButton->setPosition(Vec2(200, 400) + Vec2((i % 10) * 100, 0) - Vec2(0, (i / 10) * 100));
-        slotButton->setContentSize(Size(50, 50));
-        if(i == Inventory::getInstance()->getCurrHeldItem())
-            slotButton->setColor(Color3B(0, 255, 0));
-        slotButton->addTouchEventListener([this, i, slotButton](Ref* sender, cocos2d::ui::Widget::TouchEventType type){
-                if (type == cocos2d::ui::Widget::TouchEventType::BEGAN){
-                    auto originalColor = slotButton->getColor();
-                    this->getChildByName("slotButton" + std::to_string(Inventory::getInstance()->getCurrHeldItem()))->setColor(originalColor);
-                    // 修改手持物品格子
-                    Inventory::getInstance()->changeCurrHeldItem(i);
+    // 显示背包中的槽位（使用组合模式）
+    for (int i = 0; i < inventory->getChildCount(); i++) {
+        auto slot = std::dynamic_pointer_cast<Slot>(inventory->getChild(i));
+        if (slot) {
+            // 创建槽位按钮
+            auto slotButton = HoverButton::create("ImageElements/InventoryLayer/Slot.png",
+                "ImageElements/InventoryLayer/Slot.png",
+                "ImageElements/InventoryLayer/Slot.png");
+            slotButton->setPosition(Vec2(200, 400) + Vec2((i % 10) * 100, 0) - Vec2(0, (i / 10) * 100));
+            slotButton->setContentSize(Size(50, 50));
 
+            // 如果是当前手持物品槽，则设置为高亮
+            if (i == inventory->getCurrHeldItem()) {
+                slotButton->setColor(Color3B(0, 255, 0));
+            }
+
+            // 添加点击事件
+            slotButton->addTouchEventListener([this, i, slotButton](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
+                if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
+                    auto inventory = Inventory::getInstance();
+                    auto originalColor = slotButton->getColor();
+                    this->getChildByName("slotButton" + std::to_string(inventory->getCurrHeldItem()))->setColor(originalColor);
+
+                    // 修改当前手持物品槽索引
+                    inventory->changeCurrHeldItem(i);
+
+                    // 更新当前物品 UI
                     auto deleteCurrentItem = getChildByName("currentItem");
-                    if (deleteCurrentItem != nullptr){
+                    if (deleteCurrentItem != nullptr) {
                         removeChild(deleteCurrentItem);
                     }
-                    if (!Inventory::getInstance()->getSlot(Inventory::getInstance()->getCurrHeldItem()).isEmpty()){
-                        auto currentItem = Sprite::create(Inventory::getInstance()->getSlot(Inventory::getInstance()->getCurrHeldItem()).getItem()->getImagePath());
+                    if (!inventory->getSlot(inventory->getCurrHeldItem()).isEmpty()) {
+                        auto currentItem = Sprite::create(inventory->getSlot(inventory->getCurrHeldItem()).getItem()->getImagePath());
                         currentItem->setPosition(Vec2(100, 100));
                         currentItem->setContentSize(Size(36, 36));
                         addChild(currentItem, 2, "currentItem");
                     }
                     slotButton->setColor(Color3B(0, 255, 0));
                 }
-            });
-        this->addChild(slotButton, 1, "slotButton" + std::to_string(i));
+                });
+            this->addChild(slotButton, 1, "slotButton" + std::to_string(i));
 
-        if (!Inventory::getInstance()->getSlot(i).isEmpty()) {
-            auto itemIcon = Sprite::create(Inventory::getInstance()->getSlot(i).getItem()->getImagePath());
-            itemIcon->setContentSize(Size(36, 36));
-            itemIcon->setPosition(this->getChildByName("slotButton" + std::to_string(i))->getPosition());
-            addChild(itemIcon, 2, "itemIcon" + std::to_string(i));
+            // 如果槽位中有物品，显示物品图标和数量
+            if (!slot->isEmpty()) {
+                auto itemIcon = Sprite::create(slot->getItem()->getImagePath());
+                itemIcon->setContentSize(Size(36, 36));
+                itemIcon->setPosition(slotButton->getPosition());
+                addChild(itemIcon, 2, "itemIcon" + std::to_string(i));
 
-            auto itemNum = Label::create(std::to_string(Inventory::getInstance()->getSlot(i).getQuantity()), "", 30);
-            itemNum->setColor(ccc3(0, 0, 0));
-            itemNum->setPosition(itemIcon->getPosition() + Vec2(itemIcon->getBoundingBox().size.width / 2, 0 - itemIcon->getBoundingBox().size.height / 2));
-            addChild(itemNum, 3, "itemNum");
+                auto itemNum = Label::create(std::to_string(slot->getQuantity()), "", 30);
+                itemNum->setColor(ccc3(0, 0, 0));
+                itemNum->setPosition(itemIcon->getPosition() + Vec2(itemIcon->getBoundingBox().size.width / 2, 0 - itemIcon->getBoundingBox().size.height / 2));
+                addChild(itemNum, 3, "itemNum" + std::to_string(i));
+            }
         }
     }
 
-    // 手持物品
+    // 显示手持物品
     auto currentItemBackground = Sprite::create("ImageElements/InventoryLayer/Slot.png");
     currentItemBackground->setPosition(Vec2(100, 100));
     this->addChild(currentItemBackground, 1, "currentItemBackground");
-    if (!Inventory::getInstance()->getSlot(Inventory::getInstance()->getCurrHeldItem()).isEmpty()) {
-        auto currentItem = Sprite::create(Inventory::getInstance()->getSlot(Inventory::getInstance()->getCurrHeldItem()).getItem()->getImagePath());
-        currentItem->setPosition(Vec2(100, 100));
-        currentItem->setContentSize(Size(36, 36));
-        this->addChild(currentItem, 2, "currentItem");
+
+    auto currentSlot = inventory->getChild(inventory->getCurrHeldItem());
+    if (auto slot = std::dynamic_pointer_cast<Slot>(currentSlot)) {
+        if (!slot->isEmpty()) {
+            auto currentItem = Sprite::create(slot->getItem()->getImagePath());
+            currentItem->setPosition(Vec2(100, 100));
+            currentItem->setContentSize(Size(36, 36));
+            this->addChild(currentItem, 2, "currentItem");
+        }
     }
 
-    // 关闭按钮
+    // 添加关闭按钮
     auto closeButton = HoverButton::create("ImageElements/InventoryLayer/CloseSlot.png",
-        "ImageElements/InventoryLayer/CloseSlot.png", 
+        "ImageElements/InventoryLayer/CloseSlot.png",
         "ImageElements/InventoryLayer/CloseSlot.png");
     closeButton->setPosition(Vec2(DESIGN_RESOLUTION_WIDTH - 100, 650));
     closeButton->setContentSize(Size(50, 50));
-    closeButton->addTouchEventListener([this, closeButton](Ref* sender, cocos2d::ui::Widget::TouchEventType type){
-        if (type == cocos2d::ui::Widget::TouchEventType::BEGAN){
+    closeButton->addTouchEventListener([this](Ref* sender, cocos2d::ui::Widget::TouchEventType type) {
+        if (type == cocos2d::ui::Widget::TouchEventType::BEGAN) {
             close();
         }
         });
