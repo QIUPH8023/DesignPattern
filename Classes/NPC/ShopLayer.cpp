@@ -30,7 +30,59 @@ bool ShopLayer::init()
     if (!Layer::init()) {
         return false;
     }
+
+    // 初始化商店状态
+    isOpen = false;
+    shopStatusLabel = nullptr;
+
+    // 注册为时间观察者
+    GameTime::getInstance()->addObserver(this);
+
+    // 初始检查营业状态
+    setShopStatus(checkBusinessHours());
+
     return true;
+}
+
+void ShopLayer::onTimeChanged()
+{
+    setShopStatus(checkBusinessHours());
+}
+
+bool ShopLayer::checkBusinessHours()
+{
+    std::string timeStr = GameTime::getInstance()->toString();
+    int hour = std::stoi(timeStr.substr(11,2));
+
+    // 营业时间 9:00-17:00
+    return (hour >= 9 && hour < 17);
+}
+
+void ShopLayer::setShopStatus(bool open)
+{
+    isOpen = open;
+
+    // 移除旧的状态标签
+    if (shopStatusLabel) {
+        this->removeChild(shopStatusLabel);
+        shopStatusLabel = nullptr;
+    }
+
+    // 创建新的状态标签
+    std::string statusText = isOpen ? "营业中" : "休息中";
+    shopStatusLabel = cocos2d::Label::createWithTTF(statusText, "Fonts/FangZhengZhaoGeYuan.ttf", 30);
+    shopStatusLabel->setPosition(cocos2d::Vec2(400, 500));
+    shopStatusLabel->setColor(isOpen ? cocos2d::Color3B(0, 255, 0) : cocos2d::Color3B(255, 0, 0));
+    this->addChild(shopStatusLabel, 10);
+
+    // 更新所有交易按钮状态
+    auto buttons = this->getChildren();
+    for (auto& child : buttons) {
+        auto button = dynamic_cast<cocos2d::ui::Button*>(child);
+        if (button) {
+            button->setEnabled(isOpen);
+        }
+    }
 }
 
 // 设置对话/交易/委托/赠送的NPC
@@ -48,6 +100,27 @@ Slot& ShopLayer::getInventorySlots(std::shared_ptr<Item> item)
 // 进行交易 失去_PaidItems 得到_ShopItems 返回交易是否成功
 bool ShopLayer::tradeItems()
 {
+    if (!isOpen) {
+        // 显示提示信息
+        auto closedTip = cocos2d::Label::createWithTTF("商店休息中，无法交易",
+            "Fonts/FangZhengZhaoGeYuan.ttf", 30);
+        closedTip->setPosition(cocos2d::Vec2(400, 300));
+        closedTip->setColor(cocos2d::Color3B(255, 0, 0));
+        this->addChild(closedTip, 10);
+
+        // 2秒后自动移除提示
+        auto removeAction = cocos2d::Sequence::create(
+            cocos2d::DelayTime::create(2.0f),
+            cocos2d::CallFunc::create([closedTip]() {
+                closedTip->removeFromParent();
+            }),
+            nullptr
+        );
+        closedTip->runAction(removeAction);
+
+        return false;
+    }
+
     // 检查背包中是否有委托物品
     for (int i = 0; i < _ShopItems.size(); i++) {
         // 定位委托物品
@@ -235,4 +308,10 @@ void ShopLayer::InsertShopItems(std::shared_ptr<Item> _item, int num, ShopType t
 void ShopLayer::DeleteShop()
 {
     this->removeAllChildren();
+}
+
+ShopLayer::~ShopLayer()
+{
+    // 在析构时移除观察者
+    GameTime::getInstance()->removeObserver(this);
 }

@@ -1,4 +1,3 @@
-
 #ifndef _SHOP_LAYER_
 #define _SHOP_LAYER_
 
@@ -14,19 +13,23 @@
 #include "../Item/Seed.h"
 #include "../Item/Tool.h"
 #include "../Item/Other.h"
+#include "../GameTime/ITimeObserver.h"
 
-class ShopLayer : public cocos2d::Layer
+class ShopLayer : public cocos2d::Layer, public ITimeObserver
 {
 private:
 	NPC* _currentNPC;
 
-	std::vector<std::shared_ptr<Item>>    _ShopItems;       // 商店物品/委托物品 
+	std::vector<std::shared_ptr<Item>>    _ShopItems;       // 商店物品/委托物品
 	std::vector<int>      _ShopItemsNum;    // 商店格位数量
 	std::vector<ShopType> _ShopItemsType;   // 商店物品操作类型
 
 	// 将ItemType的枚举转变为字符串
 	template <typename T>
 	std::string enumToString(const T& _itemtype) { return "Unknown"; }
+
+	bool isOpen;  // 商店是否营业
+    cocos2d::Label* shopStatusLabel;  // 显示营业状态的标签
 
 public:
 	ShopLayer();
@@ -53,6 +56,17 @@ public:
 
 	// 清除所有组件
 	void DeleteShop();
+
+	// 实现ITimeObserver接口
+    virtual void onTimeChanged() override;
+
+    // 检查是否在营业时间
+    bool checkBusinessHours();
+
+    // 设置商店状态
+    void setShopStatus(bool open);
+
+    virtual ~ShopLayer();
 
 	template <>
 	std::string ShopLayer::enumToString<const ItemType&>(const ItemType& _itemtype)
