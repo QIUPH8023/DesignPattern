@@ -12,8 +12,10 @@
 #include <chrono>
 #include <thread>
 #include <mutex>
+#include <vector>
+#include "ITimeObserver.h"
 
-class GameTime 
+class GameTime : public ISubject
 {
 private:
 	static GameTime* instance;    // 静态实例指针
@@ -22,6 +24,7 @@ private:
 	int hour, minute;             // 具体时间
 	double timeSpeed;             // 时间流动速度
 	bool running;                 // 控制是否更新时间
+	std::vector<ITimeObserver*> observers;  // 观察者列表
 
 	// 构造函数
 	GameTime(int y = 1, int m = 1, int d = 1, int h = 6, int min = 0, double speed = 1.0);
@@ -59,6 +62,21 @@ public:
 	// 到达下一天
 	void setnextday();
 
+	// 观察者模式相关方法
+	/* 添加观察者到观察者列表
+	 * @param observer: 要添加的观察者指针
+	 */
+	void addObserver(ITimeObserver* observer);
+
+	/* 从观察者列表中移除观察者
+	 * @param observer: 要移除的观察者指针
+	 */
+	void removeObserver(ITimeObserver* observer);
+
+	/* 通知所有观察者时间已更新
+	 * 遍历观察者列表调用它们的onTimeChanged方法
+	 */
+	void notifyObservers();
 };
 
 #endif // _GAME_TIME_H_

@@ -65,7 +65,7 @@ void GameTime::updateLoop()
 		// 更新间隔
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		// 添加时间
-		addSeconds(1); 
+		addSeconds(1);
 	}
 }
 
@@ -85,11 +85,29 @@ void GameTime::stop()
 	running = false;
 }
 
+void GameTime::addObserver(ITimeObserver* observer) {
+    observers.push_back(observer);
+}
+
+void GameTime::removeObserver(ITimeObserver* observer) {
+    auto it = std::find(observers.begin(), observers.end(), observer);
+    if (it != observers.end()) {
+        observers.erase(it);
+    }
+}
+
+void GameTime::notifyObservers() {
+    for (auto observer : observers) {
+        observer->onTimeChanged();
+    }
+}
+
 void GameTime::addSeconds(int realMinutes)
 {
 	int gameMinutes = static_cast<int>(realMinutes * timeSpeed);
 	minute += gameMinutes;
 	normalize();
+	notifyObservers();  // 通知所有观察者时间已更新
 }
 
 std::string GameTime::toString() const
@@ -144,7 +162,7 @@ std::string GameTime::judgeTime()
 	}
 }
 
-void GameTime::setnextday() 
+void GameTime::setnextday()
 {
 	minute = 0;
 	hour = 6;

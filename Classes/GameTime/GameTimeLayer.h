@@ -11,8 +11,9 @@
 
 #include "cocos2d.h"
 #include "../GameTime/GameTime.h"
+#include "ITimeObserver.h"
 
-class GameTimeLayer :public cocos2d::Layer
+class GameTimeLayer :public cocos2d::Layer, public ITimeObserver
 {
 public:
 	// 初始化
@@ -20,9 +21,17 @@ public:
 
 	// 创建函数
 	CREATE_FUNC(GameTimeLayer);
-	
+
 	// 更新时间
 	void updateTime(float delta);
+
+	/* 实现ITimeObserver接口的更新方法
+	 * 当游戏时间发生变化时被调用
+	 */
+	virtual void onTimeChanged() override;
+
+	// 析构函数
+	virtual ~GameTimeLayer();
 
 private:
 
