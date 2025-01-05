@@ -1,13 +1,13 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     Other.h
- * File Function: Other类的定义
- * Author:        刘逸飞
- * Update Date:   2024/12/22
- ****************************************************************/
 
 #include "Other.h"
 
+/* 静态工厂方法，用于创建 `Other` 类对象
+参数：物品类型、图片路径、最大堆叠数量、物品价格 
+返回： 一个共享指针，指向创建的 `Other` 对象
+*/
+std::shared_ptr<Other> Other::create(OtherType type, const std::string& image, int maxStack, int price) {
+    return std::make_shared<Other>(type, image, maxStack, price);
+}
 Other::Other(const OtherType _othertype, std::string _image, int _maxstack, int _price)
 	:Item(ItemType::OTHER, _image, _maxstack, _price), othertype(_othertype) {
 }
