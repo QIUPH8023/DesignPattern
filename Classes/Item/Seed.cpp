@@ -1,13 +1,13 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     Seed.cpp
- * File Function: Seed类的实现
- * Author:        张翔
- * Update Date:   2024/12/14
- ****************************************************************/
-
 #include "Seed.h"
 
+/* 静态工厂方法，用于创建 `Seed` 类对象
+参数：种子类型、种子图片路径、最大堆叠数量、种子价格
+返回：一个共享指针，指向创建的 `Seed` 对象
+*/
+
+std::shared_ptr<Seed> Seed::create(SeedType type, const std::string& image, int maxStack, int price) {
+    return std::make_shared<Seed>(type, image, maxStack, price);
+}
 Seed::Seed(const SeedType _seedtype, std::string _image, int _maxstack, int _price)
 	:Item(ItemType::SEED, _image, _maxstack, _price), seedtype(_seedtype) {
 }
