@@ -10,31 +10,27 @@
 #include "string.h"
 #include "AudioPlayer.h"
 #include "proj.win32/Constant.h"
+#include "AudioEngineStrategy.h"
+#include "SimpleAudioEngineStrategy.h"
 
- // 音频引擎设置
-int g_backgroundMusicSign = DEFAULT_MUSIC_SIGN;
-int g_soundEffectSign = DEFAULT_MUSIC_SIGN;
-float g_backgroundMusicVolumn = DEFAULT_MUSIC_VOLUMN;
-float g_soundEffectVolumn = DEFAULT_MUSIC_VOLUMN;
+ // 全局变量定义
+std::unique_ptr<AudioStrategy> audioStrategy;  // 音频策略
+int g_backgroundMusicSign = -1;                // 背景音乐标识符
+float g_backgroundMusicVolume = 1.0f;          // 背景音乐音量
 
-// 音频引擎方法
-void audioPlayer(const std::string& audioPath, bool isLoop)
-{
-    if (isLoop) {
-        if (g_backgroundMusicSign != DEFAULT_MUSIC_SIGN) {
-            cocos2d::experimental::AudioEngine::stop(g_backgroundMusicSign);
-        }
-        g_backgroundMusicSign = cocos2d::experimental::AudioEngine::play2d(audioPath, isLoop);
-        cocos2d::experimental::AudioEngine::setVolume(g_backgroundMusicSign, g_backgroundMusicVolumn);
+// 播放音频
+void audioPlayer(const std::string& audioPath, bool isLoop) {
+    if (g_backgroundMusicSign != -1) {
+        audioStrategy->stop(g_backgroundMusicSign);  // 停止当前背景音乐
     }
-    else {
-        g_soundEffectSign = cocos2d::experimental::AudioEngine::play2d(audioPath, isLoop);
-        cocos2d::experimental::AudioEngine::setVolume(g_soundEffectSign, g_soundEffectVolumn);
-    }
+    g_backgroundMusicSign = audioStrategy->play(audioPath, isLoop);  // 播放新的背景音乐
+    audioStrategy->setVolume(g_backgroundMusicSign, g_backgroundMusicVolume);
 }
 
-void audioPlayer_StopBackgroundMusic() 
-{
-    cocos2d::experimental::AudioEngine::stop(g_backgroundMusicSign);
-    g_backgroundMusicSign = DEFAULT_MUSIC_SIGN;
+// 停止背景音乐
+void audioPlayer_StopBackgroundMusic() {
+    if (g_backgroundMusicSign != -1) {
+        audioStrategy->stop(g_backgroundMusicSign);
+        g_backgroundMusicSign = -1;
+    }
 }
