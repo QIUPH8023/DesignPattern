@@ -10,16 +10,19 @@
 #define _AUDIO_PLAYER_H_
 
 #include "audio/include/AudioEngine.h"
+#include "AudioStrategy.h"
+#include <memory>
+#include <string>
 
  // 音频引擎设置
 extern int g_backgroundMusicSign;
-extern int g_soundEffectSign;
-extern float g_backgroundMusicVolumn;
-extern float g_soundEffectVolumn;
+extern float g_backgroundMusicVolume;
 
-// 音频引擎方法
-void audioPlayer(const std::string& audioPath, bool isLoop = 0);
+// 音频策略接口
+extern std::unique_ptr<AudioStrategy> audioStrategy;
 
+// 音频播放方法
+void audioPlayer(const std::string& audioPath, bool isLoop);
 void audioPlayer_StopBackgroundMusic();
 
 #endif // !_AUDIO_PLAYER_H_
