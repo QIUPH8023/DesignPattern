@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     GameTimeLayer.h
- * File Function: GameTimeLayer类的定义
- * Author:        张翔
- * Update Date:   2024/12/19
- ****************************************************************/
-
 #ifndef _GAME_TIME_LAYER_H_
 #define _GAME_TIME_LAYER_H_
 

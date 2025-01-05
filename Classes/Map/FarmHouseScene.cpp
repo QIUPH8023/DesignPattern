@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     FarmHouseScene.cpp
- * File Function: FarmHouseScene类的实现
- * Author:        张翔
- * Update Date:   2024/12/16
- ****************************************************************/
-
 #include "FarmHouseScene.h"
 #include "FarmYardScene.h"
 #include "../Player/Player.h"

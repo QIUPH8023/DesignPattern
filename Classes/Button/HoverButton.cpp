@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     HoverButton.cpp
- * File Function: HoverButton类的实现
- * Author:        张翔
- * Update Date:   2024/12/3
- ****************************************************************/
-
 #include "HoverButton.h"
 #include "cocos2d.h"
 

@@ -1,10 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     ShopLayer.cpp
- * File Function: ShopLayer类的实现
- * Author:        刘逸飞
- * Update Date:   2024/12/16
- ****************************************************************/
 #include "ShopLayer.h"
 
 USING_NS_CC;

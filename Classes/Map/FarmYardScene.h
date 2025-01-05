@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     FarmYardScene.h
- * File Function: FarmYardScene类的定义
- * Author:        张翔
- * Update Date:   2024/12/5
- ****************************************************************/
-
 #ifndef _FARM_YARD_SCENE_H_
 #define _FARM_YARD_SCENE_H_
 

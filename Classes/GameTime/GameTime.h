@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     GameTime.h
- * File Function: GameTime类的定义
- * Author:        张翔
- * Update Date:   2024/12/13
- ****************************************************************/
-
 #ifndef _GAME_TIME_H_
 #define _GAME_TIME_H_
 

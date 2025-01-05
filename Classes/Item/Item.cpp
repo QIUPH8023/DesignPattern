@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     Item.cpp
- * File Function: Item类的实现
- * Author:        张翔
- * Update Date:   2024/12/11
- ****************************************************************/
-
 #include "Item.h"
 
 Item::Item(ItemType _type, std::string _image, int _maxstack, int _price)

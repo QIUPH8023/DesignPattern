@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     SaveLoadScene.h
- * File Function: SaveLoadScene类的实现
- * Author:        张翔
- * Update Date:   2024/12/22
- ****************************************************************/
-
 #include "SaveLoadScene.h"
 #include "MenuScene.h"
 #include "../GameTime/GameTime.h"

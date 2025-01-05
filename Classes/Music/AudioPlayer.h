@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     AudioPlayer.h
- * File Function: 音频引擎方法的定义
- * Author:        张翔
- * Update Date:   2024/12/8
- ****************************************************************/
-
 #ifndef _AUDIO_PLAYER_H_
 #define _AUDIO_PLAYER_H_
 

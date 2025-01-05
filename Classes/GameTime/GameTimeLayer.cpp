@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     GameTimeLayer.cpp
- * File Function: GameTimeLayer类的实现
- * Author:        张翔
- * Update Date:   2024/12/19
- ****************************************************************/
-
 #include "GameTimeLayer.h"
 #include "../proj.win32/Constant.h"
 

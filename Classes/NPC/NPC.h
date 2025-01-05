@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     NPC.h
- * File Function: NPC类的定义
- * Author:        张翔
- * Update Date:   2024/12/16
- ****************************************************************/
-
 #ifndef _NPC_H_
 #define _NPC_H_
 

@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     TownCenterScene.h
- * File Function: TownCenterScene类的定义
- * Author:        张翔
- * Update Date:   2024/12/16
- ****************************************************************/
-
 #include "cocos2d.h"
 #include "../NPC/ChatLayer.h"
 #include "../NPC/ShopLayer.h"

@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     ChatLayer.cpp
- * File Function: ChatLayer类的实现
- * Author:        刘逸飞
- * Update Date:   2024/12/16
- ****************************************************************/
-
 #include "ChatLayer.h"
 #include "ShopLayer.h"
 

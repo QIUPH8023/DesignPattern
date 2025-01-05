@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     Slot.cpp
- * File Function: Slot类的实现
- * Author:        张翔
- * Update Date:   2024/12/7
- ****************************************************************/
-
 #include "Slot.h"
 
 Slot::Slot() : item(nullptr), quantity(0) {}

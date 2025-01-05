@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     Item.h
- * File Function: Item类的定义
- * Author:        张翔
- * Update Date:   2024/12/11
- ****************************************************************/
-
 #ifndef _ITEM_H_
 #define _ITEM_H_
 

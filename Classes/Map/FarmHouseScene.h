@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     FarmHouseScene.h
- * File Function: FarmHouseScene类的定义
- * Author:        张翔
- * Update Date:   2024/12/3
- ****************************************************************/
-
 #ifndef _FARM_HOUSE_SCENE_H_
 #define _FARM_HOUSE_SCENE_H_
 

@@ -1,12 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     AppDelegate.h
- * File Function: AppDelegate类的定义
- * Author:        张翔
- * Update Date:   2024/12/3
- * License:       MIT License
- ****************************************************************/
-
 #ifndef  _APP_DELEGATE_H_
 #define  _APP_DELEGATE_H_
 

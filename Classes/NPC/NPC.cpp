@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     NPC.cpp
- * File Function: NPC类的实现
- * Author:        张翔
- * Update Date:   2024/12/16
- ****************************************************************/
-
 #include "NPC.h"
 
 NPC::NPC() {}

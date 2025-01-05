@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     GameTime.cpp
- * File Function: GameTime类的实现
- * Author:        张翔
- * Update Date:   2024/12/13
- ****************************************************************/
-
 #include "GameTime.h"
 #include "cocos2d.h"
 

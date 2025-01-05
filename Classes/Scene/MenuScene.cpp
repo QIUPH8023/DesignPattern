@@ -1,10 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     MenuScene.h
- * File Function: MenuScene类的实现
- * Author:        张翔
- * Update Date:   2024/12/3
- ****************************************************************/
 #include "MenuScene.h"
 #include "SaveLoadScene.h"
 #include "../Button/HoverButton.h"

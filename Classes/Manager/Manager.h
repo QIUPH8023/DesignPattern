@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     Manager.h
- * File Function: Manager类的定义
- * Author:        张翔
- * Update Date:   2024/12/19
- ****************************************************************/
-
 #ifndef _MANAGER_
 #define _MANAGER_
 

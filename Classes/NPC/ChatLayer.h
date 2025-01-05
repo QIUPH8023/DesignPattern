@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     ChatLayer.h
- * File Function: ChatLayer类的定义
- * Author:        张翔
- * Update Date:   2024/12/16
- ****************************************************************/
-
 #ifndef _CHATLAYER_H_
 #define _CHATLAYER_H_
 

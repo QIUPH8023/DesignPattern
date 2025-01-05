@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     FishingGame.cpp
- * File Function: FishingGame类的实现
- * Author:        刘逸飞
- * Update Date:   2024/12/13
- ****************************************************************/
-
 #include "FishingGame.h"
 
 USING_NS_CC;

@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     Player.cpp
- * File Function: Player类的实现
- * Author:        张翔
- * Update Date:   2024/12/5
- ****************************************************************/
-
 #include "Player.h"
 
 USING_NS_CC;

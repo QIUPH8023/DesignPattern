@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     Player.h
- * File Function: Player类的定义
- * Author:        张翔、上官思杨、李昊
- * Update Date:   2024/12/3
- ****************************************************************/
-
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 

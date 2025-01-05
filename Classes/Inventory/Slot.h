@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     Slot.h
- * File Function: Slot类的定义
- * Author:        张翔
- * Update Date:   2024/12/7
- ****************************************************************/
-
 #ifndef _SLOT_
 #define _SLOT_
 

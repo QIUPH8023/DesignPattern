@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     HoverButton.h
- * File Function: HoverButton类的定义
- * Author:        张翔
- * Update Date:   2024/12/3
- ****************************************************************/
-
 #ifndef _HOVER_BUTTON_H_
 #define _HOVER_BUTTON_H_
 
