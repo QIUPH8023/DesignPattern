@@ -1,23 +1,20 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     Inventory.cpp
- * File Function: Inventory类的实现
- * Author:        张翔
- * Update Date:   2024/12/7
- ****************************************************************/
-
 #include "Inventory.h"
 #include "proj.win32/Constant.h"
 #include "proj.win32/Json.hpp"
 #include "../Item/Other.h"
 #include "../Item/Tool.h"
 #include "../Item/Seed.h"
+#include "../Factory/ItemFactory.h" 
 #include "fstream"
 
 using json = nlohmann::json;
 
 Inventory* Inventory::instance = nullptr;
 
+/*
+Inventory类的作用是管理物品而不是负责物品的创建逻辑；
+Inventory可以通过ItemFactory创建物品实例，而无需关心具体子类的实现。
+*/
 Inventory::Inventory() :coin(10), currentHeldItemIndex(0) {}
 
 Inventory* Inventory::getInstance() 
@@ -34,14 +31,10 @@ Inventory* Inventory::getInstance()
 
 void Inventory::init(int slotCount)
 {
-	slots.resize(slotCount);
-	addItem(std::shared_ptr<Item>(ITEM_TOOL_HOE), 1);
-	addItem(std::shared_ptr<Item>(ITEM_TOOL_WATERING_CAN), 1);
-	addItem(std::shared_ptr<Item>(ITEM_TOOL_PICKAXE), 1);
-	addItem(std::shared_ptr<Item>(ITEM_TOOL_AXE), 1);
-	addItem(std::shared_ptr<Item>(ITEM_TOOL_SCYTHE), 1);
-	addItem(std::shared_ptr<Item>(ITEM_TOOL_FISHING_ROD), 1);
-
+	// 使用工厂模式添加初始物品
+    addItem(ItemFactory::createItem(TOOL), 1); // 创建工具
+    addItem(ItemFactory::createItem(SEED), 5); // 创建种子
+    addItem(ItemFactory::createItem(OTHER), 10); // 创建其他物品
 }
 
 int Inventory::findItem(std::shared_ptr<Item> item)
