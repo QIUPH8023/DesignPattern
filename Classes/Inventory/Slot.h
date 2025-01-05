@@ -11,33 +11,66 @@
 
 #include <memory>
 #include "../Item/Item.h"
+#include "Component.h"
 
-class Slot 
+class Slot : public Component
 {
 public:
+	Slot() : item(nullptr), quantity(0) {}
+
 	// 构造函数
 	Slot();
 
 	// 判断是否为空
-	bool isEmpty() const;
+	bool isEmpty() const
+	{
+		return item == nullptr || quantity == 0;
+	}
 
-	// 为空格子添加物品
-	void setItem(std::shared_ptr<Item> _item, int _quantity);
+	// 设置物品
+	void setItem(std::shared_ptr<Item> _item, int _quantity)
+	{
+		item = _item;
+		quantity = _quantity;
+	}
 
 	// 获取当前物品的种类
-	std::shared_ptr<Item> getItem() const;
+	std::shared_ptr<Item> getItem() const 
+	{
+		return item;
+	}
 
 	// 删去物品
-	void clearSlot();
+	void clearSlot()
+	{
+		item = nullptr;
+		quantity = 0;
+	}
 
 	// 判断物品是否足够
 	bool isQuantityEnough(int amount);
 
 	// 修改物品的数量
-	void changeQuantity(int amount);
+	void changeQuantity(int amount) 
+	{
+		quantity += amount;
+		if (quantity <= 0) 
+		{
+			clearSlot();
+		}
+	}
 
 	// 获取当前物品的数量
-	int getQuantity() const;
+	int getQuantity() const 
+	{
+		return quantity;
+	}
+
+	// 获取节点名称
+	std::string getName() const override 
+	{
+		return item ? item->getImagePath() : "Empty Slot";
+	}
 
 private:
 	std::shared_ptr<Item> item;  // 该格子存储的物品
