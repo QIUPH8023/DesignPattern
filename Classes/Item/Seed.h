@@ -1,11 +1,3 @@
-/****************************************************************
- * Project Name:  Stardew_Valley_Farm
- * File Name:     Seed.h
- * File Function: Seed类的定义
- * Author:        张翔
- * Update Date:   2024/12/14
- ****************************************************************/
-
 #ifndef _SEED_H_
 #define _SEED_H_
 
@@ -16,8 +8,8 @@
 class Seed : public Item
 {
 public:
-	// 构造函数
-	Seed(const SeedType _seedtype, std::string _image, int _maxstack, int _price);
+	 // 静态工厂方法：创建 Seed 对象
+    static std::shared_ptr<Seed> create(SeedType type, const std::string& image, int maxStack, int price);
 
 	// 获得具体描述
 	const std::string getDescription() override;
@@ -26,13 +18,10 @@ public:
 	const SeedType& getSubType();
 
 private:
+	// 构造函数设置为 private
+    Seed(const SeedType type, const std::string& image, int maxStack, int price);
 	SeedType seedtype;    // 种子
 
 };
-
-// 物品类型
-const std::shared_ptr<Seed> ITEM_SEED_RADISH_SEED = std::make_shared<Seed>(RADISH_SEED, "Items/RADISH_SEED.png", 200, 1);
-const std::shared_ptr<Seed> ITEM_SEED_POTATO_SEED = std::make_shared<Seed>(POTATO_SEED, "Items/POTATO_SEED.png", 200, 1);
-const std::shared_ptr<Seed> ITEM_SEED_WHEAT_SEED = std::make_shared<Seed>(WHEAT_SEED, "Items/WHEAT_SEED.png", 200, 1);
 
 #endif // _SEED_H_
