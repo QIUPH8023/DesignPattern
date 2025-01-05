@@ -17,16 +17,14 @@
 #include "../Item/Seed.h"
 #include "../Item/Tool.h"
 #include "../Item/Other.h"
-
+#include "../NPC/NPCComponent.h"
 class ChatLayer:public cocos2d::Layer
 {
 public:
     // 初始化方法
-    virtual bool init(NPC* npc);
-
+    virtual bool init(NPCComponent* npc); // 修改参数类型为 NPCComponent*
     // 创建 ChatLayer
-    static ChatLayer* create(NPC* npc);
-
+    static ChatLayer* create(NPCComponent* npc); // 修改参数类型为 NPCComponent*
 private:
     ChatLayer();      // 构造函数
     ~ChatLayer();     // 析构函数
