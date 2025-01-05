@@ -34,6 +34,14 @@ Manager::~Manager()
     farmObjectSprites.clear();
 }
 
+/*
+获取单例实例
+使用单例模式：
+1. 确保整个程序中只有一个 Manager 实例，避免多个实例管理相同的资源（如农田和对象）；
+2. 提供一个全局访问点，简化Manager的使用方式；
+3.延迟加载，只有在需要时才创建实例。
+*/
+
 Manager* Manager::getInstance()
 {
     if (instance == nullptr) {
