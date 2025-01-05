@@ -12,6 +12,9 @@
 class Inventory : public Component
 {
 public:
+    // 获取单例
+    static Inventory* getInstance();
+
 	Inventory() : coin(10) {}
 	
     // 添加槽位
