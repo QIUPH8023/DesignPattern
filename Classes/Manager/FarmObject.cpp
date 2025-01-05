@@ -7,8 +7,8 @@
  ****************************************************************/
 
 #include "FarmObject.h"
-#include "Strategy/CropGrowthStrategy.h"
-#include "Strategy/StaticObjectStrategy.h"
+#include "CropGrowthStrategy.h"
+#include "StaticObjectStrategy.h"
 
 USING_NS_CC;
 
