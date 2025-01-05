@@ -11,9 +11,8 @@
 
 #include "cocos2d.h"
 #include "proj.win32/Constant.h"
-#include "../NPC/NPCComponent.h"
 
-class NPC : public cocos2d::Sprite, public NPCComponent
+class NPC :public cocos2d::Sprite
 {
 public:
 

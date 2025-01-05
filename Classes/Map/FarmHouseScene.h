@@ -10,9 +10,8 @@
 #define _FARM_HOUSE_SCENE_H_
 
 #include "cocos2d.h"
-#include "../Map/SceneComponent.h"
 
-class FarmHouseScene : public SceneComponent 
+class FarmHouseScene : public cocos2d::Scene 
 {
 public:
     // 创建场景

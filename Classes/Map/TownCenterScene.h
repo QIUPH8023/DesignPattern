@@ -12,8 +12,7 @@
 #include "../NPC/NPC.h"
 #include "../Inventory/Inventory.h"
 #include "../Inventory/InventoryLayer.h"
-#include "SceneComponent.h"
-class TownCenterScene : public SceneComponent
+class TownCenterScene : public cocos2d::Scene
 {
 public:
     // 创建场景
